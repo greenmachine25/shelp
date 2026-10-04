@@ -47,13 +47,14 @@ export class PromptOptimizer {
       // If not swapped by custom, check built-in WORD_SWAPS
       if (!wasSwapped) {
         for (const swap of WORD_SWAPS) {
+          if (swap.pattern) swap.pattern.lastIndex = 0;
           if (swap.pattern.test(currentVal)) {
             const replacement = swap[targetModelId] !== undefined ? swap[targetModelId] : (swap.sdxl || "");
             if (replacement !== currentVal) {
               swapsApplied.push({
                 original: currentVal,
                 replacedWith: replacement || "[stripped for model]",
-                reason: `Optimized for ${profile.name}`
+                reason: swap.reason || `Optimized for ${profile.name}`
               });
               currentVal = replacement;
               wasSwapped = true;
@@ -174,14 +175,20 @@ export class PromptOptimizer {
     const sentences = [];
 
     // 1. Opening Art Direction & Subject Anchor
-    let stylePhrase = selectedPreset 
-      ? selectedPreset.fluxAdditions 
-      : (groups.style_medium.join(", ") || "an exquisite adult pinup illustration with crisp vector linework and clean cel shading");
-    
     let subj = groups.subject_count.join(" and ") || "an alluring adult woman";
     let phys = groups.physical_traits.length > 0 ? `with ${groups.physical_traits.join(", ")}` : "with a voluptuous hourglass figure";
     
-    sentences.push(`An exquisite stylized adult pinup illustration ${stylePhrase.startsWith("in ") ? stylePhrase : "in " + stylePhrase}, featuring ${subj} ${phys}.`);
+    let stylePhrase = selectedPreset 
+      ? selectedPreset.fluxAdditions 
+      : (groups.style_medium.length > 0
+          ? (groups.style_medium.join(", ").startsWith("rendered") ? groups.style_medium.join(", ") : `rendered in ${groups.style_medium.join(", ")}`)
+          : "rendered in an exquisite stylized adult pinup illustration aesthetic with crisp vector linework and clean cel shading");
+
+    if (stylePhrase.startsWith("rendered in ") || stylePhrase.startsWith("rendered as ") || stylePhrase.startsWith("in ") || stylePhrase.startsWith("featuring ")) {
+      sentences.push(`An alluring adult pinup illustration of ${subj} ${phys}, ${stylePhrase}.`);
+    } else {
+      sentences.push(`An alluring adult pinup illustration of ${subj} ${phys}, rendered in ${stylePhrase}.`);
+    }
 
     // 2. Pose, Gaze & Attire Integration
     let pose = groups.expression_pose.length > 0 ? groups.expression_pose.join(", ") : "an alluring arched back pose";
@@ -213,13 +220,12 @@ export class PromptOptimizer {
   }
 
   /**
-   * Format for PonyXL (Strict Danbooru Ordering, Artist Prioritization & Score Conditioning)
+   * Format for PonyXL (Strict Danbooru Ordering, Decomposed Stylistic Conditioning)
    */
   static _formatPonyHierarchy(tokens, options, selectedPreset) {
     const hierarchy = [
       "score_tags",
       "source_rating",
-      "artist_tag",
       "character_series",
       "subject_count",
       "physical_traits",
@@ -243,31 +249,46 @@ export class PromptOptimizer {
       buckets["source_rating"].push("rating:questionable", "source_anime");
     }
 
-    // 3. Artist Tag Prioritization from Preset (Front-loaded for maximum CLIP attention)
+    // 3. Decomposed Style Tags from Preset (Distributed into proper Danbooru buckets)
     if (selectedPreset && selectedPreset.ponyAdditions) {
       const presetTags = selectedPreset.ponyAdditions.split(/,\s*/);
       presetTags.forEach(pt => {
-        const ptClean = pt.trim();
-        if (ptClean.startsWith("by_") || ptClean === "xaxaxa" || ptClean === "awd!" || ptClean === "awd" || ptClean === "ravenous_russ") {
-          buckets["artist_tag"].push(ptClean);
-        } else if (!buckets["style_medium"].includes(ptClean) && !buckets["score_tags"].includes(ptClean)) {
-          buckets["style_medium"].push(ptClean);
+        const ptClean = pt.trim().toLowerCase().replace(/\s+/g, "_");
+        if (!ptClean) return;
+        
+        if (ptClean === "voluptuous" || ptClean === "hourglass_figure" || ptClean === "wide_hips" || ptClean === "narrow_waist" || ptClean === "thick_thighs" || ptClean === "long_legs" || ptClean.includes("eyes") || ptClean.includes("hair")) {
+          if (!buckets["physical_traits"].includes(ptClean)) buckets["physical_traits"].push(ptClean);
+        } else if (ptClean.includes("pose") || ptClean.includes("smile") || ptClean.includes("smirk") || ptClean.includes("arched_back")) {
+          if (!buckets["expression_pose"].includes(ptClean)) buckets["expression_pose"].push(ptClean);
+        } else if (ptClean === "1woman" || ptClean === "mature_female" || ptClean === "adult" || ptClean === "pinup") {
+          if (!buckets["subject_count"].includes(ptClean)) buckets["subject_count"].push(ptClean);
+        } else if (ptClean.startsWith("score_")) {
+          if (!buckets["score_tags"].includes(ptClean)) buckets["score_tags"].push(ptClean);
+        } else {
+          if (!buckets["style_medium"].includes(ptClean)) buckets["style_medium"].push(ptClean);
         }
       });
     }
 
-    // Sort user tokens
+    // 4. Sort user tokens (splitting any multi-tag replacements cleanly)
     tokens.forEach(t => {
-      let tag = t.value.toLowerCase().trim().replace(/\s+/g, "_");
-      if (t.category === "score_tags") {
-        if (!buckets["score_tags"].includes(tag)) buckets["score_tags"].push(tag);
-      } else if (tag.startsWith("by_") || tag === "xaxaxa" || tag === "awd!" || tag === "awd" || tag === "ravenous_russ") {
-        if (!buckets["artist_tag"].includes(tag)) buckets["artist_tag"].push(tag);
-      } else if (buckets[t.category]) {
-        buckets[t.category].push(tag);
-      } else {
-        buckets["expression_pose"].push(tag);
-      }
+      const splitTags = t.value.split(/,\s*/);
+      splitTags.forEach(rawTag => {
+        let tag = rawTag.toLowerCase().trim().replace(/\s+/g, "_");
+        if (!tag) return;
+
+        if (t.category === "score_tags" || tag.startsWith("score_")) {
+          if (!buckets["score_tags"].includes(tag)) buckets["score_tags"].push(tag);
+        } else if (tag === "1woman" || tag === "mature_female" || tag === "adult" || tag === "pinup") {
+          if (!buckets["subject_count"].includes(tag)) buckets["subject_count"].push(tag);
+        } else if (tag === "voluptuous" || tag === "hourglass_figure" || tag === "wide_hips" || tag === "narrow_waist" || tag === "thick_thighs" || tag === "long_legs" || tag.includes("eyes") || tag.includes("hair")) {
+          if (!buckets["physical_traits"].includes(tag)) buckets["physical_traits"].push(tag);
+        } else if (buckets[t.category]) {
+          if (!buckets[t.category].includes(tag)) buckets[t.category].push(tag);
+        } else {
+          if (!buckets["style_medium"].includes(tag)) buckets["style_medium"].push(tag);
+        }
+      });
     });
 
     // Ensure adult subject count exists

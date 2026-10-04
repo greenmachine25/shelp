@@ -54,13 +54,15 @@ In stylized anime and cartoon pinup models, realism tokens (`photorealistic`, `8
     - **Boudoir, Penthouse & Resort Settings** (luxury satin boudoir bedroom, twilight poolside, neon high-rise penthouse, 1950s velvet lounge, steamy onsen)
     - **Intimate Candlelight & Sensual Lighting** (amber candlelight rim, sultry neon backlight magenta & cyan, golden dusk glow, soft romantic diffusion)
     - **Pinup & Adult Illustrative Styles** (Style of XPI Sigma Art, Style of xaxaxa, AWD Art / AWD!, Ravenous Russ, Digital Art Anime, Western Anime Inspired, 1950s Gil Elvgren Cheesecake, Hajime Sorayama Chrome, 1940s Retro Pulp Noir)
-- **Dedicated Artist Style Presets**:
-  - **Style of XPI Sigma Art**: Signature stylized curves, sleek dynamic linework, and vibrant digital mastery.
-  - **Style of xaxaxa**: Expressive fluid linework, bold color highlights, and luscious stylized curves.
-  - **AWD Art (AWD!)**: Bold clean outlines, thick thighs, hourglass curves, and smooth cel shading.
-  - **Ravenous Russ**: Voluptuous curvy character art, wide hips, and expressive energetic pinup lines.
-  - **Digital Art Anime**: High-end Japanese anime key visual with clean vector linework and multi-layer cel gradients.
-  - **Western Anime Inspired**: Dynamic fusion of Western cartoon energy and Japanese anime pinup aesthetics.
+- **Decomposed Artist Style Engine (For Unindexed Artists)**:
+  - Base models like Flux, SDXL, and Pony have **never been trained on specific online artists** (e.g. *XPI Sigma Art*, *Ravenous Russ*, *AWD Art*). Simply adding their names to a prompt fails or produces noise.
+  - sHelp decomposes each artist into their **true visual DNA** (linework, shading method, color palette, anatomical exaggeration, and rendering finish):
+    - **Style of XPI Sigma Art**: Vector inking, tapered flowing lineart, rich saturated colors, smooth multi-tone cel shading blended with soft airbrush gradients, luminous warm skin tones with peach blush, glossy specular highlights, and voluptuous hourglass curves.
+    - **Ravenous Russ**: Confident heavy black comic ink outlines, dynamic line weight, punchy saturated pop colors, crisp two-tone comic cel shading with glossy specular sheen, exaggerated feminine curves, thick thighs, and wide shapely hips.
+    - **AWD Art (AWD! / Andrew Dickman)**: Thick rounded black contour inking, vibrant clean 2D animation cel shading, bouncy specular highlights, plush curvaceous proportions, thick rounded thighs, and expressive anime eyes.
+    - **Style of xaxaxa**: Soft refined colored linework, luminous translucent porcelain skin, ethereal glowing rim lighting, intricate shimmering anime iris highlights, glossy lips, and gentle painterly shading.
+    - **Digital Art Anime (Collector Key Visual)**: Razor-sharp clean linework, multi-layer gradient cel shading with crisp shadow edges, vibrant cinematic coloring, intricate glossy highlights on hair strands, and mature anime pinup poise.
+    - **Western Anime Inspired**: Fusion of Western graphic comic inking and Japanese anime curves, bold geometric contours, punchy graphic color blocking, and statuesque athletic hourglass curves.
 - **Side-by-Side Model Comparison**:
   - Compare how your prompt transforms across Flux, PonyXL, SDXL, and Midjourney Niji 6 at the same time.
 - **Custom Local Swaps (`localStorage`)**:

@@ -33,6 +33,9 @@ export class UIController {
     this.tokenCountText = document.getElementById("tokenCountText");
     this.modelSelectPills = document.querySelectorAll(".model-pill");
     this.intentSelect = document.getElementById("intentSelect");
+    this.presetStyleInfo = document.getElementById("presetStyleInfo");
+    this.presetInfoTitle = document.getElementById("presetInfoTitle");
+    this.presetInfoDesc = document.getElementById("presetInfoDesc");
     this.modelDescription = document.getElementById("modelDescription");
     this.modelEngineBadge = document.getElementById("modelEngineBadge");
     this.swapsList = document.getElementById("swapsList");
@@ -62,6 +65,7 @@ export class UIController {
     // Intent preset change
     this.intentSelect.addEventListener("change", (e) => {
       this.currentIntent = e.target.value;
+      this.updatePresetInfo(e.target.value);
       this.triggerOptimization();
     });
 
@@ -255,9 +259,26 @@ export class UIController {
     INTENT_PRESETS.forEach(preset => {
       const opt = document.createElement("option");
       opt.value = preset.id;
-      opt.textContent = `${preset.name} - ${preset.description.slice(0, 45)}...`;
+      const subtitle = preset.shortDesc ? ` (${preset.shortDesc})` : "";
+      opt.textContent = `${preset.name}${subtitle}`;
       this.intentSelect.appendChild(opt);
     });
+  }
+
+  updatePresetInfo(presetId) {
+    if (!this.presetStyleInfo) return;
+    if (!presetId) {
+      this.presetStyleInfo.style.display = "none";
+      return;
+    }
+    const preset = INTENT_PRESETS.find(p => p.id === presetId);
+    if (!preset) {
+      this.presetStyleInfo.style.display = "none";
+      return;
+    }
+    this.presetStyleInfo.style.display = "block";
+    this.presetInfoTitle.textContent = `🎨 Decomposed Style Translation: ${preset.name}`;
+    this.presetInfoDesc.textContent = preset.description;
   }
 
   toggleComparison() {

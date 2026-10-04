@@ -173,7 +173,7 @@ export class PromptParser {
     if (/(lighting|shadow|glow|sunlight|neon|bokeh|lens|angle|shot|view|dof|chiaroscuro|rays)/i.test(tag)) {
       return "lighting_camera";
     }
-    if (/(artstyle|medium|render|painting|watercolor|illustration|anime|photo|realistic|masterpiece|aesthetic)/i.test(tag)) {
+    if (/(artstyle|medium|render|painting|watercolor|illustration|anime|photo|realistic|masterpiece|aesthetic|style|artist|lineart|linework|cel|shading|xpi|sigma|ravenous|russ|awd|xaxaxa|elvgren|sorayama)/i.test(tag)) {
       return "style_medium";
     }
     return "general";
