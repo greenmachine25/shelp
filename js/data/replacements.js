@@ -252,7 +252,12 @@ export const BOORU_TO_PROSE = {
   "arched_back": "with an elegantly arched back accentuating her silhouette",
   "reclining": "luxuriously reclining on her side",
   "boudoir": "within an intimate silk-sheeted boudoir",
-  "poolside": "beside a moonlit luxury resort pool",
+  "kneeling": "in an alluring kneeling pose with legs tucked and feet pointed",
+  "kneeling_pose": "in an alluring kneeling pinup pose",
+  "eyeshadow": "vibrant colorful eyeshadow",
+  "purple_eyeshadow": "vibrant purple eyeshadow",
+  "graphic_circle_backdrop": "a clean solid white studio backdrop accented by a warm minimalist pastel circular graphic halo",
+  "circle_backdrop": "a minimalist pastel circular graphic backdrop",
   "retro_pinup": "rendered in the timeless 1950s painted cheesecake pinup style",
   "cheesecake_(art)": "in the iconic American painted cheesecake art tradition",
   "femme_fatale": "exuding dangerous noir femme fatale magnetism"

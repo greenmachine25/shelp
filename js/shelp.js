@@ -30,7 +30,8 @@
       { id: "cleavage_decolletage", label: "Alluring Cleavage & Décolletage", danbooru: "cleavage, bare_shoulders, bare_back", flux: "revealing elegant décolletage and bare shoulders highlighted by soft lighting", sdxl: "cleavage, bare shoulders, elegant collarbones, alluring posture", category: "physical" },
       { id: "voluptuous_hips", label: "Curvy Hips & Long Toned Legs", danbooru: "wide_hips, long_legs, toned_thighs", flux: "long shapely legs and gracefully rounded feminine hips", sdxl: "long toned legs, wide hips, feminine pinup proportions", category: "physical" },
       { id: "crimson_lips", label: "Full Glossy Crimson Lips", danbooru: "lipstick, red_lips, parted_lips", flux: "full glossy crimson red lips slightly parted in a sensual smile", sdxl: "glossy red lipstick, parted lips, sultry expression", category: "physical" },
-      { id: "flowing_cascade_hair", label: "Voluminous Cascading Hollywood Waves", danbooru: "long_hair, wavy_hair, voluminous_hair", flux: "voluminous glamorous wavy hair cascading down across bare shoulders", sdxl: "voluminous wavy hair, glamour hairstyle, flowing locks", category: "physical" }
+      { id: "flowing_cascade_hair", label: "Voluminous Cascading Hollywood Waves", danbooru: "long_hair, wavy_hair, voluminous_hair", flux: "voluminous glamorous wavy hair cascading down across bare shoulders", sdxl: "voluminous wavy hair, glamour hairstyle, flowing locks", category: "physical" },
+      { id: "winged_eyeliner_shadow", label: "Winged Eyeliner & Colorful Eyeshadow", danbooru: "eyeliner, eyeshadow, makeup, detailed_eyes", flux: "delicate winged black eyeliner and vibrant colorful eyeshadow accentuating expressive eyes", sdxl: "winged eyeliner, colorful eyeshadow, glamorous eye makeup, detailed anime eyes", category: "physical" }
     ],
 
     clothing: [
@@ -47,7 +48,8 @@
       { id: "reclining_couch", label: "Reclining on Velvet Divan", danbooru: "lying, reclining, on_side, couch", flux: "gracefully reclining on her side across an opulent velvet chaise lounge", sdxl: "reclining on side, chaise lounge, relaxed pinup pose, alluring", category: "expression_pose" },
       { id: "looking_over_shoulder", label: "Sultry Over-the-Shoulder Glance", danbooru: "looking_over_shoulder, looking_at_viewer, from_behind", flux: "glancing back enticingly over a bare shoulder with a knowing coy smile", sdxl: "looking over shoulder, sultry glance, back view, pinup pose", category: "expression_pose" },
       { id: "biting_lip", label: "Biting Lip / Coy Flirtation", danbooru: "biting_lip, seductive_smile, blush", flux: "gently biting her lower lip with a playful flirtatious expression", sdxl: "biting lower lip, flirty expression, seductive smile", category: "expression_pose" },
-      { id: "kneeling_pose", label: "Alluring Kneeling Arch", danbooru: "kneeling, hands_on_hips, cleavage", flux: "kneeling upright with hands resting gently on her hips to accentuate feminine curves", sdxl: "kneeling pinup pose, hands on hips, hourglass silhouette", category: "expression_pose" }
+      { id: "kneeling_pose", label: "Alluring Kneeling Arch", danbooru: "kneeling, hands_on_hips, cleavage", flux: "kneeling upright with hands resting gently on her hips to accentuate feminine curves", sdxl: "kneeling pinup pose, hands on hips, hourglass silhouette", category: "expression_pose" },
+      { id: "kneeling_pinup_arch", label: "Kneeling Pinup with Hands Behind Head", danbooru: "kneeling, arched_back, arms_behind_head, feet_pointed", flux: "kneeling in an alluring pinup pose with an arched back and arms relaxed behind her head", sdxl: "kneeling pinup pose, arched back, arms behind head, pointed heels", category: "expression_pose" }
     ],
 
     environments: [
@@ -55,7 +57,8 @@
       { id: "sunset_poolside", label: "Twilight Resort Poolside", danbooru: "pool, poolside, resort, sunset, lounge_chair, water", flux: "a private tropical villa poolside at dusk with turquoise water and glowing resort lanterns", sdxl: "sunset poolside, luxury villa resort, glowing water, evening ambiance", category: "environment" },
       { id: "neon_penthouse", label: "Neon City High-Rise Penthouse", danbooru: "penthouse, floor-to-ceiling_window, night, city_lights", flux: "a luxury high-rise penthouse featuring floor-to-ceiling windows looking out over glowing city lights", sdxl: "penthouse interior, panoramic city lights night view, modern luxury", category: "environment" },
       { id: "vintage_speakeasy", label: "1950s Velvet Lounge & Cocktail Bar", danbooru: "bar, lounge, velvet, dim_lighting, vintage", flux: "a sultry 1950s jazz lounge with tufted red velvet banquettes and golden bar mirrors", sdxl: "vintage cocktail lounge, red velvet decor, intimate bar setting, retro pinup", category: "environment" },
-      { id: "steamy_onsen", label: "Steamy Hot Spring Sanctuary", danbooru: "hot_spring, onsen, steam, outdoor, rocks, water", flux: "a secluded natural outdoor hot spring shrouded in rising sensual steam and smooth river stones", sdxl: "steamy hot spring, onsen water, rising steam, secluded outdoor bath", category: "environment" }
+      { id: "steamy_onsen", label: "Steamy Hot Spring Sanctuary", danbooru: "hot_spring, onsen, steam, outdoor, rocks, water", flux: "a secluded natural outdoor hot spring shrouded in rising sensual steam and smooth river stones", sdxl: "steamy hot spring, onsen water, rising steam, secluded outdoor bath", category: "environment" },
+      { id: "graphic_circle_backdrop", label: "Minimalist Pastel Circle Graphic Backdrop", danbooru: "white_background, simple_background, circle, minimalist", flux: "against a clean solid white studio backdrop accented by a warm minimalist pastel circular graphic halo", sdxl: "white background, minimalist circle backdrop, graphic art frame, clean simple background", category: "environment" }
     ],
 
     lighting_vfx: [
@@ -418,7 +421,12 @@
     "arched_back": "with an elegantly arched back accentuating her silhouette",
     "reclining": "luxuriously reclining on her side",
     "boudoir": "within an intimate silk-sheeted boudoir",
-    "poolside": "beside a moonlit luxury resort pool",
+    "kneeling": "in an alluring kneeling pose with legs tucked and feet pointed",
+    "kneeling_pose": "in an alluring kneeling pinup pose",
+    "eyeshadow": "vibrant colorful eyeshadow",
+    "purple_eyeshadow": "vibrant purple eyeshadow",
+    "graphic_circle_backdrop": "a clean solid white studio backdrop accented by a warm minimalist pastel circular graphic halo",
+    "circle_backdrop": "a minimalist pastel circular graphic backdrop",
     "retro_pinup": "rendered in the timeless 1950s painted cheesecake pinup style",
     "cheesecake_(art)": "in the iconic American painted cheesecake art tradition",
     "femme_fatale": "exuding dangerous noir femme fatale magnetism"
