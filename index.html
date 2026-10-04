@@ -16,7 +16,7 @@
       <div class="logo-area">
         <span class="logo-icon">⚡</span>
         <h1 class="logo-title">sHelp</h1>
-        <span class="zero-ai-badge">100% Zero-AI • Pure Deterministic Lexicon</span>
+        <span class="zero-ai-badge">100% Zero-AI • Anime / Cartoon / Digital Art • Zero Realism</span>
       </div>
       <div class="header-links">
         <a href="https://github.com/greenmachine25/shelp" target="_blank" rel="noopener noreferrer">
@@ -36,19 +36,19 @@
     <div class="model-selector-bar">
       <span class="selector-label">Target Engine:</span>
       <div class="model-pills">
-        <button type="button" class="model-pill active" data-model="flux">⚡ Flux.1 (Prose / Story)</button>
+        <button type="button" class="model-pill active" data-model="flux">⚡ Flux.1 (Anime & Digital Art)</button>
         <button type="button" class="model-pill" data-model="pony">🦄 Pony Diffusion / PonyXL (Danbooru)</button>
-        <button type="button" class="model-pill" data-model="sdxl">🎨 SDXL (Weighted Tags)</button>
-        <button type="button" class="model-pill" data-model="sd15">⏱ SD 1.5 (77-Tokens)</button>
-        <button type="button" class="model-pill" data-model="perchance">🎲 Perchance (Flux Engine)</button>
-        <button type="button" class="model-pill" data-model="midjourney">🚀 Midjourney v6</button>
+        <button type="button" class="model-pill" data-model="sdxl">🎨 SDXL Anime / Illustrious</button>
+        <button type="button" class="model-pill" data-model="sd15">⏱ SD 1.5 Anime (77-Tokens)</button>
+        <button type="button" class="model-pill" data-model="perchance">🎲 Perchance (Flux Anime)</button>
+        <button type="button" class="model-pill" data-model="midjourney">🚀 Midjourney (Niji 6 Anime)</button>
       </div>
     </div>
 
     <!-- Active Model Info Banner -->
     <div class="model-info-banner">
       <span class="model-desc-text" id="modelDescription">
-        T5-XXL natural language text encoder. Excels with rich descriptive sentences and storytelling. DO NOT use tag soup, score tags, or generic buzzwords (e.g., 'masterpiece', '8k', 'trending on artstation') as they degrade Flux output.
+        T5-XXL natural language encoder tuned for Anime, Cartoon & Digital Art. Crafts vivid descriptive sentences for 2D animation, cel shading, and digital illustration. Avoids buzzwords and photographic realism.
       </span>
       <span class="engine-tag" id="modelEngineBadge">T5-XXL + CLIP-L</span>
     </div>
@@ -67,11 +67,11 @@
 
         <!-- Sample Prompts -->
         <div class="sample-bar">
-          <span style="color:var(--text-muted); font-size:0.8rem;">Try Samples:</span>
-          <button type="button" class="sample-chip" data-sample="1girl, looking at viewer, blue hair, in the rain, nice lighting, realistic">Anime in Rain</button>
-          <button type="button" class="sample-chip" data-sample="cyberpunk street, neon signs, cool lighting, wet asphalt, masterpiece, 8k">Cyberpunk Street</button>
-          <button type="button" class="sample-chip" data-sample="young noble knight, ornate armor, pretty face, dramatic background, 4k">Knight Portrait</button>
-          <button type="button" class="sample-chip" data-sample="wizard casting spell, magic glowing runes, ancient ruins, dark fantasy">Dark Fantasy Mage</button>
+          <span style="color:var(--text-muted); font-size:0.8rem;">Anime & Cartoon Presets:</span>
+          <button type="button" class="sample-chip" data-sample="1girl, solo, blue hair, twintails, sailor uniform, in the rain, nice lighting, realistic">Shinkai Rain</button>
+          <button type="button" class="sample-chip" data-sample="cyberpunk anime girl, neon rooftop, glowing lines, katana, cool action, realistic">Cyberpunk Anime</button>
+          <button type="button" class="sample-chip" data-sample="western cartoon hero, stylized, bold outline, fighting giant robot, 90s cartoon">Saturday Morning Cartoon</button>
+          <button type="button" class="sample-chip" data-sample="magical girl, mahou shoujo, casting spell, glowing magic circle, sparkles, pretty face">Mahou Shoujo</button>
         </div>
 
         <!-- Prompt Textarea -->
@@ -176,10 +176,10 @@
     <section class="lexicon-section">
       <div class="lexicon-header">
         <div>
-          <h3 class="panel-title" style="font-size:1.2rem;">📚 Descriptor Lexicon & Tag Database</h3>
-          <p class="text-muted" style="font-size:0.85rem;">Click any keyword to insert it directly into your prompt formatted for your active engine.</p>
+          <h3 class="panel-title" style="font-size:1.2rem;">🎨 Anime, Cartoon & Digital Art Lexicon Database</h3>
+          <p class="text-muted" style="font-size:0.85rem;">Click any keyword to insert it directly into your prompt formatted for your active engine (Zero Realism).</p>
         </div>
-        <input type="text" id="lexiconSearch" class="search-input" placeholder="🔍 Search descriptors, styles, lenses...">
+        <input type="text" id="lexiconSearch" class="search-input" placeholder="🔍 Search anime traits, auras, styles, VFX...">
       </div>
 
       <div class="lexicon-grid" id="lexiconContainer">

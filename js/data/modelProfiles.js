@@ -1,57 +1,57 @@
 /**
- * Model Profiles & Optimization Rules
- * Deterministic rulesets tailored for each AI image generator's specific text encoder.
+ * Model Profiles & Optimization Rules (100% Anime / Cartoon / Digital Art Focus)
+ * Zero-Realism configuration: strictly tunes text encoders for 2D animation,
+ * Danbooru anime checkpoints, stylized digital art, and Niji 6.
  */
 
 export const MODEL_PROFILES = {
   flux: {
     id: "flux",
-    name: "Flux.1 (Dev / Schnell / Pro)",
+    name: "Flux.1 (Anime & Digital Art Story)",
     engine: "T5-XXL + CLIP-L",
     recommendedFormat: "natural_prose",
-    description: "T5-XXL natural language text encoder. Excels with rich descriptive sentences and storytelling. DO NOT use tag soup, score tags, or generic buzzwords (e.g., 'masterpiece', '8k', 'trending on artstation') as they degrade Flux output.",
+    description: "T5-XXL natural language encoder tuned for Anime, Cartoon & Digital Art. Crafts vivid descriptive sentences for 2D animation, cel shading, and digital illustration. Avoids buzzwords and photographic realism.",
     maxTokens: 256,
     supportsNegative: false,
     defaultNegative: "",
     qualityPrefix: "",
-    defaultAspect: "16:9",
     features: {
       useProse: true,
       removeBooruUnderscores: true,
       removeBuzzwords: true,
-      addSensoryDetails: true,
-      prioritizeSpatial: true
+      banRealism: true
     },
     stripWords: [
       "masterpiece", "best quality", "ultra quality", "high quality", "8k", "4k", 
-      "trending on artstation", "award winning", "hyperrealistic", "photorealistic",
+      "trending on artstation", "award winning", "hyperrealistic", "photorealistic", "realistic",
+      "raw photo", "photograph", "35mm film", "dslr", "real life", "skin pores",
       "score_9", "score_8_up", "score_7_up", "score_6_up", "score_5_up", "score_4_up",
-      "source_anime", "source_cartoon", "source_pony"
+      "source_pony"
     ],
     tips: [
-      "Flux reads prompts like human prose. Write in complete descriptive sentences.",
-      "Describe composition spatially: 'In the foreground...', 'Behind the subject...'",
-      "Specify real-world camera settings, lighting physics, and authentic material textures.",
-      "Avoid weighting syntax like (word:1.3) — Flux T5 ignores or misinterprets weights."
+      "Flux excels at anime and digital art when described like an animated movie scene or high-end illustration.",
+      "Describe linework, cel shading gradients, background painting, and emotional lighting.",
+      "Never use photo terms (like 'photorealistic', 'dslr', 'skin pores')—they spoil Flux's stylized art capabilities."
     ]
   },
 
   pony: {
     id: "pony",
-    name: "Pony Diffusion / PonyXL (v6)",
+    name: "Pony Diffusion / PonyXL (Anime & Cartoon)",
     engine: "SDXL Danbooru CLIP",
     recommendedFormat: "danbooru_hierarchy",
-    description: "Finely tuned on Danbooru tags. STRICTLY requires special score tags and Danbooru formatting with underscores. Sentences and story prose produce blurry or inaccurate output.",
+    description: "The gold standard for Anime, Cartoon, and Fanart. Strictly requires score tags, source tags (source_anime or source_cartoon), and underscore Danbooru tags. Realism is actively banished to the negative prompt.",
     maxTokens: 225,
     supportsNegative: true,
     qualityPrefix: "score_9, score_8_up, score_7_up",
     defaultRating: "rating:general, source_anime",
-    defaultNegative: "score_6, score_5, score_4, score_3, score_2, score_1, source_pony, source_furry, 3d, realistic, photo, ugly, deformed, lowres, bad anatomy, text, watermark, signature",
+    defaultNegative: "score_6, score_5, score_4, score_3, score_2, score_1, source_pony, source_furry, realistic, photo, photorealistic, 3d, realistic skin, photograph, ugly, deformed, lowres, bad anatomy, text, watermark",
     features: {
       useProse: false,
       useDanbooruUnderscores: true,
       strictHierarchy: true,
-      injectScoreTags: true
+      injectScoreTags: true,
+      banRealism: true
     },
     hierarchyOrder: [
       "score_tags",
@@ -66,97 +66,97 @@ export const MODEL_PROFILES = {
       "style_medium"
     ],
     tips: [
-      "Always start with score tags: 'score_9, score_8_up, score_7_up'.",
-      "Use Danbooru tags with underscores: 'looking_at_viewer', 'blue_hair', 'school_uniform'.",
-      "Negative prompt MUST contain low score tags: 'score_6, score_5, score_4...'",
-      "Keep tags grouped: Subject -> Physical -> Clothes -> Pose -> Background -> Style."
+      "Must begin with: 'score_9, score_8_up, score_7_up, rating:general, source_anime'.",
+      "For western cartoon, swap 'source_anime' with 'source_cartoon'.",
+      "All tags should be lowercase Danbooru with underscores: 'looking_at_viewer', 'blue_hair', 'clean_lineart'.",
+      "Negative prompt strictly eliminates realism and 3D."
     ]
   },
 
   sdxl: {
     id: "sdxl",
-    name: "Stable Diffusion XL (SDXL)",
-    engine: "OpenCLIP ViT-G + CLIP-L",
+    name: "SDXL Anime / Illustrious / Animagine",
+    engine: "Dual CLIP (ViT-G + CLIP-L)",
     recommendedFormat: "weighted_tags",
-    description: "Dual CLIP encoders. Excels with comma-separated keyword chunks and weighted tokens. Early tokens receive highest attention.",
+    description: "Tuned for popular anime checkpoints (Animagine XL, Illustrious XL, AutismMix). Uses weighted tags and negative prompt anti-realism filters.",
     maxTokens: 150,
     supportsNegative: true,
-    qualityPrefix: "masterpiece, highly detailed",
-    defaultNegative: "ugly, deformed, bad anatomy, bad hands, missing fingers, extra limbs, low quality, blurry, pixelated, jpeg artifacts, watermark, signature",
+    qualityPrefix: "masterpiece, anime aesthetic, clean lineart",
+    defaultNegative: "photorealistic, photo, 3d, realistic skin, photograph, realistic eyes, ugly, deformed, bad anatomy, bad hands, missing fingers, extra limbs, low quality, blurry, artifacts, watermark",
     features: {
       useProse: false,
       allowWeights: true,
-      chunkOrdering: true
+      banRealism: true
     },
     tips: [
-      "Put the focal subject in the first 20 tokens for maximum CLIP attention.",
-      "Use emphasis weights: '(subject:1.2)' or '((detailed))' to boost weak elements.",
-      "Use specific medium markers: 'cinematic still', 'oil painting', '35mm photograph'."
+      "Place primary anime subject at the front for maximum CLIP attention.",
+      "Use weights like '(clean lineart:1.15)' and '(anime coloring:1.1)'.",
+      "Strictly suppresses realism and 3D in the negative prompt."
     ]
   },
 
   sd15: {
     id: "sd15",
-    name: "Stable Diffusion 1.5",
+    name: "SD 1.5 Anime (Anything / Counterfeit / OrangeMix)",
     engine: "CLIP-ViT-L/14 (77 Tokens)",
     recommendedFormat: "compact_tags",
-    description: "Strict 77-token CLIP window. Front-load key words and use targeted negative prompts.",
+    description: "Optimized for classic anime checkpoints (Anything v5, Counterfeit, AbyssOrangeMix). Concise 77-token tag ordering with zero realism.",
     maxTokens: 75,
     supportsNegative: true,
-    qualityPrefix: "masterpiece, best quality, sharp focus",
-    defaultNegative: "worst quality, low quality, normal quality, lowres, bad anatomy, bad hands, missing fingers, error, cropped, jpeg artifacts, watermark, signature",
+    qualityPrefix: "masterpiece, best quality, anime style",
+    defaultNegative: "photorealistic, photo, 3d, realistic, worst quality, low quality, lowres, bad anatomy, bad hands, artifacts, watermark",
     features: {
       useProse: false,
-      compactOnly: true
+      compactOnly: true,
+      banRealism: true
     },
     tips: [
-      "Strict 77 token limit! Keep prompts punchy and concise.",
-      "Avoid long wordy sentences. Use comma-separated descriptive tags.",
-      "Front-load critical subjects."
+      "Strict 77 token budget! Front-load characters and core anime tags.",
+      "Use classic anime tags: '1girl, solo, clean lineart, anime key visual'."
     ]
   },
 
   midjourney: {
     id: "midjourney",
-    name: "Midjourney (v6.1)",
-    engine: "Midjourney Proprietary",
+    name: "Midjourney (Niji 6 Anime Mode)",
+    engine: "Midjourney Niji 6 (Anime Model)",
     recommendedFormat: "mj_parameters",
-    description: "Prefers clear scene descriptions, aesthetic directions, and terminal parameter flags.",
+    description: "Targets Midjourney's dedicated anime and illustration model (--niji 6). Delivers spectacular anime visuals, manga composition, and stylized digital art.",
     maxTokens: 120,
     supportsNegative: false,
-    qualityPrefix: "",
     defaultNegative: "",
-    defaultParams: "--ar 16:9 --v 6.1 --style raw",
+    defaultParams: "--ar 16:9 --niji 6 --style expressive",
     features: {
-      useParams: true
+      useParams: true,
+      banRealism: true
     },
     stripWords: [
-      "photorealistic", "hyperrealistic", "4k", "8k", "masterpiece", "trending on artstation"
+      "photorealistic", "hyperrealistic", "realistic", "photo", "dslr", "4k", "8k", "masterpiece"
     ],
     tips: [
-      "Describe the medium, lighting, and camera rather than saying 'realistic'.",
-      "Append flags at the end: '--ar 16:9', '--v 6.1', '--style raw', '--stylize 200'.",
-      "Avoid generic buzzwords like 4k or 8k."
+      "Uses '--niji 6' dedicated anime engine automatically.",
+      "Try '--style expressive' or '--style cute' for distinct anime flavors.",
+      "Describe anime aesthetic, animation directors, or digital art style."
     ]
   },
 
   perchance: {
     id: "perchance",
-    name: "Perchance (Flux / Custom Engine)",
-    engine: "Flux / Perchance Hybrid",
+    name: "Perchance Anime / Digital Art (Flux)",
+    engine: "Perchance Anime / Flux Hybrid",
     recommendedFormat: "perchance_clean",
-    description: "Optimized for Perchance's modern Flux-based image generator. Clean, vivid descriptions with optional anti-prompt support.",
+    description: "Tuned for Perchance's modern image generator when producing anime, cartoon, and fantasy digital art.",
     maxTokens: 200,
     supportsNegative: true,
-    qualityPrefix: "",
-    defaultNegative: "blurry, low quality, deformed, extra fingers, text, watermark",
+    defaultNegative: "realistic, photo, 3d, photorealistic, realistic skin, deformed, extra fingers, blurry, text, watermark",
     features: {
       useProse: true,
-      cleanSeparation: true
+      cleanSeparation: true,
+      banRealism: true
     },
     tips: [
-      "Perchance's Flux generator produces best results with vivid descriptive phrasing.",
-      "Use the Anti-Prompt field for artifacts or unwanted elements."
+      "Perchance excels with story-like anime descriptions without tag clutter.",
+      "Anti-prompt guarantees pure 2D/stylized output with zero realism bleed."
     ]
   }
 };

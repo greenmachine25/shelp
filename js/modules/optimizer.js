@@ -174,8 +174,8 @@ export class PromptOptimizer {
 
     const sentences = [];
 
-    // Sentence 1: Subject + Physical Traits + Pose/Expression
-    let subjPart = groups.subject_count.join(" and ") || "A detailed subject";
+    // Sentence 1: Stylized Subject + Physical Traits + Pose/Expression
+    let subjPart = groups.subject_count.join(" and ") || "A stylized anime character";
     let physPart = groups.physical_traits.length > 0 ? `with ${groups.physical_traits.join(", ")}` : "";
     let posePart = groups.expression_pose.length > 0 ? `, ${groups.expression_pose.join(", ")}` : "";
     sentences.push(`${subjPart} ${physPart}${posePart}.`.replace(/\s+/g, " "));
@@ -190,14 +190,16 @@ export class PromptOptimizer {
       sentences.push(`Set against ${groups.environment.join(", ")}.`);
     }
 
-    // Sentence 4: Lighting & Camera Optics
+    // Sentence 4: Lighting & Visual Effects (Sakuga / Auras / Glow)
     if (groups.lighting_camera.length > 0) {
       sentences.push(`Illuminated by ${groups.lighting_camera.join(", ")}.`);
     }
 
-    // Sentence 5: Style / Medium
+    // Sentence 5: Style / Animation Medium
     if (groups.style_medium.length > 0) {
       sentences.push(`Rendered in ${groups.style_medium.join(", ")}.`);
+    } else {
+      sentences.push(`Rendered in a vibrant 2D anime animation aesthetic with clean vector lineart and cel shading.`);
     }
 
     // Any remaining general terms
