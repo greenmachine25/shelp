@@ -11,16 +11,46 @@ import { PromptOptimizer } from "./optimizer.js";
 
 export class UIController {
   constructor() {
-    this.currentModel = "flux";
-    this.currentIntent = "";
+    const cachedPrefs = this.loadCachedPreferences();
+    this.currentModel = cachedPrefs.model;
+    this.currentIntent = cachedPrefs.intent;
     this.customSwaps = this.loadCustomSwaps();
 
     this.cacheElements();
+    this.applyInitialModel();
     this.bindEvents();
     this.renderLexiconCategories();
     this.renderIntentPresets();
     this.renderCustomSwapsList();
     this.triggerOptimization();
+  }
+
+  loadCachedPreferences() {
+    try {
+      const savedModel = localStorage.getItem("shelp_last_model");
+      const savedIntent = localStorage.getItem("shelp_last_intent");
+      const model = (savedModel && MODEL_PROFILES[savedModel]) ? savedModel : "flux";
+      const intent = savedIntent || "";
+      return { model, intent };
+    } catch (e) {
+      return { model: "flux", intent: "" };
+    }
+  }
+
+  saveCachedModel(modelId) {
+    try {
+      localStorage.setItem("shelp_last_model", modelId);
+    } catch (e) {
+      // LocalStorage access restricted
+    }
+  }
+
+  saveCachedIntent(intentId) {
+    try {
+      localStorage.setItem("shelp_last_intent", intentId);
+    } catch (e) {
+      // LocalStorage access restricted
+    }
   }
 
   cacheElements() {
@@ -47,6 +77,19 @@ export class UIController {
     this.toggleCompareBtn = document.getElementById("toggleCompareBtn");
   }
 
+  applyInitialModel() {
+    if (this.modelSelectPills && this.modelSelectPills.length > 0) {
+      this.modelSelectPills.forEach(pill => {
+        if (pill.dataset.model === this.currentModel) {
+          pill.classList.add("active");
+        } else {
+          pill.classList.remove("active");
+        }
+      });
+    }
+    this.updateModelInfo();
+  }
+
   bindEvents() {
     // Live input update
     this.promptInput.addEventListener("input", () => this.triggerOptimization());
@@ -57,6 +100,7 @@ export class UIController {
         this.modelSelectPills.forEach(p => p.classList.remove("active"));
         pill.classList.add("active");
         this.currentModel = pill.dataset.model;
+        this.saveCachedModel(this.currentModel);
         this.updateModelInfo();
         this.triggerOptimization();
       });
@@ -65,6 +109,7 @@ export class UIController {
     // Intent preset change
     this.intentSelect.addEventListener("change", (e) => {
       this.currentIntent = e.target.value;
+      this.saveCachedIntent(this.currentIntent);
       this.updatePresetInfo(e.target.value);
       this.triggerOptimization();
     });
@@ -263,6 +308,17 @@ export class UIController {
       opt.textContent = `${preset.name}${subtitle}`;
       this.intentSelect.appendChild(opt);
     });
+
+    if (this.currentIntent) {
+      const exists = INTENT_PRESETS.some(p => p.id === this.currentIntent);
+      if (exists) {
+        this.intentSelect.value = this.currentIntent;
+        this.updatePresetInfo(this.currentIntent);
+      } else {
+        this.currentIntent = "";
+        this.saveCachedIntent("");
+      }
+    }
   }
 
   updatePresetInfo(presetId) {
