@@ -87,36 +87,34 @@ export class PromptOptimizer {
       });
     }
 
-    // 3. Model-Specific Formatting & Ordering
+    // 3. Resolve Preset (if chosen)
+    let selectedPreset = null;
+    if (options.intentPresetId) {
+      selectedPreset = INTENT_PRESETS.find(p => p.id === options.intentPresetId) || null;
+    }
+
+    // 4. Model-Specific Formatting & Ordering
     switch (targetModelId) {
       case "flux":
       case "perchance":
-        positiveResult = this._formatFluxProse(processedTokens, parsed.isProse, parsed.raw, options);
+        positiveResult = this._formatFluxProse(processedTokens, parsed.isProse, parsed.raw, options, selectedPreset);
         break;
 
       case "pony":
-        positiveResult = this._formatPonyHierarchy(processedTokens, options);
+        positiveResult = this._formatPonyHierarchy(processedTokens, options, selectedPreset);
         break;
 
       case "sdxl":
       case "sd15":
-        positiveResult = this._formatSdxlWeighted(processedTokens, targetModelId, options);
+        positiveResult = this._formatSdxlWeighted(processedTokens, targetModelId, options, selectedPreset);
         break;
 
       case "midjourney":
-        positiveResult = this._formatMidjourney(processedTokens, options);
+        positiveResult = this._formatMidjourney(processedTokens, options, selectedPreset);
         break;
 
       default:
         positiveResult = processedTokens.map(t => t.value).join(", ");
-    }
-
-    // 4. Apply Intent Preset (if chosen)
-    if (options.intentPresetId) {
-      const preset = INTENT_PRESETS.find(p => p.id === options.intentPresetId);
-      if (preset) {
-        positiveResult = this._applyPreset(positiveResult, preset, targetModelId);
-      }
     }
 
     // 5. Estimate Token Count (Deterministic rule-of-thumb: ~1.3 tokens per word + punctuation)
@@ -137,21 +135,24 @@ export class PromptOptimizer {
   /**
    * Format for Flux (Story / Natural Language Prose)
    */
-  static _formatFluxProse(tokens, wasOriginalProse, rawText, options) {
-    // If the input was already a detailed natural prose story, apply synonym swaps directly
+  /**
+   * Format for Flux (Coherent, Impactful Natural Language Story Prose)
+   */
+  static _formatFluxProse(tokens, wasOriginalProse, rawText, options, selectedPreset) {
+    // If input was already long prose, clean buzzwords and inject preset if chosen
     if (wasOriginalProse && tokens.length <= 4) {
       let prose = rawText;
-      // Strip buzzwords
       MODEL_PROFILES.flux.stripWords.forEach(w => {
         const re = new RegExp(`\\b${w}\\b,?\\s*`, "gi");
         prose = prose.replace(re, "");
       });
-      // Replace Danbooru underscores
       prose = prose.replace(/_([a-z0-9])/gi, " $1");
+      if (selectedPreset) {
+        prose = `${selectedPreset.fluxAdditions}. ${prose}`;
+      }
       return prose.replace(/\s+/g, " ").trim();
     }
 
-    // Group tokens by semantic categories
     const groups = {
       subject_count: [],
       physical_traits: [],
@@ -164,105 +165,120 @@ export class PromptOptimizer {
     };
 
     tokens.forEach(t => {
-      // Convert Danbooru tag to human readable if available
       let tagVal = t.value.toLowerCase().replace(/\s+/g, "_");
       let readable = BOORU_TO_PROSE[tagVal] || t.value.replace(/_/g, " ");
-
       const cat = groups[t.category] ? t.category : "general";
       groups[cat].push(readable);
     });
 
     const sentences = [];
 
-    // Sentence 1: Adult Pinup Subject + Physical Traits + Pose/Expression
-    let subjPart = groups.subject_count.join(" and ") || "An alluring adult woman";
-    let physPart = groups.physical_traits.length > 0 ? `with ${groups.physical_traits.join(", ")}` : "";
-    let posePart = groups.expression_pose.length > 0 ? `, ${groups.expression_pose.join(", ")}` : "";
-    sentences.push(`${subjPart} ${physPart}${posePart}.`.replace(/\s+/g, " "));
+    // 1. Opening Art Direction & Subject Anchor
+    let stylePhrase = selectedPreset 
+      ? selectedPreset.fluxAdditions 
+      : (groups.style_medium.join(", ") || "an exquisite adult pinup illustration with crisp vector linework and clean cel shading");
+    
+    let subj = groups.subject_count.join(" and ") || "an alluring adult woman";
+    let phys = groups.physical_traits.length > 0 ? `with ${groups.physical_traits.join(", ")}` : "with a voluptuous hourglass figure";
+    
+    sentences.push(`An exquisite stylized adult pinup illustration ${stylePhrase.startsWith("in ") ? stylePhrase : "in " + stylePhrase}, featuring ${subj} ${phys}.`);
 
-    // Sentence 2: Attire & Lingerie / Costume
-    if (groups.clothing.length > 0) {
-      sentences.push(`Wearing ${groups.clothing.join(", ")}.`);
-    }
-
-    // Sentence 3: Setting / Environment / Boudoir
-    if (groups.environment.length > 0) {
-      sentences.push(`Set against ${groups.environment.join(", ")}.`);
-    }
-
-    // Sentence 4: Lighting & Sensual Ambience
-    if (groups.lighting_camera.length > 0) {
-      sentences.push(`Illuminated by ${groups.lighting_camera.join(", ")}.`);
-    }
-
-    // Sentence 5: Style / Pinup Medium
-    if (groups.style_medium.length > 0) {
-      sentences.push(`Rendered in ${groups.style_medium.join(", ")}.`);
+    // 2. Pose, Gaze & Attire Integration
+    let pose = groups.expression_pose.length > 0 ? groups.expression_pose.join(", ") : "an alluring arched back pose";
+    let attire = groups.clothing.length > 0 ? groups.clothing.join(", ") : null;
+    if (attire) {
+      sentences.push(`She strikes a seductive pose with ${pose}, dressed in ${attire} that accentuates her feminine silhouette.`);
     } else {
-      sentences.push(`Rendered in an exquisite adult pinup illustration aesthetic with clean vector linework, subtle skin blush, and painterly shading.`);
+      sentences.push(`She strikes a confident, seductive pinup pose with ${pose}.`);
     }
 
-    // Any remaining general terms
+    // 3. Spatial Setting & Atmospheric Lighting Physics
+    let env = groups.environment.length > 0 ? groups.environment.join(", ") : null;
+    let light = groups.lighting_camera.length > 0 
+      ? groups.lighting_camera.join(", ") 
+      : "warm amber candlelight with soft sensual rim highlights tracing her contours";
+    
+    if (env) {
+      sentences.push(`The scene is set in ${env}, warmly illuminated by ${light}.`);
+    } else {
+      sentences.push(`Illuminated by ${light}.`);
+    }
+
+    // 4. Any general details
     if (groups.general.length > 0) {
-      sentences.push(`Featuring ${groups.general.join(", ")}.`);
+      sentences.push(`Detailed with ${groups.general.join(", ")}.`);
     }
 
     return sentences.join(" ").replace(/\s\./g, ".").replace(/\s+/g, " ").trim();
   }
 
   /**
-   * Format for PonyXL (Strict Danbooru Ordering & Score Conditioning)
+   * Format for PonyXL (Strict Danbooru Ordering, Artist Prioritization & Score Conditioning)
    */
-  static _formatPonyHierarchy(tokens, options) {
-    const profile = MODEL_PROFILES.pony;
-    const hierarchy = profile.hierarchyOrder;
+  static _formatPonyHierarchy(tokens, options, selectedPreset) {
+    const hierarchy = [
+      "score_tags",
+      "source_rating",
+      "artist_tag",
+      "character_series",
+      "subject_count",
+      "physical_traits",
+      "clothing",
+      "expression_pose",
+      "environment",
+      "lighting_camera",
+      "style_medium"
+    ];
     
-    // Buckets for each hierarchy level
     const buckets = {};
     hierarchy.forEach(h => buckets[h] = []);
 
-    // Add quality prefix tags to score_tags bucket
+    // 1. Positive Quality Scores (Proven 3-tag sweet spot for PonyXL)
     if (options.qualityScore !== false) {
       buckets["score_tags"].push("score_9", "score_8_up", "score_7_up");
     }
 
-    // Add default adult pinup rating & source tags
+    // 2. Rating & Source
     if (options.includeRating !== false) {
       buckets["source_rating"].push("rating:questionable", "source_anime");
     }
 
-    // Sort tokens into Danbooru buckets
-    tokens.forEach(t => {
-      // Format as danbooru (underscores, lower case)
-      let tag = t.value.toLowerCase().trim().replace(/\s+/g, "_");
+    // 3. Artist Tag Prioritization from Preset (Front-loaded for maximum CLIP attention)
+    if (selectedPreset && selectedPreset.ponyAdditions) {
+      const presetTags = selectedPreset.ponyAdditions.split(/,\s*/);
+      presetTags.forEach(pt => {
+        const ptClean = pt.trim();
+        if (ptClean.startsWith("by_") || ptClean === "xaxaxa" || ptClean === "awd!" || ptClean === "awd" || ptClean === "ravenous_russ") {
+          buckets["artist_tag"].push(ptClean);
+        } else if (!buckets["style_medium"].includes(ptClean) && !buckets["score_tags"].includes(ptClean)) {
+          buckets["style_medium"].push(ptClean);
+        }
+      });
+    }
 
-      // Categorize
+    // Sort user tokens
+    tokens.forEach(t => {
+      let tag = t.value.toLowerCase().trim().replace(/\s+/g, "_");
       if (t.category === "score_tags") {
         if (!buckets["score_tags"].includes(tag)) buckets["score_tags"].push(tag);
-      } else if (t.category === "subject_count") {
-        buckets["subject_count"].push(tag);
-      } else if (t.category === "physical_traits") {
-        buckets["physical_traits"].push(tag);
-      } else if (t.category === "clothing") {
-        buckets["clothing"].push(tag);
-      } else if (t.category === "expression_pose") {
-        buckets["expression_pose"].push(tag);
-      } else if (t.category === "environment") {
-        buckets["environment"].push(tag);
-      } else if (t.category === "lighting_camera") {
-        buckets["lighting_camera"].push(tag);
-      } else if (t.category === "style_medium") {
-        buckets["style_medium"].push(tag);
+      } else if (tag.startsWith("by_") || tag === "xaxaxa" || tag === "awd!" || tag === "awd" || tag === "ravenous_russ") {
+        if (!buckets["artist_tag"].includes(tag)) buckets["artist_tag"].push(tag);
+      } else if (buckets[t.category]) {
+        buckets[t.category].push(tag);
       } else {
         buckets["expression_pose"].push(tag);
       }
     });
 
+    // Ensure adult subject count exists
+    if (buckets["subject_count"].length === 0) {
+      buckets["subject_count"].push("1woman", "mature_female", "adult", "pinup");
+    }
+
     // Assemble in exact Danbooru hierarchy order
     const orderedTags = [];
     hierarchy.forEach(h => {
       if (buckets[h] && buckets[h].length > 0) {
-        // Deduplicate within bucket
         const unique = [...new Set(buckets[h])];
         orderedTags.push(...unique);
       }
@@ -274,16 +290,20 @@ export class PromptOptimizer {
   /**
    * Format for SDXL / SD 1.5 (Weighted Tag Chunks)
    */
-  static _formatSdxlWeighted(tokens, modelId, options) {
+  static _formatSdxlWeighted(tokens, modelId, options, selectedPreset) {
     const profile = MODEL_PROFILES[modelId];
     const chunks = [];
 
-    // Quality prefix if enabled
+    // Quality prefix
     if (options.addQuality !== false && profile.qualityPrefix) {
       chunks.push(profile.qualityPrefix);
     }
 
-    // Order: Subject -> Appearance/Clothes -> Action/Pose -> Environment -> Lighting -> Style
+    // Add preset additions near the front for CLIP attention
+    if (selectedPreset && selectedPreset.sdxlAdditions) {
+      chunks.push(selectedPreset.sdxlAdditions);
+    }
+
     const priorityOrder = ["subject_count", "physical_traits", "clothing", "expression_pose", "environment", "lighting_camera", "style_medium", "general"];
 
     priorityOrder.forEach(category => {
@@ -304,12 +324,13 @@ export class PromptOptimizer {
   }
 
   /**
-   * Format for Midjourney v6
+   * Format for Midjourney Niji 6
    */
-  static _formatMidjourney(tokens, options) {
+  static _formatMidjourney(tokens, options, selectedPreset) {
     const cleanTokens = tokens.map(t => t.value.replace(/_/g, " ")).join(", ");
+    const presetAdditions = selectedPreset ? (selectedPreset.mjAdditions || "") : "";
     const params = options.mjParams || MODEL_PROFILES.midjourney.defaultParams;
-    return `${cleanTokens} ${params}`.trim();
+    return `${cleanTokens} ${presetAdditions} ${params}`.replace(/\s+/g, " ").trim();
   }
 
   /**
