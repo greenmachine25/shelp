@@ -1,6 +1,7 @@
 /**
  * sHelp Prompt Optimizer (Unified Zero-AI Engine)
- * Strictly focused on Anime / Cartoon / Digital Art (Zero Realism)
+ * Strictly focused on Adult Pinup, Glamour & Stylized Digital Art
+ * STRICTLY NO CHILDREN / NO UNDERAGE CONTENT / ZERO REALISM
  * Works out-of-the-box via local file:// and GitHub Pages.
  */
 
@@ -8,130 +9,112 @@
   "use strict";
 
   // ==========================================
-  // 1. LEXICON DATABASE (Anime / Cartoon / Digital Art)
+  // 1. LEXICON DATABASE (100% Adult Pinup & Glamour)
   // ==========================================
   const LEXICON = {
     subjects: [
-      { id: "1girl", label: "1 Anime Girl / Solo Female", danbooru: "1girl, solo", flux: "a stylized anime girl", sdxl: "1girl, solo, anime aesthetic", category: "subject" },
-      { id: "1boy", label: "1 Anime Boy / Solo Male", danbooru: "1boy, solo", flux: "a stylish anime boy", sdxl: "1boy, solo, anime character", category: "subject" },
-      { id: "2girls", label: "2 Anime Girls", danbooru: "2girls", flux: "two anime girls interacting", sdxl: "2girls, anime duo", category: "subject" },
-      { id: "couple", label: "Anime Couple (Boy & Girl)", danbooru: "1girl, 1boy, couple", flux: "an anime couple together", sdxl: "1girl, 1boy, couple, anime visual", category: "subject" },
-      { id: "chibi_char", label: "Chibi / Super-Deformed Character", danbooru: "chibi, super_deformed, cute", flux: "a super cute chibi anime character with oversized head and adorable expressive eyes", sdxl: "chibi character, super deformed, cute mascot, pastel", category: "subject" },
-      { id: "magical_girl", label: "Mahou Shoujo / Magical Girl", danbooru: "magical_girl, wand, ribbon, frills", flux: "a magical girl in an ornate frilled battle costume holding a glowing magical wand", sdxl: "magical girl, mahou shoujo, sparkling magic, anime key visual", category: "subject" },
-      { id: "mecha_pilot", label: "Sci-Fi Mecha Pilot (Plugsuit)", danbooru: "pilot_suit, plugsuit, headset", flux: "an anime mecha pilot wearing a sleek futuristic plugsuit inside a glowing cockpit", sdxl: "mecha pilot, plugsuit, cockpit interior, anime sci-fi", category: "subject" },
-      { id: "cartoon_hero", label: "Western Cartoon Hero", danbooru: "source_cartoon, western_cartoon, stylized", flux: "a vibrant western cartoon animated hero with bold expressive linework and dynamic proportions", sdxl: "western cartoon style, bold outline, animated character", category: "subject" },
-      { id: "catgirl_neko", label: "Nekomimi / Anime Catgirl", danbooru: "1girl, cat_ears, cat_tail, animal_ears", flux: "a playful anime catgirl with plush feline ears and a swishing tail", sdxl: "1girl, cat ears, nekomimi, animal ear headband, anime", category: "subject" },
-      { id: "samurai_ronin", label: "Anime Ronin / Swordsman", danbooru: "samurai, katana, haori, traditional_japanese", flux: "a fierce anime swordsman in a fluttering haori cloak drawing a katana", sdxl: "anime samurai, katana sword, dynamic slash effect, anime key visual", category: "subject" },
-      { id: "cyber_heroine", label: "Cyberpunk Anime Mercenary", danbooru: "cyberpunk, cyborg, glowing_lines, sci-fi", flux: "a cyberpunk anime heroine with glowing neon hair accents and cybernetic visor", sdxl: "cyberpunk anime girl, glowing holographic HUD, anime digital art", category: "subject" },
-      { id: "dark_sorcerer", label: "Shonen Dark Sorcerer", danbooru: "sorcerer, dark_aura, glowing_eyes, energy", flux: "a dark fantasy anime sorcerer surrounded by surging magical aura and dark energy particles", sdxl: "anime sorcerer, dark magical aura, shonen anime visual", category: "subject" }
+      { id: "1woman_pinup", label: "Adult Pinup Model (1Woman)", danbooru: "1woman, solo, mature_female, adult, pinup", flux: "a glamorous adult pinup model with stunning alluring curves", sdxl: "1woman, solo, mature female, adult, glamorous pinup, hourglass figure", category: "subject" },
+      { id: "bunny_girl", label: "Classic Playboy Bunny Girl", danbooru: "1woman, bunny_suit, playboy_bunny, fishnets, collar, cuffs, rabbit_ears", flux: "a confident adult woman wearing a glossy satin bunny suit with fishnet stockings and satin bunny ears", sdxl: "1woman, playboy bunny suit, fishnet tights, rabbit ears, adult pinup visual", category: "subject" },
+      { id: "femme_fatale", label: "Noir Femme Fatale", danbooru: "1woman, mature_female, femme_fatale, evening_gown, seductive", flux: "a sultry adult femme fatale in a plunging backless evening dress with an alluring gaze", sdxl: "1woman, mature female, femme fatale, seductive expression, noir pinup", category: "subject" },
+      { id: "succubus_queen", label: "Fantasy Succubus Pinup", danbooru: "1woman, succubus, horns, bat_wings, demon_tail, seductive", flux: "a captivating adult demon succubus with curving horns, velvet bat wings, and a seductive pose", sdxl: "1woman, succubus pinup, demon horns, heart tail, adult fantasy art", category: "subject" },
+      { id: "glamour_swimsuit", label: "Resort Swimsuit / Bikini Pinup", danbooru: "1woman, mature_female, bikini, swimsuit, bare_shoulders", flux: "a voluptuous adult woman in a stylish designer bikini sunbathing", sdxl: "1woman, adult, designer bikini, poolside pinup, glamorous curves", category: "subject" },
+      { id: "lingerie_model", label: "Silk & Lace Boudoir Model", danbooru: "1woman, lingerie, lace, negligee, garter_straps", flux: "an elegant adult woman reclining in sheer silk and lace lingerie", sdxl: "1woman, mature female, sheer lace lingerie, boudoir pinup, garter straps", category: "subject" },
+      { id: "cyber_pinup", label: "Sorayama-style Cyber Pinup", danbooru: "1woman, cyborg, chrome, metallic_skin, sci-fi_pinup", flux: "a voluptuous adult gynoid in the retro-futuristic chrome pinup aesthetic of Hajime Sorayama", sdxl: "1woman, chrome pinup, metallic sheen, retro futuristic cyber pinup", category: "subject" },
+      { id: "valkyrie_warrior", label: "Adult Valkyrie / Battle Goddess", danbooru: "1woman, mature_female, armor, valkyrie, muscular_female", flux: "a statuesque adult Valkyrie warrior goddess with an athletic hourglass physique in ornate golden armor", sdxl: "1woman, mature valkyrie, battle goddess, ornate armor, adult fantasy pinup", category: "subject" },
+      { id: "retro_cheesecake", label: "1950s Gil Elvgren Cheesecake Pinup", danbooru: "1woman, mature_female, 1950s_pinup, cheesecake_(art), retro", flux: "a charming adult 1950s cheesecake pinup girl in the painted illustrative style of Gil Elvgren", sdxl: "1woman, 1950s pinup, cheesecake art, gil elvgren aesthetic, retro glamour", category: "subject" }
     ],
 
     physical_traits: [
-      { id: "twintails", label: "Classic Anime Twintails", danbooru: "twintails, long_hair", flux: "hair styled in iconic long anime twintails bouncing dynamically", sdxl: "twintails hairstyle, anime twintails, flowing hair", category: "physical" },
-      { id: "ahoge", label: "Expressive Cowlick (Ahoge)", danbooru: "ahoge", flux: "an adorable expressive single ahoge hair antenna bouncing on top of the head", sdxl: "ahoge cowlick, cute anime hair", category: "physical" },
-      { id: "sparkling_eyes", label: "Sparkling Detailed Anime Eyes", danbooru: "detailed_eyes, sparkling_eyes", flux: "huge luminous anime eyes filled with intricate star-like gradient highlights and colored reflections", sdxl: "detailed anime eyes, sparkling irises, luminous eyes, anime coloring", category: "physical" },
-      { id: "silver_hair", label: "Silvery White Anime Hair", danbooru: "white_hair, silver_hair", flux: "flowing moonlit silvery-white anime hair with soft lavender cel-shading highlights", sdxl: "silver anime hair, white hair, cel shaded hair", category: "physical" },
-      { id: "vibrant_blue_hair", label: "Vibrant Cyan / Blue Hair", danbooru: "blue_hair, cyan_hair", flux: "electric cyan-blue hair styled with sharp anime tips and gradient glow", sdxl: "vibrant cyan hair, anime blue hair", category: "physical" },
-      { id: "fiery_red_hair", label: "Fiery Flame Crimson Hair", danbooru: "red_hair, orange_hair", flux: "fiery crimson anime hair resembling flickering flame tendrils", sdxl: "crimson red anime hair, fiery hair", category: "physical" },
-      { id: "fang_tooth", label: "Cute Anime Snaggletooth (Yaeba)", danbooru: "fang, yaeba, open_mouth", flux: "parted smiling lips revealing a charming cute anime snaggletooth", sdxl: "single fang, yaeba, cute expression, anime face", category: "physical" },
-      { id: "blushing_face", label: "Anime Blushing Cheeks", danbooru: "blush, blush_stickers", flux: "rosy anime blush marks with stylized diagonal blushing lines across the cheeks", sdxl: "anime blush, blushing cheeks, shy expression", category: "physical" },
-      { id: "gradient_hair", label: "Two-Tone Gradient Anime Hair", danbooru: "gradient_hair, multicolored_hair", flux: "striking two-tone gradient hair shifting from midnight purple at the roots to neon pink tips", sdxl: "gradient hair, two-tone anime hair, vibrant colors", category: "physical" }
+      { id: "hourglass_figure", label: "Hourglass Curves & Voluptuous Figure", danbooru: "hourglass_figure, voluptuous, wide_hips, narrow_waist", flux: "a voluptuous hourglass silhouette with a narrow waist and feminine curves", sdxl: "voluptuous hourglass figure, feminine curves, toned waist", category: "physical" },
+      { id: "seductive_eyes", label: "Seductive Bedroom Eyes", danbooru: "bedroom_eyes, heavy_eyelids, seductive_smile", flux: "heavy-lidded sultry bedroom eyes with long mascara lashes and a knowing gaze", sdxl: "bedroom eyes, sultry gaze, captivating mature eyes, anime pinup", category: "physical" },
+      { id: "cleavage_decolletage", label: "Alluring Cleavage & Décolletage", danbooru: "cleavage, bare_shoulders, bare_back", flux: "revealing elegant décolletage and bare shoulders highlighted by soft lighting", sdxl: "cleavage, bare shoulders, elegant collarbones, alluring posture", category: "physical" },
+      { id: "voluptuous_hips", label: "Curvy Hips & Long Toned Legs", danbooru: "wide_hips, long_legs, toned_thighs", flux: "long shapely legs and gracefully rounded feminine hips", sdxl: "long toned legs, wide hips, feminine pinup proportions", category: "physical" },
+      { id: "crimson_lips", label: "Full Glossy Crimson Lips", danbooru: "lipstick, red_lips, parted_lips", flux: "full glossy crimson red lips slightly parted in a sensual smile", sdxl: "glossy red lipstick, parted lips, sultry expression", category: "physical" },
+      { id: "flowing_cascade_hair", label: "Voluminous Cascading Hollywood Waves", danbooru: "long_hair, wavy_hair, voluminous_hair", flux: "voluminous glamorous wavy hair cascading down across bare shoulders", sdxl: "voluminous wavy hair, glamour hairstyle, flowing locks", category: "physical" }
     ],
 
     clothing: [
-      { id: "serafuku", label: "Classic Sailor Uniform (Serafuku)", danbooru: "serafuku, school_uniform, pleated_skirt, neckerchief", flux: "a classic Japanese sailor school uniform with crisp folded neckerchief and pleated skirt", sdxl: "sailor uniform, serafuku, pleated skirt, anime school attire", category: "clothing" },
-      { id: "oversized_hoodie", label: "Cozy Oversized Anime Hoodie", danbooru: "hoodie, oversized_clothes, long_sleeves", flux: "a pastel oversized anime hoodie with extra long sleeves hiding the hands", sdxl: "oversized hoodie, anime streetwear, long sleeves", category: "clothing" },
-      { id: "cyber_plugsuit", label: "Futuristic Plugsuit / Bodysuit", danbooru: "plugsuit, bodysuit, futuristic", flux: "a form-fitting sci-fi anime plugsuit with glowing interface panels and aerodynamic accents", sdxl: "plugsuit, futuristic anime pilot suit, glossy bodysuit", category: "clothing" },
-      { id: "anime_maid", label: "Frilled Anime Maid Dress", danbooru: "maid, maid_apron, maid_headdress, frills", flux: "a lavishly frilled anime maid costume with lace headdress and bow ribbons", sdxl: "anime maid dress, ruffled apron, lace headband, cute frills", category: "clothing" },
-      { id: "fantasy_armor", label: "Stylized Fantasy Paladin Plate", danbooru: "armor, pauldrons, breastplate, gold_trim", flux: "stylized anime knight armor adorned with ornate gold filigree and floating magical gemstones", sdxl: "fantasy anime armor, golden filigree, ornate breastplate", category: "clothing" },
-      { id: "yukata_kimono", label: "Festival Yukata / Kimono", danbooru: "yukata, kimono, obi, floral_print", flux: "a festive cotton yukata patterned with cherry blossoms and tied with an elaborate obi sash", sdxl: "colorful yukata, floral kimono pattern, obi sash, anime festival", category: "clothing" },
-      { id: "techwear_ninja", label: "Cyber Techwear Ninja Gear", danbooru: "techwear, straps, face_mask, tactical", flux: "a modern anime techwear ninja outfit featuring utility straps, cargo joggers, and a glowing face mask", sdxl: "techwear anime ninja, cyber straps, tactical outfit, mask", category: "clothing" }
+      { id: "bunny_costume", label: "Glossy Bunny Suit & High Heels", danbooru: "bunny_suit, high_heels, collar, bow_tie, cuffs", flux: "a glossy form-fitting black latex bunny suit paired with high stiletto heels", sdxl: "glossy bunny suit, high heels, playboy bunny pinup attire", category: "clothing" },
+      { id: "sheer_lingerie", label: "Lace Negligee & Garter Straps", danbooru: "lingerie, lace_trim, garter_straps, stockings, sheer", flux: "delicate sheer black lace lingerie with matching garter belt and silk stockings", sdxl: "sheer lace lingerie, garter belt, stockings, boudoir pinup outfit", category: "clothing" },
+      { id: "backless_dress", label: "Plunging Backless Silk Gown", danbooru: "evening_gown, backless_dress, plunging_neckline, silk", flux: "a floor-length crimson silk evening gown with a dramatically low plunging neckline and backless drape", sdxl: "backless evening gown, plunging neckline, luxurious silk dress, glamour", category: "clothing" },
+      { id: "micro_bikini", label: "Alluring Strappy Bikini", danbooru: "bikini, string_bikini, swimsuit, cleavage", flux: "a stylish string bikini accentuating a sun-kissed feminine physique", sdxl: "string bikini, stylish swimsuit, beach pinup attire", category: "clothing" },
+      { id: "fishnet_stockings", label: "Fishnet Tights & Thighhighs", danbooru: "fishnets, fishnet_thighhighs, garter_straps", flux: "intricate diamond-pattern fishnet thighhigh stockings clinging to shapely legs", sdxl: "fishnet stockings, thighhighs, garter straps, pinup detail", category: "clothing" },
+      { id: "open_robe", label: "Silk Robe Draped Open", danbooru: "robe, open_clothes, silk_robe, off_shoulder", flux: "a luxurious shimmering silk kimono robe casually slipping off one shoulder", sdxl: "silk robe slipping off shoulder, sensual draped robe, boudoir", category: "clothing" }
     ],
 
     expressions_poses: [
-      { id: "looking_at_viewer", label: "Captivating Eye Contact", danbooru: "looking_at_viewer", flux: "making direct, engaging eye contact with the viewer", sdxl: "looking at viewer, direct gaze, anime key visual", category: "expression_pose" },
-      { id: "peace_sign", label: "Anime Peace Sign (V-Sign)", danbooru: "peace_sign, v, winking", flux: "flashing a cheerful peace sign by the face while giving a playful wink", sdxl: "peace sign, v sign, wink, cheerful anime pose", category: "expression_pose" },
-      { id: "dynamic_battle_leap", label: "Dynamic Mid-Air Battle Leap", danbooru: "dynamic_pose, midair, leaping, foreshortening", flux: "captured in an acrobatic mid-air combat jump with extreme anime foreshortening", sdxl: "dynamic battle pose, midair action, extreme foreshortening, sakuga", category: "expression_pose" },
-      { id: "pout_expression", label: "Cute Anime Pout (Tsundere)", danbooru: "pout, puffing_cheeks, angry", flux: "a cute frustrated anime pout with puffed-out rosy cheeks and narrowed eyes", sdxl: "anime pout, puffed cheeks, tsundere expression", category: "expression_pose" },
-      { id: "smug_smirk", label: "Smug / Cat-Mouth Smirk", danbooru: "smug, smirk, :3", flux: "an ultra-smug anime expression with a playful cat-like :3 curved mouth", sdxl: "smug expression, smirk, cat mouth, playful", category: "expression_pose" },
-      { id: "windblown_cape", label: "Dramatic Windblown Stance", danbooru: "standing, wind, fluttering_cape, coat", flux: "standing stoically on a precipice with hair and clothing billowing dramatically in strong wind", sdxl: "windblown pose, billowing coat, epic anime stance", category: "expression_pose" },
-      { id: "casting_pose", label: "Magical Spellcasting Stance", danbooru: "casting_spell, magic_circle, outstretched_hand", flux: "outstretching an open hand summoning an intricate revolving magical glyph circle", sdxl: "casting magic, glowing magic circle, outstretched hand, anime spell", category: "expression_pose" }
+      { id: "arched_back", label: "Classic Pinup Arched Back Pose", danbooru: "arched_back, looking_at_viewer, seductive_pose", flux: "posing with an elegantly arched back emphasizing shapely curves and making seductive eye contact", sdxl: "arched back pose, classic pinup pose, looking at viewer, seductive", category: "expression_pose" },
+      { id: "reclining_couch", label: "Reclining on Velvet Divan", danbooru: "lying, reclining, on_side, couch", flux: "gracefully reclining on her side across an opulent velvet chaise lounge", sdxl: "reclining on side, chaise lounge, relaxed pinup pose, alluring", category: "expression_pose" },
+      { id: "looking_over_shoulder", label: "Sultry Over-the-Shoulder Glance", danbooru: "looking_over_shoulder, looking_at_viewer, from_behind", flux: "glancing back enticingly over a bare shoulder with a knowing coy smile", sdxl: "looking over shoulder, sultry glance, back view, pinup pose", category: "expression_pose" },
+      { id: "biting_lip", label: "Biting Lip / Coy Flirtation", danbooru: "biting_lip, seductive_smile, blush", flux: "gently biting her lower lip with a playful flirtatious expression", sdxl: "biting lower lip, flirty expression, seductive smile", category: "expression_pose" },
+      { id: "kneeling_pose", label: "Alluring Kneeling Arch", danbooru: "kneeling, hands_on_hips, cleavage", flux: "kneeling upright with hands resting gently on her hips to accentuate feminine curves", sdxl: "kneeling pinup pose, hands on hips, hourglass silhouette", category: "expression_pose" }
     ],
 
     environments: [
-      { id: "shinkai_sky", label: "Luminous Shinkai Painted Cloudscape", danbooru: "sky, clouds, blue_sky, cumulus, sunbeam", flux: "an awe-inspiring Makoto Shinkai style sky filled with towering fluffy volumetric clouds catching radiant sunset light rays", sdxl: "makoto shinkai aesthetic, gorgeous anime sky, painted cumulus clouds, scenic", category: "environment" },
-      { id: "cherry_blossom_path", label: "Sakura Cherry Blossom Avenue", danbooru: "cherry_blossoms, falling_petals, tree, spring", flux: "a sunlit avenue shaded by blooming sakura cherry blossom trees with pink petals swirling in the spring breeze", sdxl: "cherry blossoms avenue, falling sakura petals, anime school road", category: "environment" },
-      { id: "neo_tokyo_night", label: "Neo-Tokyo Cyberpunk Rooftop", danbooru: "night, city, neon_lights, rooftop, tokyo", flux: "a neon-soaked cyberpunk city rooftop overlooking sprawling futuristic skyscrapers and flying train tracks", sdxl: "neo-tokyo night, anime cyberpunk city, glowing neon signs, rooftop view", category: "environment" },
-      { id: "floating_islands", label: "Fantasy Floating Sky Islands", danbooru: "floating_island, fantasy, waterfall, ruins", flux: "a mystical fantasy sky realm featuring lush floating islands with waterfalls tumbling into misty voids below", sdxl: "floating islands, anime fantasy landscape, sky waterfalls, studio ghibli vibe", category: "environment" },
-      { id: "cozy_anime_room", label: "Cozy Lofi Anime Bedroom", danbooru: "bedroom, indoor, desk, computer, posters", flux: "a cozy warm lofi anime bedroom with fairy lights, anime posters, plushies, and rain tapping on the window", sdxl: "lofi anime bedroom, cozy desk setup, soft warm lighting, indoor", category: "environment" },
-      { id: "magical_crystal_cave", label: "Bioluminescent Crystal Cavern", danbooru: "cave, crystals, glowing, bioluminescence", flux: "an ancient underground cavern lit by giant luminous cyan and purple mana crystals", sdxl: "crystal cavern, glowing mana crystals, fantasy underground, anime cave", category: "environment" },
-      { id: "cartoon_desert", label: "Stylized Western Cartoon Canyon", danbooru: "desert, canyon, stylized, clear_sky", flux: "a vibrant stylized desert canyon with warm terracotta rock formations in the style of classic animation", sdxl: "stylized cartoon canyon, red rock desert, animation background art", category: "environment" }
+      { id: "luxury_boudoir", label: "Luxury Satin Boudoir Bedroom", danbooru: "boudoir, bedroom, bed, silk_sheets, pillows, indoor", flux: "an opulent master boudoir bedroom with a canopied king bed, scattered silk pillows, and warm ambient candlelight", sdxl: "luxury boudoir, silk sheets, soft canopy bed, romantic indoor ambiance", category: "environment" },
+      { id: "sunset_poolside", label: "Twilight Resort Poolside", danbooru: "pool, poolside, resort, sunset, lounge_chair, water", flux: "a private tropical villa poolside at dusk with turquoise water and glowing resort lanterns", sdxl: "sunset poolside, luxury villa resort, glowing water, evening ambiance", category: "environment" },
+      { id: "neon_penthouse", label: "Neon City High-Rise Penthouse", danbooru: "penthouse, floor-to-ceiling_window, night, city_lights", flux: "a luxury high-rise penthouse featuring floor-to-ceiling windows looking out over glowing city lights", sdxl: "penthouse interior, panoramic city lights night view, modern luxury", category: "environment" },
+      { id: "vintage_speakeasy", label: "1950s Velvet Lounge & Cocktail Bar", danbooru: "bar, lounge, velvet, dim_lighting, vintage", flux: "a sultry 1950s jazz lounge with tufted red velvet banquettes and golden bar mirrors", sdxl: "vintage cocktail lounge, red velvet decor, intimate bar setting, retro pinup", category: "environment" },
+      { id: "steamy_onsen", label: "Steamy Hot Spring Sanctuary", danbooru: "hot_spring, onsen, steam, outdoor, rocks, water", flux: "a secluded natural outdoor hot spring shrouded in rising sensual steam and smooth river stones", sdxl: "steamy hot spring, onsen water, rising steam, secluded outdoor bath", category: "environment" }
     ],
 
     lighting_vfx: [
-      { id: "sakuga_effects", label: "Anime Sakuga Impact Sparks & Smoke", danbooru: "sparks, smoke, action, debris, glowing", flux: "accompanied by dynamic hand-drawn anime sakuga visual effects, impact sparks, and stylized smoke donuts", sdxl: "sakuga visual effects, dynamic anime impact, sparks, stylized dust", category: "lighting" },
-      { id: "cel_gradient", label: "Soft Cel-Shaded Anime Lighting", danbooru: "clean_lineart, anime_coloring, soft_shading", flux: "illuminated with crisp traditional cel-shading combined with smooth digital airbrush gradient lighting", sdxl: "cel shaded, anime coloring, soft gradient highlights, crisp lineart", category: "lighting" },
-      { id: "magic_aura", label: "Surging Shonen Power Aura", danbooru: "aura, glowing, energy, particles", flux: "enveloped in a fierce surging energy aura with glowing electric sparks crackling outward", sdxl: "energy aura, glowing power aura, shonen anime sparks, battle energy", category: "lighting" },
-      { id: "golden_sunset_glow", label: "Warm Golden Sunset Rim Light", danbooru: "sunset, rim_light, warm_lighting, orange_sky", flux: "bathed in warm anime evening rim light with glowing silhouettes against a golden dusk sky", sdxl: "sunset rim light, golden hour anime glow, warm atmosphere", category: "lighting" },
-      { id: "neon_luminescence", label: "Neon Cyberpunk Bloom & Glow", danbooru: "neon_lights, glowing, rim_light, cyan_and_pink", flux: "illuminated by saturated dual-tone neon lighting casting vivid cyan and magenta rim highlights", sdxl: "neon glow, cyber anime lighting, saturated colors, rim light", category: "lighting" },
-      { id: "sparkles_glitter", label: "Shojo Anime Sparkles & Light Motes", danbooru: "sparkles, light_particles, glowing", flux: "surrounded by shimmering shojo light sparkles, floating heart motes, and soft pastel bokeh", sdxl: "shojo sparkles, glitter, anime light motes, magical ambiance", category: "lighting" }
+      { id: "warm_candlelight", label: "Intimate Amber Candlelight & Rim", danbooru: "candlelight, warm_lighting, soft_shadows, rim_light", flux: "illuminated by the intimate warm amber glow of candlelight casting soft flattering rim highlights", sdxl: "warm candlelight, intimate lighting, golden rim light, soft shadows", category: "lighting" },
+      { id: "neon_backlight", label: "Sultry Magenta & Cyan Neon Backlight", danbooru: "neon_lights, rim_light, pink_and_cyan, glowing", flux: "sensual neon rim lighting tracing feminine contours in saturated magenta and electric cyan", sdxl: "neon rim lighting, magenta highlights, glowing contours, cyber pinup lighting", category: "lighting" },
+      { id: "golden_dusk_glow", label: "Golden Hour Glow on Skin", danbooru: "sunset, warm_lighting, sunbeam, golden_hour", flux: "bathed in the flattering golden honey glow of evening twilight highlighting curves", sdxl: "golden sunset glow, warm lighting, flattering light, pinup ambiance", category: "lighting" },
+      { id: "soft_boudoir_diffusion", label: "Soft Romantic Boudoir Glow", danbooru: "soft_lighting, bloom, glowing, diffuse_light", flux: "soft diffused lighting with a gentle dreamlike bloom wrapping around the subject", sdxl: "soft boudoir lighting, romantic bloom, flattering diffuse illumination", category: "lighting" }
     ],
 
     framing_angles: [
-      { id: "sakuga_dutch_angle", label: "Dynamic Dutch Tilt / Action Angle", danbooru: "dutch_angle, dynamic_angle", flux: "framed in a dynamic tilted Dutch angle intensifying the kinetic motion and visual tension", sdxl: "dynamic dutch angle, action perspective, tilted frame", category: "camera" },
-      { id: "extreme_foreshortening", label: "Dramatic Anime Foreshortening", danbooru: "foreshortening, from_below", flux: "featuring extreme anime perspective foreshortening with weapons or hands thrust toward the screen", sdxl: "extreme foreshortening, exaggerated anime perspective, dynamic framing", category: "camera" },
-      { id: "manga_screentone", label: "Manga Screentone & Ink Hatching", danbooru: "screentone, halftone, hatching, monochrome", flux: "styled with authentic manga halftone dot screentones, crosshatch shading, and bold black ink fills", sdxl: "manga screentone, ink hatching, halftone dots, manga page aesthetic", category: "camera" },
-      { id: "speed_lines", label: "High-Speed Manga Focus Lines", danbooru: "speed_lines, focus_lines", flux: "framed by intense converging manga speed lines focusing attention directly on the character", sdxl: "manga speed lines, anime focus lines, action burst", category: "camera" },
-      { id: "chromatic_aberration", label: "Stylized Prismatic Chromatic Fringing", danbooru: "chromatic_aberration, bloom", flux: "with subtle digital prismatic chromatic aberration and soft glowing bloom along high-contrast lines", sdxl: "chromatic aberration, anime bloom, stylized fringe, digital art visual", category: "camera" },
-      { id: "chibi_vignette", label: "Pastel Illustrated Vignette", danbooru: "vignette, pastel, simple_background", flux: "framed by a soft pastel floral vignette with clean decorative borders", sdxl: "pastel decorative vignette, clean frame, illustration border", category: "camera" }
+      { id: "full_body_pinup", label: "Full-Length Glamour Frame", danbooru: "full_body, pinup, looking_at_viewer", flux: "a full-length illustrative pinup composition showcasing the complete head-to-toe silhouette and heels", sdxl: "full body pinup composition, complete silhouette, high heels, framed pose", category: "camera" },
+      { id: "cowboy_glamour", label: "Three-Quarter Cowboy Shot (Thighs Up)", danbooru: "cowboy_shot, 3/4_view, cleavage", flux: "a dynamic three-quarter cowboy frame focusing on the torso, cleavage, and hips", sdxl: "cowboy shot, thighs up, hourglass emphasis, pinup framing", category: "camera" },
+      { id: "from_above_reclined", label: "Reclined Perspective from Above", danbooru: "from_above, lying, looking_up", flux: "captured from an alluring high angle looking down as the subject gazes upward", sdxl: "view from above, reclining pose, looking up, seductive perspective", category: "camera" },
+      { id: "close_portrait_glamour", label: "Intimate Glamour Face & Decolletage", danbooru: "close-up, portrait, cleavage, detailed_eyes", flux: "an intimate tightly framed portrait highlighting captivating bedroom eyes and parted lips", sdxl: "glamour close-up portrait, detailed sensual eyes, parted lips, decolletage", category: "camera" }
     ],
 
     styles_mediums: [
-      { id: "modern_anime_film", label: "Modern Feature Anime (Shinkai / Ufotable)", danbooru: "source_anime, anime_coloring, clean_lineart, masterpiece", flux: "a breathtaking high-budget anime theatrical feature film visual with ultra-clean vector linework, multi-layer gradient cel shading, and painted background art in the style of Kyoto Animation and Ufotable", sdxl: "modern anime style, key visual, clean lineart, studio anime production, vibrant anime coloring", category: "style" },
-      { id: "retro_80s_anime", label: "Retro 80s / 90s Cel Anime (OVA / VHS)", danbooru: "retro_artstyle, 1980s_(style), cel_shading, vintage_anime", flux: "a nostalgic 1980s retro anime aesthetic captured from an authentic vintage OVA laserdisc, featuring bold ink lines, hand-painted cel animation, and soft CRT glow", sdxl: "retro 80s anime, vintage cel shading, 1990s anime style, nostalgic aesthetic", category: "style" },
-      { id: "splash_art_game", label: "Digital Splash Art (Genshin / Riot Games)", danbooru: "splash_art, digital_media, concept_art, detailed", flux: "an epic high-end digital illustration character splash art with dynamic lighting, expressive brushwork, volumetric particles, and game key-visual composition", sdxl: "game splash art, digital illustration, vibrant lighting, hoyoverse style, masterpiece digital art", category: "style" },
-      { id: "western_cartoon_90s", label: "90s Western Animation / Cartoon Network", danbooru: "source_cartoon, western_cartoon, stylized, flat_color", flux: "a lively Saturday morning cartoon aesthetic with bold geometric outlines, vibrant flat cel coloring, and exaggerated animated charm", sdxl: "western cartoon style, bold black outlines, flat animation coloring, 90s cartoon network", category: "style" },
-      { id: "indie_animated_arcane", label: "Stylized Painterly Animation (Arcane / Spider-Verse)", danbooru: "painterly, stylized, graphic_illustration, textures", flux: "a revolutionary stylized digital animation visual blending textured painterly brushstrokes, graphic ink lines, and chromatic halftone accents like Arcane and Spider-Verse", sdxl: "painterly animation style, graphic illustration, textured digital painting, bold stylization", category: "style" },
-      { id: "manga_cover_art", label: "Manga Volume Cover (Shonen Jump)", danbooru: "manga_cover, clean_lineart, screentone, color_ink", flux: "a high-impact manga magazine cover illustration with dramatic ink linework, vibrant marker-style colors, and bold typographic composition", sdxl: "manga cover illustration, bold ink linework, dynamic shonen art, anime magazine visual", category: "style" },
-      { id: "chibi_moe", label: "Chibi & Kawaii Moe Illustration", danbooru: "chibi, kawaii, moe, pastel, sparkle", flux: "an irresistible pastel kawaii chibi illustration with round bubbly lines, sticker-like clean outlines, and sweet pastel color palette", sdxl: "chibi moe style, kawaii illustration, pastel colors, cute sticker art", category: "style" },
-      { id: "pixel_art_retro", label: "16-Bit Retro Pixel Art", danbooru: "pixel_art, 16-bit, retro_game, dithering", flux: "a masterwork 16-bit pixel art illustration with authentic color indexing, nostalgic dithering, and retro RPG aesthetic", sdxl: "16-bit pixel art, detailed pixel sprite, retro game aesthetic, clean pixels", category: "style" }
+      { id: "elvgren_cheesecake", label: "1950s Cheesecake Pinup (Gil Elvgren)", danbooru: "cheesecake_(art), 1950s_pinup, retro_artstyle, traditional_media", flux: "a classic 1950s American cheesecake pinup painting in the signature illustrative style of Gil Elvgren and Alberto Vargas, with painterly gouache brushwork and playful charm", sdxl: "gil elvgren pinup style, 1950s cheesecake art, alberto vargas, painted retro pinup, vintage glamour", category: "style" },
+      { id: "modern_anime_pinup", label: "Modern Anime Pinup (High-End Illustration)", danbooru: "source_anime, anime_coloring, clean_lineart, pinup, masterpiece", flux: "an exquisite modern Japanese anime pinup illustration with silky clean linework, subtle skin gradient shading, and high-end collector visual finish", sdxl: "anime pinup illustration, clean lineart, vibrant anime coloring, mature female, key visual", category: "style" },
+      { id: "sorayama_chrome", label: "Cyber Chrome Pinup (Hajime Sorayama)", danbooru: "metallic_skin, chrome, retro_futurism, 1980s_(style), airbrush", flux: "a legendary airbrushed retro-futuristic chrome cyber pinup in the unmistakable metallic reflection style of Hajime Sorayama", sdxl: "hajime sorayama style, chrome reflections, metallic airbrush pinup, 80s retro sci-fi art", category: "style" },
+      { id: "pulp_noir_pinup", label: "Vintage Pulp Fiction Cover Pinup", danbooru: "pulp_art, retro, vintage, dramatic_lighting, 1940s", flux: "a dramatic 1940s vintage pulp fiction magazine cover illustration with bold painterly gouache strokes, rich shadows, and seductive femme fatale energy", sdxl: "pulp fiction cover art, retro 1940s pinup, vintage gouache painting, dramatic chiaroscuro", category: "style" },
+      { id: "stylized_cartoon_pinup", label: "Modern Stylized Cartoon Pinup", danbooru: "source_cartoon, stylized, bold_outline, flat_color, pinup", flux: "a sleek modern stylized cartoon pinup featuring bold graphic vector outlines, exaggerated feminine curves, and punchy pop-art colors", sdxl: "stylized cartoon pinup, bold outlines, graphic vector art, exaggerated curves", category: "style" }
     ]
   };
 
   // ==========================================
-  // 2. MODEL PROFILES (Zero Realism)
+  // 2. MODEL PROFILES (100% Adult Pinup Focus)
   // ==========================================
   const MODEL_PROFILES = {
     flux: {
       id: "flux",
-      name: "Flux.1 (Anime & Digital Art Story)",
+      name: "Flux.1 (Adult Pinup & Glamour Story)",
       engine: "T5-XXL + CLIP-L",
       recommendedFormat: "natural_prose",
-      description: "T5-XXL natural language encoder tuned for Anime, Cartoon & Digital Art. Crafts vivid descriptive sentences for 2D animation, cel shading, and digital illustration. Avoids buzzwords and photographic realism.",
+      description: "T5-XXL natural language encoder tuned for Adult Pinup, Glamour & Stylized Digital Art. Crafts vivid descriptive sentences for sensual curves, boudoir settings, and illustrative pinup aesthetics. Strictly adult, zero realism.",
       maxTokens: 256,
       supportsNegative: false,
       defaultNegative: "",
       qualityPrefix: "",
-      features: { useProse: true, banRealism: true },
+      features: { useProse: true, banRealism: true, adultOnly: true },
       stripWords: [
         "masterpiece", "best quality", "ultra quality", "high quality", "8k", "4k", 
         "trending on artstation", "award winning", "hyperrealistic", "photorealistic", "realistic",
         "raw photo", "photograph", "35mm film", "dslr", "real life", "skin pores",
         "score_9", "score_8_up", "score_7_up", "score_6_up", "score_5_up", "score_4_up",
-        "source_pony"
+        "source_pony", "chibi", "school_uniform", "serafuku", "student"
       ]
     },
     pony: {
       id: "pony",
-      name: "Pony Diffusion / PonyXL (Anime & Cartoon)",
+      name: "Pony Diffusion / PonyXL (Adult Pinup & Glamour)",
       engine: "SDXL Danbooru CLIP",
       recommendedFormat: "danbooru_hierarchy",
-      description: "The gold standard for Anime, Cartoon, and Fanart. Strictly requires score tags, source tags (source_anime or source_cartoon), and underscore Danbooru tags. Realism is actively banished to the negative prompt.",
+      description: "The premier engine for Adult Anime Pinup and Glamour. Strictly requires score tags, rating tags (rating:questionable or rating:explicit), and underscore Danbooru tags. Underage terms and realism are strictly banished in the negative prompt.",
       maxTokens: 225,
       supportsNegative: true,
       qualityPrefix: "score_9, score_8_up, score_7_up",
-      defaultRating: "rating:general, source_anime",
-      defaultNegative: "score_6, score_5, score_4, score_3, score_2, score_1, source_pony, source_furry, realistic, photo, photorealistic, 3d, realistic skin, photograph, ugly, deformed, lowres, bad anatomy, text, watermark",
+      defaultRating: "rating:questionable, source_anime",
+      defaultNegative: "score_6, score_5, score_4, score_3, score_2, score_1, source_pony, source_furry, child, kid, underage, chibi, realistic, photo, photorealistic, 3d, realistic skin, photograph, ugly, deformed, lowres, bad anatomy, text, watermark",
       hierarchyOrder: [
         "score_tags", "source_rating", "character_series", "subject_count",
         "physical_traits", "clothing", "expression_pose", "environment",
@@ -140,267 +123,271 @@
     },
     sdxl: {
       id: "sdxl",
-      name: "SDXL Anime / Illustrious / Animagine",
+      name: "SDXL Adult Pinup / Illustrious / Animagine",
       engine: "Dual CLIP (ViT-G + CLIP-L)",
       recommendedFormat: "weighted_tags",
-      description: "Tuned for popular anime checkpoints (Animagine XL, Illustrious XL, AutismMix). Uses weighted tags and negative prompt anti-realism filters.",
+      description: "Tuned for adult anime pinup checkpoints (Illustrious XL, Pony, AutismMix). Uses weighted tags and negative prompt anti-realism/anti-underage filters.",
       maxTokens: 150,
       supportsNegative: true,
-      qualityPrefix: "masterpiece, anime aesthetic, clean lineart",
-      defaultNegative: "photorealistic, photo, 3d, realistic skin, photograph, realistic eyes, ugly, deformed, bad anatomy, bad hands, missing fingers, extra limbs, low quality, blurry, artifacts, watermark"
+      qualityPrefix: "masterpiece, adult pinup, clean lineart",
+      defaultNegative: "child, kid, underage, chibi, photorealistic, photo, 3d, realistic skin, photograph, realistic eyes, ugly, deformed, bad anatomy, bad hands, missing fingers, extra limbs, low quality, blurry, artifacts, watermark"
     },
     sd15: {
       id: "sd15",
-      name: "SD 1.5 Anime (Anything / Counterfeit / OrangeMix)",
+      name: "SD 1.5 Adult Pinup (Anything / OrangeMix)",
       engine: "CLIP-ViT-L/14 (77 Tokens)",
       recommendedFormat: "compact_tags",
-      description: "Optimized for classic anime checkpoints (Anything v5, Counterfeit, AbyssOrangeMix). Concise 77-token tag ordering with zero realism.",
+      description: "Optimized for classic adult anime pinup checkpoints. Concise 77-token tag ordering with zero realism and zero underage content.",
       maxTokens: 75,
       supportsNegative: true,
-      qualityPrefix: "masterpiece, best quality, anime style",
-      defaultNegative: "photorealistic, photo, 3d, realistic, worst quality, low quality, lowres, bad anatomy, bad hands, artifacts, watermark"
+      qualityPrefix: "masterpiece, best quality, adult pinup",
+      defaultNegative: "child, kid, underage, chibi, photorealistic, photo, 3d, realistic, worst quality, low quality, lowres, bad anatomy, bad hands, artifacts, watermark"
     },
     midjourney: {
       id: "midjourney",
-      name: "Midjourney (Niji 6 Anime Mode)",
-      engine: "Midjourney Niji 6 (Anime Model)",
+      name: "Midjourney (Niji 6 Adult Pinup)",
+      engine: "Midjourney Niji 6 (Anime & Pinup Model)",
       recommendedFormat: "mj_parameters",
-      description: "Targets Midjourney's dedicated anime and illustration model (--niji 6). Delivers spectacular anime visuals, manga composition, and stylized digital art.",
+      description: "Targets Midjourney's dedicated illustration model (--niji 6) for glamorous adult pinup and stylized digital art.",
       maxTokens: 120,
       supportsNegative: false,
       defaultNegative: "",
       defaultParams: "--ar 16:9 --niji 6 --style expressive",
-      stripWords: ["photorealistic", "hyperrealistic", "realistic", "photo", "dslr", "4k", "8k", "masterpiece"]
+      stripWords: ["photorealistic", "hyperrealistic", "realistic", "photo", "dslr", "4k", "8k", "masterpiece", "chibi"]
     },
     perchance: {
       id: "perchance",
-      name: "Perchance Anime / Digital Art (Flux)",
-      engine: "Perchance Anime / Flux Hybrid",
+      name: "Perchance Adult Pinup (Flux Engine)",
+      engine: "Perchance Pinup / Flux Hybrid",
       recommendedFormat: "perchance_clean",
-      description: "Tuned for Perchance's modern image generator when producing anime, cartoon, and fantasy digital art.",
+      description: "Tuned for Perchance's modern image generator when producing glamorous adult pinup and stylized 2D artwork.",
       maxTokens: 200,
       supportsNegative: true,
-      defaultNegative: "realistic, photo, 3d, photorealistic, realistic skin, deformed, extra fingers, blurry, text, watermark"
+      defaultNegative: "child, kid, underage, chibi, realistic, photo, 3d, photorealistic, realistic skin, deformed, extra fingers, blurry, text, watermark"
     }
   };
 
   // ==========================================
-  // 3. REPLACEMENTS & SWAPS (Anti-Realism)
+  // 3. REPLACEMENTS & SWAPS (Adult Pinup Focus)
   // ==========================================
   const WORD_SWAPS = [
     {
       pattern: /\b(realistic|photorealistic|hyperrealistic|ultra realistic|real life|realism|photo|raw photo)\b/gi,
-      flux: "crisp clean anime vector linework with rich digital cel-shading and painterly background art",
-      pony: "clean_lineart, detailed_background, anime_coloring",
-      sdxl: "anime key visual, clean lineart, vibrant anime coloring, high detail digital illustration",
-      midjourney: "clean anime illustration, vibrant colors, detailed lineart"
+      flux: "crisp clean stylized vector linework with rich digital cel-shading and painterly pinup illustration finish",
+      pony: "clean_lineart, detailed_background, anime_coloring, pinup",
+      sdxl: "adult pinup key visual, clean lineart, vibrant anime coloring, high detail digital illustration",
+      midjourney: "clean stylized adult pinup illustration, vibrant colors, detailed lineart"
     },
     {
       pattern: /\b(camera|lens|35mm|85mm|dslr|film grain|kodak)\b/gi,
-      flux: "high-budget theatrical anime animation screenshot with vibrant painted colors",
-      pony: "anime_screencap, clean_lineart",
-      sdxl: "studio anime visual, anime aesthetic, key visual",
-      midjourney: "anime screencap, studio animation visual"
+      flux: "exquisite painterly adult pinup art visual with rich ambient lighting",
+      pony: "pinup_art, clean_lineart",
+      sdxl: "studio pinup visual, adult glamour aesthetic, key visual",
+      midjourney: "pinup art visual, painted illustration"
+    },
+    {
+      pattern: /\b(1girl|girl)\b/gi,
+      flux: "an alluring adult woman",
+      pony: "1woman, mature_female, adult",
+      sdxl: "1woman, adult, mature female",
+      midjourney: "an alluring adult woman"
+    },
+    {
+      pattern: /\b(sexy|hot|gorgeous|stunning|babe)\b/gi,
+      flux: "a glamorous adult pinup model with alluring hourglass curves and magnetic presence",
+      pony: "mature_female, adult, pinup, hourglass_figure, voluptuous",
+      sdxl: "adult pinup, mature female, voluptuous hourglass figure, glamorous",
+      midjourney: "glamorous adult pinup model with alluring hourglass curves"
+    },
+    {
+      pattern: /\b(bunny girl|playboy bunny|bunny suit)\b/gi,
+      flux: "an adult woman in a glossy satin black bunny suit with rabbit ears, bow tie, and fishnet stockings",
+      pony: "1woman, bunny_suit, playboy_bunny, fishnets, collar, cuffs, rabbit_ears",
+      sdxl: "1woman, adult playboy bunny suit, fishnet stockings, rabbit ears, high heels",
+      midjourney: "glamorous adult bunny girl in glossy satin bunny suit and fishnets"
+    },
+    {
+      pattern: /\b(lingerie|underwear|negligee)\b/gi,
+      flux: "dressed in sheer black lace boudoir lingerie with matching garter straps and silk stockings",
+      pony: "lingerie, lace, negligee, garter_straps, stockings, sheer",
+      sdxl: "sheer lace lingerie, garter belt, silk stockings, boudoir pinup",
+      midjourney: "luxurious sheer black lace lingerie and garter stockings"
+    },
+    {
+      pattern: /\b(bikini|swimsuit|bathing suit)\b/gi,
+      flux: "wearing a stylish designer string bikini accentuating a voluptuous feminine silhouette",
+      pony: "bikini, string_bikini, swimsuit, cleavage, hourglass_figure",
+      sdxl: "designer string bikini, swimsuit pinup, hourglass curves, poolside",
+      midjourney: "stylish designer bikini accentuating hourglass curves"
+    },
+    {
+      pattern: /\b(curves|curvy|hourglass)\b/gi,
+      flux: "a voluptuous hourglass silhouette with a narrow waist, generous cleavage, and rounded hips",
+      pony: "voluptuous, hourglass_figure, wide_hips, narrow_waist, cleavage",
+      sdxl: "voluptuous hourglass figure, wide hips, toned waist, cleavage",
+      midjourney: "voluptuous feminine hourglass figure with narrow waist"
+    },
+    {
+      pattern: /\b(cleavage|boobs|busty|breasts)\b/gi,
+      flux: "prominent alluring cleavage and elegant bare décolletage",
+      pony: "cleavage, bare_shoulders, large_breasts",
+      sdxl: "alluring cleavage, bare décolletage, feminine curves",
+      midjourney: "alluring cleavage and bare décolletage"
+    },
+    {
+      pattern: /\b(legs|thighs|stockings|heels)\b/gi,
+      flux: "long shapely legs clad in sheer silk thighhigh stockings and pointed stiletto heels",
+      pony: "thighhighs, garter_straps, high_heels, long_legs",
+      sdxl: "silk thighhigh stockings, garter straps, high stiletto heels, long legs",
+      midjourney: "long shapely legs in sheer thighhigh stockings and stiletto heels"
+    },
+    {
+      pattern: /\b(looking at (?:camera|me|viewer)|eye contact)\b/gi,
+      flux: "making direct, seductive bedroom-eye contact with the viewer",
+      pony: "looking_at_viewer, bedroom_eyes, seductive_smile",
+      sdxl: "looking at viewer, bedroom eyes, seductive direct gaze",
+      midjourney: "direct seductive eye contact with viewer"
+    },
+    {
+      pattern: /\b(seductive|flirty|alluring|bedroom eyes)\b/gi,
+      flux: "heavy-lidded sultry bedroom eyes with a knowing coy half-smile",
+      pony: "bedroom_eyes, seductive_smile, blush",
+      sdxl: "bedroom eyes, sultry gaze, flirty smile, mature expression",
+      midjourney: "heavy-lidded sultry bedroom eyes and coy smile"
+    },
+    {
+      pattern: /\b(pinup pose|arched back)\b/gi,
+      flux: "posing with an elegantly arched back emphasizing shapely curves and feminine posture",
+      pony: "arched_back, looking_at_viewer, seductive_pose",
+      sdxl: "classic pinup pose, arched back, looking at viewer, seductive",
+      midjourney: "classic pinup arched back pose emphasizing feminine curves"
     },
     {
       pattern: /\b(nice|good|cool|awesome|great)\s+lighting\b/gi,
-      flux: "dramatic anime sunset rim lighting with soft glowing bloom and volumetric sunbeams",
-      pony: "dramatic_lighting, rim_light, bloom",
-      sdxl: "anime dramatic lighting, soft rim light, glowing highlights, volumetric anime light",
-      midjourney: "dramatic anime rim lighting with warm ambient glow"
+      flux: "intimate warm amber candlelight and subtle sensual rim highlights tracing feminine curves",
+      pony: "candlelight, warm_lighting, rim_light, soft_shadows",
+      sdxl: "warm boudoir lighting, intimate candlelight, golden rim light, soft shadows",
+      midjourney: "intimate warm boudoir lighting with soft golden rim highlights"
     },
     {
       pattern: /\b(nice|pretty|beautiful|good)\s+background\b/gi,
-      flux: "an exquisitely painted Makoto Shinkai style animated landscape with soaring clouds and atmospheric depth",
-      pony: "detailed_background, scenic, sky, clouds",
-      sdxl: "gorgeous anime background, scenic sky, detailed painted environment",
-      midjourney: "breathtaking painted anime landscape background"
+      flux: "an opulent satin-draped luxury boudoir bedroom with romantic canopied bed and soft candlelight",
+      pony: "boudoir, bedroom, bed, silk_sheets, pillows, indoor",
+      sdxl: "luxury boudoir, silk sheets, soft canopy bed, romantic indoor ambiance",
+      midjourney: "luxurious satin-draped boudoir bedroom background"
     },
     {
       pattern: /\b(masterpiece|best quality|top quality|4k|8k|ultra hd)\b/gi,
       flux: "", // Strip for Flux
       pony: "score_9, score_8_up, score_7_up",
-      sdxl: "masterpiece, clean lineart, key visual",
+      sdxl: "masterpiece, adult pinup, clean lineart",
       midjourney: ""
-    },
-    {
-      pattern: /\b(looking at (?:camera|me|viewer)|eye contact)\b/gi,
-      flux: "making direct, captivating eye contact with the viewer",
-      pony: "looking_at_viewer",
-      sdxl: "looking at viewer, direct eye contact, anime eyes",
-      midjourney: "direct eye contact with viewer"
-    },
-    {
-      pattern: /\b(pretty|beautiful|cute|gorgeous)\s+face\b/gi,
-      flux: "an adorable expressive anime face with huge luminous sparkling eyes and delicate blush",
-      pony: "detailed_eyes, sparkling_eyes, blush, slight_smile",
-      sdxl: "beautiful anime face, sparkling detailed eyes, soft blush, anime coloring",
-      midjourney: "expressive anime facial features with luminous sparkling eyes"
-    },
-    {
-      pattern: /\b(cat ears|kitty ears|neko ears)\b/gi,
-      flux: "plush anime feline cat ears twitching atop soft hair",
-      pony: "cat_ears, animal_ears",
-      sdxl: "cat ears, nekomimi, anime animal ears",
-      midjourney: "cute plush cat ears"
-    },
-    {
-      pattern: /\b(school uniform|student clothes)\b/gi,
-      flux: "a traditional pleated Japanese sailor school uniform with crisp folded neckerchief",
-      pony: "school_uniform, serafuku, pleated_skirt",
-      sdxl: "japanese school uniform, serafuku, pleated skirt, anime school attire",
-      midjourney: "classic pleated anime school uniform"
-    },
-    {
-      pattern: /\b(maid outfit|maid dress|maid costume)\b/gi,
-      flux: "a lavishly frilled anime maid costume with lace headdress and bow ribbons",
-      pony: "maid, maid_apron, maid_headdress, frills",
-      sdxl: "anime maid dress, ruffled apron, lace headband, cute frills",
-      midjourney: "cute frilled anime maid costume"
-    },
-    {
-      pattern: /\b(hoodie|sweatshirt)\b/gi,
-      flux: "a cozy oversized pastel anime hoodie with extra long sleeves",
-      pony: "hoodie, oversized_clothes, long_sleeves",
-      sdxl: "oversized hoodie, anime streetwear, long sleeves",
-      midjourney: "casual oversized anime hoodie"
-    },
-    {
-      pattern: /\b(in the rain|rainy|raining|under the rain)\b/gi,
-      flux: "caught in a quiet anime rain shower with translucent stylized raindrops splashing on surfaces",
-      pony: "rain, wet, outdoors, puddles",
-      sdxl: "anime rain scene, falling raindrops, wet reflections, moody anime atmosphere",
-      midjourney: "moody anime rain scene with glistening reflections"
-    },
-    {
-      pattern: /\b(magic|spell|casting spell|sorcery)\b/gi,
-      flux: "channeling a glowing magical glyph spell circle with crackling electric arcane runes and floating motes",
-      pony: "magic, magic_circle, glowing, casting_spell, particles",
-      sdxl: "glowing magic circle, anime spellcasting, arcane runes, floating particles",
-      midjourney: "glowing magical circle, arcane spellcasting energy"
-    },
-    {
-      pattern: /\b(fighting|battle|action scene)\b/gi,
-      flux: "an explosive anime sakuga battle sequence with kinetic impact lines, flying debris, and dynamic foreshortening",
-      pony: "fighting_stance, dynamic_angle, sakuga, sparks, action",
-      sdxl: "sakuga action battle, dynamic anime pose, impact sparks, extreme foreshortening",
-      midjourney: "high-octane anime action battle with dynamic energy"
-    },
-    {
-      pattern: /\b(cyberpunk|neon city|futuristic city)\b/gi,
-      flux: "in a sprawling Neo-Tokyo cyberpunk anime city with holographic neon advertisements glowing in the misty night",
-      pony: "cyberpunk, science_fiction, city, night, neon_lights",
-      sdxl: "neo-tokyo anime city, cyberpunk skyline, neon glow, anime sci-fi",
-      midjourney: "neo-tokyo anime cyberpunk city at night with neon lights"
     }
   ];
 
   const BOORU_TO_PROSE = {
-    "1girl": "an anime girl",
-    "1boy": "an anime boy",
-    "solo": "standing alone",
-    "looking_at_viewer": "looking directly into the screen with an engaging gaze",
-    "looking_away": "gazing pensively into the distance",
-    "blue_eyes": "piercing luminous blue anime eyes",
-    "green_eyes": "emerald green sparkling eyes",
-    "red_eyes": "striking ruby red glowing eyes",
-    "black_hair": "sleek jet-black anime hair",
-    "blonde_hair": "golden blonde flowing hair",
-    "silver_hair": "silvery-white moonlit hair",
-    "blue_hair": "vibrant azure-blue hair",
-    "pink_hair": "soft pastel bubblegum-pink hair",
-    "twintails": "hair bound in dynamic bouncy twintails",
-    "ahoge": "with an expressive single cowlick ahoge hair antenna",
-    "smile": "wearing a cheerful sunny anime smile",
-    "blush": "with cute rosy anime blush marks on the cheeks",
-    "school_uniform": "wearing a crisp Japanese school uniform",
-    "serafuku": "dressed in a classic sailor serafuku uniform",
-    "skirt": "a pleated anime skirt",
-    "hoodie": "a relaxed oversized hoodie",
-    "cat_ears": "plush feline cat ears peeking through the hair",
-    "outdoors": "in an open outdoor animated setting",
-    "indoors": "within a cozy stylized interior",
-    "night": "under a luminous anime night sky",
-    "sunset": "bathed in the warm glow of a Makoto Shinkai sunset",
-    "rain": "in a gentle anime rain with stylized droplets",
-    "magic_circle": "summoning a glowing revolving magical circle",
-    "retro_artstyle": "captured in a vintage 1980s cel-shaded anime aesthetic",
-    "chibi": "rendered in super-deformed cute chibi proportions",
-    "screentone": "shaded with authentic manga screentone dot patterns"
+    "1woman": "an alluring adult woman",
+    "mature_female": "a mature adult female",
+    "solo": "posing alone",
+    "pinup": "in a classic illustrative glamour pinup pose",
+    "looking_at_viewer": "making direct seductive eye contact with the viewer",
+    "bedroom_eyes": "with sultry heavy-lidded bedroom eyes",
+    "bunny_suit": "wearing a glossy satin bunny suit",
+    "playboy_bunny": "in a classic playboy bunny costume with rabbit ears",
+    "fishnets": "with black diamond-pattern fishnet stockings",
+    "lingerie": "dressed in delicate sheer lace lingerie",
+    "garter_straps": "adorned with sleek garter straps holding silk stockings",
+    "stockings": "wearing sheer silk stockings",
+    "thighhighs": "wearing form-fitting thighhigh stockings",
+    "high_heels": "wearing tall pointed stiletto high heels",
+    "bikini": "wearing an alluring string bikini",
+    "cleavage": "revealing deep elegant cleavage",
+    "hourglass_figure": "possessing an exquisite voluptuous hourglass figure",
+    "voluptuous": "with full sensual feminine curves",
+    "wide_hips": "featuring shapely rounded hips and narrow waist",
+    "seductive_smile": "with a tantalizing seductive smile",
+    "biting_lip": "gently biting her lower lip with playful allure",
+    "arched_back": "with an elegantly arched back accentuating her silhouette",
+    "reclining": "luxuriously reclining on her side",
+    "boudoir": "within an intimate silk-sheeted boudoir",
+    "poolside": "beside a moonlit luxury resort pool",
+    "retro_pinup": "rendered in the timeless 1950s painted cheesecake pinup style",
+    "cheesecake_(art)": "in the iconic American painted cheesecake art tradition",
+    "femme_fatale": "exuding dangerous noir femme fatale magnetism"
   };
 
   const INTENT_PRESETS = [
     {
-      id: "anime_shinkai",
-      name: "Modern Anime Film (Shinkai / KyoAni)",
-      description: "Theatrical feature film anime visual with luminous skies, painterly clouds, and crisp lineart.",
-      fluxAdditions: "a high-budget Japanese anime feature film screenshot, Makoto Shinkai aesthetic, luminous painted cumulus clouds, crisp vector line work, vibrant atmospheric lighting, emotional key visual",
-      ponyAdditions: "source_anime, anime_coloring, clean_lineart, masterpiece, detailed_background, scenic, sky, clouds",
-      sdxlAdditions: "anime key visual, makoto shinkai style, vibrant sky, detailed anime aesthetic, clean lineart, studio anime",
+      id: "elvgren_cheesecake",
+      name: "1950s Gil Elvgren Cheesecake Pinup",
+      description: "Classic American painted cheesecake pinup in the style of Gil Elvgren and Alberto Vargas.",
+      fluxAdditions: "a classic 1950s American cheesecake pinup painting, Gil Elvgren and Alberto Vargas style, painterly gouache brushwork, voluptuous curves, playful seductive charm, warm vintage palette",
+      ponyAdditions: "cheesecake_(art), 1950s_pinup, retro_artstyle, traditional_media, mature_female, adult, pinup, score_9",
+      sdxlAdditions: "gil elvgren pinup style, 1950s cheesecake art, alberto vargas, painted retro pinup, vintage glamour, masterpiece",
+      mjAdditions: "--ar 4:5 --niji 6 --style original"
+    },
+    {
+      id: "modern_anime_pinup",
+      name: "Modern Anime Pinup (High-End Visual)",
+      description: "Sleek contemporary anime pinup with silky linework, subtle skin blush, and collector visual polish.",
+      fluxAdditions: "an exquisite modern Japanese anime pinup illustration, silky clean linework, subtle skin gradient shading, voluptuous adult woman, bedroom eyes, high-end collector visual finish",
+      ponyAdditions: "source_anime, anime_coloring, clean_lineart, pinup, mature_female, adult, bedroom_eyes, masterpiece",
+      sdxlAdditions: "anime pinup illustration, clean lineart, vibrant anime coloring, mature female, adult, key visual",
       mjAdditions: "--ar 16:9 --niji 6 --style expressive"
     },
     {
-      id: "retro_80s_anime",
-      name: "Retro 80s / 90s Cel Anime (OVA / VHS)",
-      description: "Nostalgic hand-painted cel animation with authentic ink lines and soft CRT retro aesthetic.",
-      fluxAdditions: "vintage 1980s anime screencap, authentic hand-painted cel animation, bold ink lines, retro OVA aesthetic, soft analog CRT television glow",
-      ponyAdditions: "retro_artstyle, 1980s_(style), cel_shading, vintage_anime, anime_screencap",
-      sdxlAdditions: "retro 80s anime, vintage cel shaded aesthetic, 1990s anime style, nostalgic animation still",
-      mjAdditions: "--ar 4:3 --niji 6 --style original"
+      id: "bunny_girl_glamour",
+      name: "Playboy Bunny Girl Pinup (Glossy Satin)",
+      description: "Confident bunny girl pinup in a glossy black satin suit, fishnets, and stiletto heels.",
+      fluxAdditions: "a glamorous adult bunny girl pinup, glossy black satin bunny suit, fishnet tights, satin bunny ears, white cuffs, high stiletto heels, confident alluring gaze, soft rim lighting",
+      ponyAdditions: "bunny_suit, playboy_bunny, fishnets, high_heels, collar, cuffs, rabbit_ears, 1woman, adult, pinup",
+      sdxlAdditions: "playboy bunny suit, fishnet stockings, rabbit ears, high heels, adult pinup, glamorous curves",
+      mjAdditions: "--ar 16:9 --niji 6 --style expressive"
     },
     {
-      id: "splash_art_game",
-      name: "Digital Splash Art (Genshin / Riot Games)",
-      description: "Epic character illustration with dynamic lighting, rich particle effects, and game key-visual polish.",
-      fluxAdditions: "an epic high-end digital illustration character splash art with dynamic lighting, expressive brushwork, volumetric particle effects, and premium game splash art composition",
-      ponyAdditions: "splash_art, digital_media, concept_art, dynamic_lighting, glowing, particles, masterpiece",
-      sdxlAdditions: "game splash art, digital illustration, vibrant lighting, hoyoverse style, masterpiece digital art, dynamic pose",
-      mjAdditions: "--ar 16:9 --niji 6 --stylize 250"
+      id: "boudoir_lingerie",
+      name: "Sultry Boudoir Lingerie & Silk",
+      description: "Intimate bedroom setting with sheer lace lingerie, garter belt, and warm candlelight.",
+      fluxAdditions: "an intimate sultry boudoir pinup, sheer black lace lingerie, matching garter straps, silk stockings, reclining on an opulent satin bed, warm ambient candlelight, seductive mood",
+      ponyAdditions: "lingerie, lace, negligee, garter_straps, stockings, sheer, boudoir, bed, 1woman, mature_female, adult",
+      sdxlAdditions: "sheer lace lingerie, garter belt, silk stockings, boudoir pinup, canopy bed, warm candlelight",
+      mjAdditions: "--ar 16:9 --niji 6 --stylize 200"
     },
     {
-      id: "western_cartoon_90s",
-      name: "Western Cartoon (90s Cartoon Network)",
-      description: "Vibrant Saturday morning animation with bold black outlines, flat cel colors, and expressive energy.",
-      fluxAdditions: "a lively classic Saturday morning western cartoon aesthetic with bold black outlines, dynamic proportions, and vibrant flat cel colors in the style of 90s Cartoon Network",
-      ponyAdditions: "source_cartoon, western_cartoon, stylized, flat_color, bold_outline",
-      sdxlAdditions: "western cartoon style, bold black outlines, flat animation coloring, 90s cartoon network visual",
-      mjAdditions: "--ar 16:9 --niji 6 --style cute"
+      id: "sorayama_chrome_pinup",
+      name: "Hajime Sorayama Chrome Cyber Pinup",
+      description: "Iconic 1980s retro-futuristic chrome pinup with liquid metal reflections and airbrushed shine.",
+      fluxAdditions: "a legendary airbrushed retro-futuristic chrome cyber pinup in the unmistakable metallic reflection style of Hajime Sorayama, liquid chrome sheen, voluptuous feminine form, 80s aesthetic",
+      ponyAdditions: "metallic_skin, chrome, retro_futurism, 1980s_(style), airbrush, 1woman, adult, pinup",
+      sdxlAdditions: "hajime sorayama style, chrome reflections, metallic airbrush pinup, 80s retro sci-fi art, voluptuous",
+      mjAdditions: "--ar 16:9 --niji 6 --style expressive"
     },
     {
-      id: "manga_ink_screentone",
-      name: "Manga Page & Screentone (Shonen Jump)",
-      description: "Monochrome comic aesthetic with crosshatch shading, halftone screentones, and dynamic speed lines.",
-      fluxAdditions: "a dramatic Japanese manga page illustration with bold black ink lines, authentic halftone screentone dot shading, crosshatch shading, and intense shonen speed lines",
-      ponyAdditions: "monochrome, greyscale, manga, screentone, ink_lines, hatching, highres",
-      sdxlAdditions: "manga aesthetic, screentone dots, monochrome ink, shonen jump visual, clean lineart",
+      id: "pulp_noir_femme_fatale",
+      name: "Retro Pulp Fiction Femme Fatale (1940s)",
+      description: "Vintage pulp magazine cover with dramatic shadows, plunging gown, and dangerous noir magnetism.",
+      fluxAdditions: "a dramatic 1940s vintage pulp fiction magazine cover illustration, bold painterly gouache strokes, seductive adult femme fatale in a plunging backless dress, rich noir shadows",
+      ponyAdditions: "pulp_art, retro, vintage, dramatic_lighting, 1940s, femme_fatale, 1woman, mature_female, adult",
+      sdxlAdditions: "pulp fiction cover art, retro 1940s pinup, vintage gouache painting, dramatic chiaroscuro, femme fatale",
       mjAdditions: "--ar 2:3 --niji 6 --style raw"
     },
     {
-      id: "arcane_indie_animation",
-      name: "Stylized Painterly Animation (Arcane / Spider-Verse)",
-      description: "Rich painterly brush textures blended with graphic ink lines and chromatic aberration.",
-      fluxAdditions: "a stunning stylized 2.5D animation still blending textured digital brushwork, graphic comic ink outlines, and subtle chromatic aberration reminiscent of Arcane and Spider-Verse",
-      ponyAdditions: "painterly, stylized, graphic_illustration, textures, dynamic_lighting",
-      sdxlAdditions: "painterly animation style, graphic illustration, textured digital painting, bold stylization, spider-verse aesthetic",
+      id: "resort_poolside_glamour",
+      name: "Resort Poolside Swimsuit Pinup",
+      description: "Sun-drenched tropical villa poolside with a designer string bikini and twilight resort lanterns.",
+      fluxAdditions: "a voluptuous adult pinup model in a designer string bikini posing poolside at a private luxury tropical villa at dusk, glowing turquoise water, golden twilight rim light",
+      ponyAdditions: "bikini, string_bikini, swimsuit, poolside, resort, sunset, 1woman, mature_female, adult, pinup",
+      sdxlAdditions: "designer string bikini, poolside pinup, luxury resort villa, golden hour glow, voluptuous curves",
       mjAdditions: "--ar 16:9 --niji 6 --style expressive"
     },
     {
-      id: "chibi_kawaii_pastel",
-      name: "Chibi & Kawaii Moe (Pastel Sticker)",
-      description: "Super-deformed adorable mascot style with bubbly clean linework and sweet pastel tones.",
-      fluxAdditions: "an irresistible kawaii chibi anime illustration with cute super-deformed proportions, sweet pastel colors, bubbly round outlines, and floating heart sparkles",
-      ponyAdditions: "chibi, super_deformed, cute, kawaii, pastel, sparkle, simple_background",
-      sdxlAdditions: "chibi moe style, kawaii illustration, pastel colors, cute sticker art, super deformed",
-      mjAdditions: "--ar 1:1 --niji 6 --style cute"
-    },
-    {
-      id: "cyberpunk_anime_edgerunners",
-      name: "Cyberpunk Anime (Edgerunners / Akira)",
-      description: "High-octane neon dystopia with saturated cyan/magenta lighting and intense anime energy.",
-      fluxAdditions: "a high-octane cyberpunk anime visual with saturated neon lighting in electric cyan and hot magenta, Studio Trigger aesthetic, glowing energy lines, and rain-slicked Neo-Tokyo streets",
-      ponyAdditions: "cyberpunk, science_fiction, neon_lights, night, city, rain, wet, anime_screencap",
-      sdxlAdditions: "cyberpunk anime, studio trigger aesthetic, saturated neon glow, edgerunners style, clean lineart",
-      mjAdditions: "--ar 16:9 --niji 6 --stylize 200"
+      id: "dark_fantasy_succubus",
+      name: "Fantasy Succubus Pinup",
+      description: "Seductive demon queen with curving horns, velvet bat wings, and glowing arcane embers.",
+      fluxAdditions: "a captivating adult demon succubus pinup with curving horns, velvet bat wings, spade tail, glowing violet eyes, seductive arched back pose, floating magical embers",
+      ponyAdditions: "succubus, horns, bat_wings, demon_tail, seductive, 1woman, mature_female, adult, fantasy_pinup",
+      sdxlAdditions: "succubus pinup, demon horns, bat wings, seductive pose, adult fantasy art, glowing embers",
+      mjAdditions: "--ar 16:9 --niji 6 --stylize 250"
     }
   ];
 
@@ -466,7 +453,7 @@
 
       if (/^score_\d+(_up)?$/i.test(booruNormalized) || /^rating(:|_)/i.test(booruNormalized) || /source_/i.test(booruNormalized)) {
         category = "score_tags";
-      } else if (/^(1girl|1boy|2girls|2boys|multiple_girls|multiple_boys|solo|couple|group)$/i.test(booruNormalized)) {
+      } else if (/^(1woman|1man|mature_female|adult|pinup|couple|group)$/i.test(booruNormalized)) {
         category = "subject_count";
       } else {
         for (const [catKey, items] of Object.entries(LEXICON)) {
@@ -517,18 +504,18 @@
     }
 
     static _heuristicCategory(tag) {
-      if (/(eyes|hair|skin|face|body|freckles|ears|wings|tail|horns|ahoge|fang|blush)/i.test(tag)) return "physical_traits";
-      if (/(shirt|dress|skirt|pants|jacket|hoodie|uniform|hat|gloves|shoes|boots|costume|suit|armor|ribbon|collar|serafuku|maid)/i.test(tag)) return "clothing";
-      if (/(looking_|smile|smirk|standing|sitting|lying|holding|arms|hands|expression|pose|view|gaze|pout|peace_sign|casting)/i.test(tag)) return "expression_pose";
-      if (/(outdoors|indoors|city|room|street|forest|sky|night|day|sunset|rain|snow|building|space|water|beach|ruins|clouds)/i.test(tag)) return "environment";
-      if (/(lighting|shadow|glow|neon|sparkles|aura|dutch_angle|screentone|speed_lines|sakuga|magic_circle|bloom)/i.test(tag)) return "lighting_camera";
-      if (/(artstyle|medium|render|illustration|anime|cartoon|manga|chibi|splash_art|pixel_art|flat_color|cel_shading)/i.test(tag)) return "style_medium";
+      if (/(curves|hourglass|hips|legs|thighs|cleavage|breasts|lips|eyes|hair|waist)/i.test(tag)) return "physical_traits";
+      if (/(bunny_suit|lingerie|bikini|dress|gown|stockings|thighhighs|heels|fishnets|garter|robe|corset)/i.test(tag)) return "clothing";
+      if (/(arched_back|seductive|bedroom_eyes|reclining|looking_|biting_lip|pose|smile)/i.test(tag)) return "expression_pose";
+      if (/(boudoir|bedroom|poolside|resort|penthouse|lounge|onsen|indoor|sunset)/i.test(tag)) return "environment";
+      if (/(lighting|candlelight|neon|rim_light|glow|bloom|soft_shadows)/i.test(tag)) return "lighting_camera";
+      if (/(pinup|cheesecake|elvgren|sorayama|pulp|retro|illustration|anime_coloring)/i.test(tag)) return "style_medium";
       return "general";
     }
   }
 
   // ==========================================
-  // 5. OPTIMIZER (100% Zero-Realism)
+  // 5. OPTIMIZER (100% Adult Pinup Focus)
   // ==========================================
   class PromptOptimizer {
     static optimize(rawPrompt, targetModelId = "flux", options = {}) {
@@ -560,7 +547,7 @@
           }
         }
 
-        // Built-in WORD_SWAPS (including Anti-Realism Swaps)
+        // Built-in WORD_SWAPS (including Adult Pinup & Anti-Realism Swaps)
         if (!wasSwapped) {
           for (const swap of WORD_SWAPS) {
             if (swap.pattern.test(currentVal)) {
@@ -569,7 +556,7 @@
                 swapsApplied.push({
                   original: currentVal,
                   replacedWith: replacement || "[stripped for model]",
-                  reason: `Optimized for ${profile.name} (Stylized 2D)`
+                  reason: `Optimized for ${profile.name} (Adult Pinup)`
                 });
                 currentVal = replacement;
                 wasSwapped = true;
@@ -582,7 +569,7 @@
         return { ...token, value: currentVal, wasSwapped };
       }).filter(t => t.value && t.value.trim().length > 0);
 
-      // 2. Strip Buzzwords that harm the model or introduce realism
+      // 2. Strip Buzzwords and Underage terms
       if (profile.stripWords && profile.stripWords.length > 0) {
         processedTokens = processedTokens.filter(t => {
           const valLower = t.value.toLowerCase().replace(/_/g, " ").trim();
@@ -591,7 +578,7 @@
             swapsApplied.push({
               original: t.value,
               replacedWith: "[removed]",
-              reason: `Removed for ${profile.name} (Non-realistic)`
+              reason: `Removed for ${profile.name} (Adult Pinup / Non-realistic)`
             });
             return false;
           }
@@ -666,7 +653,7 @@
       });
 
       const sentences = [];
-      let subjPart = groups.subject_count.join(" and ") || "A stylized anime character";
+      let subjPart = groups.subject_count.join(" and ") || "An alluring adult woman";
       let physPart = groups.physical_traits.length > 0 ? `with ${groups.physical_traits.join(", ")}` : "";
       let posePart = groups.expression_pose.length > 0 ? `, ${groups.expression_pose.join(", ")}` : "";
       sentences.push(`${subjPart} ${physPart}${posePart}.`.replace(/\s+/g, " "));
@@ -677,7 +664,7 @@
       if (groups.style_medium.length > 0) {
         sentences.push(`Rendered in ${groups.style_medium.join(", ")}.`);
       } else {
-        sentences.push(`Rendered in a vibrant 2D anime animation aesthetic with clean vector lineart and cel shading.`);
+        sentences.push(`Rendered in an exquisite adult pinup illustration aesthetic with clean vector linework, subtle skin blush, and painterly shading.`);
       }
       if (groups.general.length > 0) sentences.push(`Featuring ${groups.general.join(", ")}.`);
 
@@ -694,7 +681,7 @@
         buckets["score_tags"].push("score_9", "score_8_up", "score_7_up");
       }
       if (options.includeRating !== false) {
-        buckets["source_rating"].push("rating:general", "source_anime");
+        buckets["source_rating"].push("rating:questionable", "source_anime");
       }
 
       tokens.forEach(t => {
@@ -930,14 +917,14 @@
       this.lexiconContainer.innerHTML = "";
 
       const categoryTitles = {
-        subjects: "Anime & Cartoon Archetypes",
-        physical_traits: "Hair, Eyes & Stylized Traits",
-        clothing: "Costumes & Anime Attire",
-        expressions_poses: "Expressions & Sakuga Poses",
-        environments: "Backgrounds & Shinkai Skies",
-        lighting_vfx: "Lighting, Auras & Anime VFX",
-        framing_angles: "Angles, Manga Screentone & Framing",
-        styles_mediums: "Anime, Cartoon & Digital Art Styles"
+        subjects: "Adult Pinup & Glamour Archetypes",
+        physical_traits: "Hourglass Curves & Sensual Features",
+        clothing: "Glamour Attire, Lingerie & Bunny Suits",
+        expressions_poses: "Seductive Poses & Bedroom Eyes",
+        environments: "Boudoir, Penthouse & Resort Settings",
+        lighting_vfx: "Intimate Candlelight & Sensual Glow",
+        framing_angles: "Pinup Angles & Glamour Framing",
+        styles_mediums: "Pinup & Adult Illustrative Styles"
       };
 
       Object.entries(LEXICON).forEach(([catKey, items]) => {
@@ -1006,7 +993,7 @@
     }
 
     renderIntentPresets() {
-      this.intentSelect.innerHTML = `<option value="">None (Standard Anime / Digital Art)</option>`;
+      this.intentSelect.innerHTML = `<option value="">None (Standard Adult Pinup)</option>`;
       INTENT_PRESETS.forEach(preset => {
         const opt = document.createElement("option");
         opt.value = preset.id;
@@ -1151,7 +1138,7 @@
   // Auto-initialize on DOM ready
   document.addEventListener("DOMContentLoaded", () => {
     window.sHelpApp = new UIController();
-    console.log("sHelp Prompt Optimizer loaded (Anime / Cartoon / Digital Art Focus - Zero Realism).");
+    console.log("sHelp Prompt Optimizer loaded (Adult Pinup & Glamour Focus - 100% Zero-AI).");
   });
 
 })();

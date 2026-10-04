@@ -174,32 +174,32 @@ export class PromptOptimizer {
 
     const sentences = [];
 
-    // Sentence 1: Stylized Subject + Physical Traits + Pose/Expression
-    let subjPart = groups.subject_count.join(" and ") || "A stylized anime character";
+    // Sentence 1: Adult Pinup Subject + Physical Traits + Pose/Expression
+    let subjPart = groups.subject_count.join(" and ") || "An alluring adult woman";
     let physPart = groups.physical_traits.length > 0 ? `with ${groups.physical_traits.join(", ")}` : "";
     let posePart = groups.expression_pose.length > 0 ? `, ${groups.expression_pose.join(", ")}` : "";
     sentences.push(`${subjPart} ${physPart}${posePart}.`.replace(/\s+/g, " "));
 
-    // Sentence 2: Attire & Clothing
+    // Sentence 2: Attire & Lingerie / Costume
     if (groups.clothing.length > 0) {
       sentences.push(`Wearing ${groups.clothing.join(", ")}.`);
     }
 
-    // Sentence 3: Setting / Environment
+    // Sentence 3: Setting / Environment / Boudoir
     if (groups.environment.length > 0) {
       sentences.push(`Set against ${groups.environment.join(", ")}.`);
     }
 
-    // Sentence 4: Lighting & Visual Effects (Sakuga / Auras / Glow)
+    // Sentence 4: Lighting & Sensual Ambience
     if (groups.lighting_camera.length > 0) {
       sentences.push(`Illuminated by ${groups.lighting_camera.join(", ")}.`);
     }
 
-    // Sentence 5: Style / Animation Medium
+    // Sentence 5: Style / Pinup Medium
     if (groups.style_medium.length > 0) {
       sentences.push(`Rendered in ${groups.style_medium.join(", ")}.`);
     } else {
-      sentences.push(`Rendered in a vibrant 2D anime animation aesthetic with clean vector lineart and cel shading.`);
+      sentences.push(`Rendered in an exquisite adult pinup illustration aesthetic with clean vector linework, subtle skin blush, and painterly shading.`);
     }
 
     // Any remaining general terms
@@ -226,9 +226,9 @@ export class PromptOptimizer {
       buckets["score_tags"].push("score_9", "score_8_up", "score_7_up");
     }
 
-    // Add default rating & source tags
+    // Add default adult pinup rating & source tags
     if (options.includeRating !== false) {
-      buckets["source_rating"].push("rating:general", "source_anime");
+      buckets["source_rating"].push("rating:questionable", "source_anime");
     }
 
     // Sort tokens into Danbooru buckets
