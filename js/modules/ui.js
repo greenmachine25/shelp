@@ -186,11 +186,11 @@ export class UIController {
     this.tokenFill.style.width = `${percent}%`;
 
     if (percent > 90) {
-      this.tokenFill.style.backgroundColor = "var(--accent-danger)";
+      this.tokenFill.style.background = "var(--accent-danger)";
     } else if (percent > 70) {
-      this.tokenFill.style.backgroundColor = "var(--accent-warning)";
+      this.tokenFill.style.background = "var(--accent-warning)";
     } else {
-      this.tokenFill.style.backgroundColor = "var(--accent-primary)";
+      this.tokenFill.style.background = "var(--gradient-accent-h)";
     }
 
     // Update Swaps Card
