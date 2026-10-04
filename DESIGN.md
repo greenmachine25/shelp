@@ -135,3 +135,16 @@ When adding new components to **sHelp**:
 2. **Never hardcode blue/cyan hex colors**; replace all legacy blues (`#38bdf8`, `#0ea5e9`) with `--accent-pink`, `--accent-green`, or `--gradient-accent`.
 3. **Use the gradient for hierarchy**: Do not paint every element in full gradient. Use solid darks for 85% of the surface area, and illuminate the remaining 15% with the pink-to-green gradient.
 4. **Preserve accessible contrast ratios**: Monospace code and copy buttons must always meet WCAG AAA / AA contrast against dark backgrounds.
+
+---
+
+## 5. Horizontal Viewport & Responsive Containment
+
+To ensure zero horizontal scrollbars and pristine presentation across all screen resolutions (from 320px mobile screens to 4K ultra-wide monitors):
+1. **Root Strict Containment**: `html` and `body` must always enforce `overflow-x: hidden; width: 100%; max-width: 100vw; box-sizing: border-box;`.
+2. **Universal Box-Sizing**: All elements inherit `*, *::before, *::after { box-sizing: border-box; }`.
+3. **CSS Grid Columns**: Never use `grid-template-columns: 1fr 1fr;` on containers holding inputs or textareas. Always use `minmax(0, 1fr)` (e.g., `grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);`) to prevent child intrinsic `min-content` widths from blowing out parent grid cells.
+4. **Card & Panel Width Containment**: Panels (`.panel-card`, modals) must declare `min-width: 0; max-width: 100%; width: 100%; overflow: hidden;`.
+5. **No Fixed Horizontal Dimensions**: Avoid fixed pixel widths (`width: 320px;`) on form elements or containers. Use fluid sizing with maximum limits (`width: 100%; max-width: 290px;`).
+6. **Word & Code Wrapping**: Long tokens, URLs, booru tags, or unspaced prompt strings must specify `word-break: break-word; overflow-wrap: break-word;` on textareas and swap displays.
+
