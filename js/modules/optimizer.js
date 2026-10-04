@@ -194,10 +194,16 @@ export class PromptOptimizer {
     const sentences = [];
 
     // --- 1. Subject Resolution (Zero Stuttering & Single Anchor Selection) ---
-    // If multiple subjects exist, prioritize the most descriptive one (e.g. bunny suit, lingerie model)
+    const validSubjectTokens = groups.subject_count.filter(s => {
+      const sLower = s.toLowerCase();
+      // Ensure clothing or body parts aren't mistakenly chosen as subject
+      if (/(?:garter|straps?|boots|shorts|tank_top|tank top|thong|stockings|thighhighs|thigh highs|cleavage|breasts|hips)/i.test(sLower)) return false;
+      return true;
+    });
+
     let chosenSubject = "an alluring adult woman";
-    if (groups.subject_count.length > 0) {
-      const sorted = [...groups.subject_count].sort((a, b) => b.length - a.length);
+    if (validSubjectTokens.length > 0) {
+      const sorted = [...validSubjectTokens].sort((a, b) => b.length - a.length);
       chosenSubject = sorted[0];
     }
     chosenSubject = chosenSubject.replace(/\s+/g, " ").trim();
@@ -234,15 +240,20 @@ export class PromptOptimizer {
 
     sentences.push(`An alluring adult pinup illustration of ${chosenSubject}${physPhrase}, ${styleSentencePart}.`);
 
-    // --- 4. Pose & Expression Phrasing (Prevent "with posing with") ---
-    let rawPose = groups.expression_pose.length > 0 
-      ? groups.expression_pose.join(", ") 
-      : "an alluring arched back pose emphasizing feminine curves";
+    // --- 4. Pose & Expression Phrasing (Prevent "with posing with", join multiple poses smoothly) ---
+    let cleanPoses = groups.expression_pose
+      .map(p => p.replace(/^(?:strikes? a seductive pose with|strikes? an alluring pose with|strikes? a pose with|striking a pose with|posing with|posing in|striking|with)\s+/i, "").trim())
+      .filter(p => p.length > 0);
     
-    let cleanPose = rawPose
-      .replace(/^(?:strikes? a seductive pose with|strikes? a pose with|striking a pose with|posing with|posing in|striking|with)\s+/i, "")
-      .replace(/\s+/g, " ")
-      .trim();
+    cleanPoses = cleanPoses.filter((item, idx) => cleanPoses.indexOf(item) === idx);
+    let cleanPose = "an alluring arched back pose emphasizing feminine curves";
+    if (cleanPoses.length === 1) {
+      cleanPose = cleanPoses[0];
+    } else if (cleanPoses.length === 2) {
+      cleanPose = `${cleanPoses[0]} and ${cleanPoses[1]}`;
+    } else if (cleanPoses.length > 2) {
+      cleanPose = `${cleanPoses.slice(0, -1).join(", ")}, and ${cleanPoses[cleanPoses.length - 1]}`;
+    }
 
     // --- 5. Attire Integration (Prevent "dressed in legs" or repeating subject costume) ---
     let cleanAttireList = groups.clothing
@@ -257,7 +268,14 @@ export class PromptOptimizer {
       });
     cleanAttireList = cleanAttireList.filter((item, idx) => cleanAttireList.indexOf(item) === idx);
 
-    let attirePhrase = cleanAttireList.length > 0 ? cleanAttireList.join(", ") : null;
+    let attirePhrase = null;
+    if (cleanAttireList.length === 1) {
+      attirePhrase = cleanAttireList[0];
+    } else if (cleanAttireList.length === 2) {
+      attirePhrase = `${cleanAttireList[0]} and ${cleanAttireList[1]}`;
+    } else if (cleanAttireList.length > 2) {
+      attirePhrase = `${cleanAttireList.slice(0, -1).join(", ")}, and ${cleanAttireList[cleanAttireList.length - 1]}`;
+    }
 
     if (attirePhrase) {
       sentences.push(`She strikes an alluring pose with ${cleanPose}, dressed in ${attirePhrase} that accentuates her feminine silhouette.`);
@@ -274,7 +292,11 @@ export class PromptOptimizer {
     light = light.replace(/^(?:illuminated by|bathed in|lit by)\s+/i, "").trim();
 
     if (env) {
-      sentences.push(`The scene is set in ${env}, warmly illuminated by ${light}.`);
+      if (env.toLowerCase().startsWith("against ") || env.toLowerCase().startsWith("in ")) {
+        sentences.push(`The scene is set ${env}, warmly illuminated by ${light}.`);
+      } else {
+        sentences.push(`The scene is set against ${env}, warmly illuminated by ${light}.`);
+      }
     } else {
       sentences.push(`Illuminated by ${light}.`);
     }

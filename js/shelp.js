@@ -73,7 +73,7 @@
     ],
 
     styles_mediums: [
-      { id: "style_xpi_sigma", label: "Style of XPI Sigma Art", danbooru: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, simple_shading, large_eyes, expressive_eyes, detailed_eyes, voluptuous, curvy, hourglass_figure, wide_hips, western_anime, source_anime, 1woman, mature_female, adult, pinup", flux: "rendered in an expressive anime and Disney-inspired 2D animation art style, featuring bold thick black outlines, vibrant saturated colors, clean simple cel shading with subtle soft highlights, showcasing a voluptuous curvy adult woman with an appealing hourglass figure and large captivating expressive anime-Disney eyes, finished with crisp clean stylized vector linework and rich animation cel-shading", sdxl: "(anime-disney hybrid style:1.2), (bold thick outlines, clean inking:1.15), (vibrant saturated colors, simple cel shading:1.15), (voluptuous curvy adult female, hourglass figure:1.15), (large expressive eyes:1.1), animated 2d pinup", category: "style" },
+      { id: "style_xpi_sigma", label: "Style of XPI Sigma Art", danbooru: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, simple_shading, specular_highlight, blush, large_eyes, expressive_eyes, detailed_eyes, stylized_proportions, 6_heads_tall, voluptuous, curvy, wide_hips, small_torso, narrow_waist, western_anime, cartoon_style, source_anime, 1woman, mature_female, adult, pinup", flux: "rendered in an expressive western cartoon and Japanese anime hybrid 2D animation art style, featuring bold clean black outlines, vibrant saturated colors, simple smooth cel-shaded skin with crisp glossy specular sheen, and soft blushing cheeks, showcasing a very curvy adult female with stylized proportions, a slightly large head, a 6 to 7 heads tall silhouette, a smaller compact torso, very wide rounded curvy hips, sharp angular hair curves, and large captivating expressive anime-cartoon eyes, finished with crisp clean stylized vector linework and animation cel-shading", sdxl: "(western-anime cartoon hybrid pinup style:1.2), (bold thick black outlines, clean inking:1.15), (simple smooth cel shading, specular sheen, blush:1.15), (stylized curvy proportions, 6 to 7 heads tall, very wide hips, small torso:1.2), (sharp angular hair curves, large expressive eyes:1.15), vibrant saturated colors, 2d animation art", category: "style" },
       { id: "style_xaxaxa", label: "Style of xaxaxa", danbooru: "delicate_lineart, soft_shading, luminous_skin, glowing_light, detailed_eyes, bedroom_eyes, glossy_lips, blush, translucent_skin, painterly_anime, voluptuous, graceful_curves", flux: "rendered in a delicate Japanese digital anime pinup aesthetic, featuring soft refined colored linework, luminous porcelain skin with a warm translucent subsurface glow, intricate shimmering anime eyes with detailed highlights, soft glossy lips, subtle rosy blush across cheeks, and gentle painterly shading with ethereal glowing rim lighting", sdxl: "(delicate digital anime art:1.15), (luminous skin, glowing rim light:1.15), (intricate sparkling eyes, soft painterly shading:1.1), subtle blush, (voluptuous graceful pinup, glossy lips:1.1), dreamy atmosphere", category: "style" },
       { id: "style_awd_art", label: "AWD Art (AWD!)", danbooru: "thick_outlines, stylized_anime, cartoon_style, cel_shading, clean_coloring, voluptuous, thick_thighs, wide_hips, curvy, big_eyes, animated_look", flux: "rendered in a high-energy stylized 2D cartoon-anime pinup aesthetic, with thick rounded black contour lineart, vibrant clean animation cel shading, bouncy specular highlights, plush curvaceous proportions, thick rounded thighs, shapely hips, and expressive lively anime eyes", sdxl: "(stylized cartoon anime pinup:1.2), (thick rounded outlines, clean animation cel shading:1.15), (vibrant colors:1.1), (voluptuous curvy proportions, thick thighs:1.15), lively expressive eyes", category: "style" },
       { id: "style_ravenous_russ", label: "Ravenous Russ", danbooru: "bold_outline, thick_lineart, comic_style, cel_shading, high_contrast, saturated, voluptuous, wide_hips, thick_thighs, hourglass_figure, arched_back, seductive_smirk, digital_media", flux: "rendered in an energetic stylized comic pinup art style with confident heavy black ink outlines, dynamic line weight, punchy saturated pop colors, crisp two-tone comic cel shading with glossy specular sheen, exaggerated feminine curves, thick thighs, wide shapely hips", sdxl: "(bold comic pinup illustration:1.2), (heavy black outlines, expressive comic inking:1.15), (dynamic cel shading, saturated pop colors:1.1), (exaggerated voluptuous curves, wide hips, thick thighs:1.15)", category: "style" },
@@ -232,6 +232,13 @@
       midjourney: "voluptuous feminine hourglass figure with narrow waist"
     },
     {
+      pattern: /\b(?:large\s+)?natural\s+breasts\b/gi,
+      flux: "large shapely natural breasts and prominent alluring cleavage",
+      pony: "large_breasts, natural_breasts, cleavage",
+      sdxl: "large natural breasts, alluring cleavage, deep décolletage",
+      midjourney: "large natural breasts and deep alluring cleavage"
+    },
+    {
       pattern: /\b(cleavage|boobs|busty|breasts)\b/gi,
       flux: "prominent alluring cleavage and elegant bare décolletage",
       pony: "cleavage, bare_shoulders, large_breasts",
@@ -251,6 +258,15 @@
       pony: "thighhighs, high_heels, stockings",
       sdxl: "silk thighhigh stockings, high stiletto heels",
       midjourney: "sheer thighhigh stockings and pointed stiletto heels"
+    },
+
+    // 3. Seductive Gaze & Expressions
+    {
+      pattern: /\b(?:arms\s+)?relaxed\s+behind\s+head\b/gi,
+      flux: "arms gracefully relaxed behind her head accentuating feminine posture",
+      pony: "arms_behind_head, relaxed",
+      sdxl: "arms behind head, relaxed posture, seductive arch",
+      midjourney: "arms relaxed behind head, arched back"
     },
     {
       pattern: /\b(looking at (?:camera|me|viewer)|eye contact)\b/gi,
@@ -273,6 +289,8 @@
       sdxl: "classic pinup pose, arched back, looking at viewer, seductive",
       midjourney: "classic pinup arched back pose emphasizing feminine curves"
     },
+
+    // 4. Quality & Lighting Swaps
     {
       pattern: /\b(nice|good|cool|awesome|great)\s+lighting\b/i,
       flux: "intimate warm amber candlelight and subtle sensual rim highlights tracing feminine curves",
@@ -288,6 +306,13 @@
       midjourney: "luxurious satin-draped boudoir bedroom background"
     },
     {
+      pattern: /\bwhite\s+background\b/gi,
+      flux: "against a clean solid white studio backdrop",
+      pony: "white_background, simple_background",
+      sdxl: "white background, clean simple background",
+      midjourney: "clean white background"
+    },
+    {
       pattern: /\b(masterpiece|best quality|top quality|4k|8k|ultra hd)\b/i,
       flux: "", // Strip for Flux
       pony: "score_9, score_8_up, score_7_up",
@@ -298,11 +323,11 @@
     // 5. Artist Name to Descriptive Style Swaps (For models not trained on these artists)
     {
       pattern: /\b(?:style of\s+)?(?:xpi[\s_-]?sigma(?:[\s_-]?art)?|xpisigma)\b/i,
-      flux: "rendered in an expressive anime and Disney-inspired 2D animation art style, featuring bold thick black outlines, vibrant saturated colors, clean simple cel shading with subtle soft highlights, showcasing a voluptuous curvy adult woman with an appealing hourglass figure and large captivating expressive anime-Disney eyes, finished with crisp clean stylized vector linework and rich animation cel-shading",
-      pony: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, simple_shading, large_eyes, expressive_eyes, detailed_eyes, voluptuous, curvy, hourglass_figure, wide_hips, western_anime, source_anime, 1woman, mature_female, adult, pinup",
-      sdxl: "(anime-disney hybrid style:1.2), (bold thick outlines, clean inking:1.15), (vibrant saturated colors, simple cel shading:1.15), (voluptuous curvy adult female, hourglass figure:1.15), (large expressive eyes:1.1), animated 2d pinup",
-      midjourney: "expressive anime and Disney inspired 2D animation pinup, bold thick clean outlines, vibrant saturated colors, simple clean cel shading, voluptuous curvy silhouette, large expressive eyes",
-      reason: "Decomposed 'XPI Sigma Art' into anime-Disney hybrid style, bold thick outlines, simple cel lighting, vibrant colors, curvy female, large expressive eyes, and crisp vector linework"
+      flux: "rendered in an expressive western cartoon and Japanese anime hybrid 2D animation art style, featuring bold clean black outlines, vibrant saturated colors, simple smooth cel-shaded skin with crisp glossy specular sheen, and soft blushing cheeks, showcasing a very curvy adult female with stylized proportions, a slightly large head, a 6 to 7 heads tall silhouette, a smaller compact torso, very wide rounded curvy hips, sharp angular hair curves, and large captivating expressive anime-cartoon eyes, finished with crisp clean stylized vector linework and animation cel-shading",
+      pony: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, simple_shading, specular_highlight, blush, large_eyes, expressive_eyes, detailed_eyes, stylized_proportions, 6_heads_tall, voluptuous, curvy, wide_hips, small_torso, narrow_waist, western_anime, cartoon_style, source_anime, 1woman, mature_female, adult, pinup",
+      sdxl: "(western-anime cartoon hybrid pinup style:1.2), (bold thick black outlines, clean inking:1.15), (simple smooth cel shading, specular sheen, blush:1.15), (stylized curvy proportions, 6 to 7 heads tall, very wide hips, small torso:1.2), (sharp angular hair curves, large expressive eyes:1.15), vibrant saturated colors, 2d animation art",
+      midjourney: "expressive western cartoon and Japanese anime hybrid 2D pinup illustration, bold thick clean outlines, simple cel shading, glossy specular highlights and cheek blush, stylized curvy proportions, slightly large head, 6 to 7 heads tall, very wide hips, smaller torso, sharp hair angles and curves, large expressive eyes --ar 16:9 --niji 6 --style expressive",
+      reason: "Decomposed 'XPI Sigma Art' into western-anime cartoon hybrid, 6-7 heads tall stylized curvy proportions, wide hips, small torso, sharp hair angles, simple cel shading, specular sheen, and blush"
     },
     {
       pattern: /\b(?:style of\s+)?(?:ravenous[\s_-]?russ|russ frey)\b/i,
@@ -357,7 +382,7 @@
     "playboy_bunny": "in a classic playboy bunny costume with rabbit ears",
     "fishnets": "with black diamond-pattern fishnet stockings",
     "lingerie": "dressed in delicate sheer lace lingerie",
-    "garter_straps": "adorned with sleek garter straps holding silk stockings",
+    "garter_straps": "sleek garter straps",
     "stockings": "wearing sheer silk stockings",
     "thighhighs": "wearing form-fitting thighhigh stockings",
     "high_heels": "wearing tall pointed stiletto high heels",
@@ -366,6 +391,28 @@
     "hourglass_figure": "possessing an exquisite voluptuous hourglass figure",
     "voluptuous": "with full sensual feminine curves",
     "wide_hips": "featuring shapely rounded hips and narrow waist",
+    "very_wide_hips": "very wide curvy feminine hips",
+    "large_natural_breasts": "large natural breasts and alluring cleavage",
+    "green_eyes": "captivating vibrant green eyes",
+    "short_blonde_wavy_hair": "short wavy blonde hair",
+    "blonde_to_pink_gradient_hair": "blonde-to-pink gradient hair",
+    "gradient_hair": "dynamic gradient hair",
+    "eyeliner": "delicate winged black eyeliner",
+    "booty_shorts": "black form-fitting booty shorts",
+    "black_booty_shorts": "black form-fitting booty shorts",
+    "spaghetti_strap": "a black spaghetti strap tank top",
+    "tank_top": "a tank top",
+    "black_spaghetti_strap_tank_top": "a black spaghetti strap tank top",
+    "purple_thigh_highs": "purple thighhigh stockings",
+    "thigh_highs": "thighhigh stockings",
+    "black_thong": "a black thong",
+    "thong": "a thong",
+    "black_heel_boots": "tall black high-heeled boots",
+    "heel_boots": "high-heeled boots",
+    "arms_behind_head": "with arms gracefully relaxed behind her head",
+    "arms_relaxed_behind_head": "with arms gracefully relaxed behind her head",
+    "white_background": "a clean minimalist white studio backdrop",
+    "simple_background": "a clean simple background",
     "seductive_smile": "with a tantalizing seductive smile",
     "biting_lip": "gently biting her lower lip with playful allure",
     "arched_back": "with an elegantly arched back accentuating her silhouette",
@@ -381,12 +428,12 @@
     {
       id: "style_xpi_sigma",
       name: "Style of XPI Sigma Art",
-      shortDesc: "Anime-Disney hybrid, bold thick outlines, simple cel lighting, vibrant colors, curvy females, large expressive eyes",
-      description: "Recreates XPI Sigma's signature aesthetic: anime-inspired with a flair of Disney animation charm, bold thick dark outlines, vibrant saturated colors, simple clean cel shading, curvy voluptuous adult females, and large expressive eyes.",
-      fluxAdditions: "rendered in an expressive anime and Disney-inspired 2D animation art style, featuring bold thick black outlines, vibrant saturated colors, clean simple cel shading with subtle soft highlights, showcasing a voluptuous curvy adult woman with an appealing hourglass figure and large captivating expressive anime-Disney eyes, finished with crisp clean stylized vector linework and rich animation cel-shading",
-      ponyAdditions: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, simple_shading, large_eyes, expressive_eyes, detailed_eyes, voluptuous, curvy, hourglass_figure, wide_hips, western_anime, source_anime, 1woman, mature_female, adult, pinup",
-      sdxlAdditions: "(anime-disney hybrid style:1.2), (bold thick outlines, clean inking:1.15), (vibrant saturated colors, simple cel shading:1.15), (voluptuous curvy adult female, hourglass figure:1.15), (large expressive eyes:1.1), animated 2d pinup",
-      mjAdditions: "expressive anime and Disney inspired 2D animation pinup, bold thick clean outlines, vibrant saturated colors, simple clean cel shading, voluptuous curvy silhouette, large expressive eyes --ar 16:9 --niji 6 --style expressive"
+      shortDesc: "Western-anime cartoon hybrid, very curvy & rounded, 6-7 heads tall, wide hips & small torso, sharp hair angles, specular sheen & blush",
+      description: "Recreates XPI Sigma's signature aesthetic: western cartoon and Japanese anime hybrid with stylized proportions (around 6 to 7 heads tall, slightly large head, small compact torso, very wide rounded hips), sharp angular hair curves, large expressive eyes, simple smooth cel-shaded skin, crisp specular highlights, and soft blush.",
+      fluxAdditions: "rendered in an expressive western cartoon and Japanese anime hybrid 2D animation art style, featuring bold clean black outlines, vibrant saturated colors, simple smooth cel-shaded skin with crisp glossy specular sheen, and soft blushing cheeks, showcasing a very curvy adult female with stylized proportions, a slightly large head, a 6 to 7 heads tall silhouette, a smaller compact torso, very wide rounded curvy hips, sharp angular hair curves, and large captivating expressive anime-cartoon eyes, finished with crisp clean stylized vector linework and animation cel-shading",
+      ponyAdditions: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, simple_shading, specular_highlight, blush, large_eyes, expressive_eyes, detailed_eyes, stylized_proportions, 6_heads_tall, voluptuous, curvy, wide_hips, small_torso, narrow_waist, western_anime, cartoon_style, source_anime, 1woman, mature_female, adult, pinup",
+      sdxlAdditions: "(western-anime cartoon hybrid pinup style:1.2), (bold thick black outlines, clean inking:1.15), (simple smooth cel shading, specular sheen, blush:1.15), (stylized curvy proportions, 6 to 7 heads tall, very wide hips, small torso:1.2), (sharp angular hair curves, large expressive eyes:1.15), vibrant saturated colors, 2d animation art",
+      mjAdditions: "expressive western cartoon and Japanese anime hybrid 2D pinup illustration, bold thick clean outlines, simple cel shading, glossy specular highlights and cheek blush, stylized curvy proportions, slightly large head, 6 to 7 heads tall, very wide hips, smaller torso, sharp hair angles and curves, large expressive eyes --ar 16:9 --niji 6 --style expressive"
     },
     {
       id: "style_ravenous_russ",
@@ -569,6 +616,14 @@
         category = "score_tags";
       } else if (/^(1girl|1woman|1boy|1man|girl|woman|female|mature_female|adult|pinup|solo|model|couple|group|2girls|multiple_girls)$/i.test(booruNormalized)) {
         category = "subject_count";
+      } else if (/(pose|smile|smirk|arched_back|arms_behind_head|relaxed|looking_|bedroom_eyes|reclining|biting_lip|sitting|standing)/i.test(booruNormalized)) {
+        category = "expression_pose";
+      } else if (/(eyes|hair|skin|face|body|freckles|breasts|cleavage|thighs|legs|curves|hourglass|waist|hips|eyeliner)/i.test(booruNormalized)) {
+        category = "physical_traits";
+      } else if (/(bunny_suit|lingerie|bikini|dress|gown|stockings|thighhighs|thigh_highs|heels|fishnets|garter|straps?|robe|corset|shorts|booty_shorts|top|tank_top|boots|heel_boots|thong|suit|gloves|skirt|shirt)/i.test(booruNormalized)) {
+        category = "clothing";
+      } else if (/(background|backdrop|indoors|outdoors|city|street|forest|sunset|poolside|boudoir|white_background|simple_background|(?:^|_)(?:bedroom|room|living_room)(?:_|$))/i.test(booruNormalized)) {
+        category = "environment";
       } else {
         for (const [catKey, items] of Object.entries(LEXICON)) {
           for (const item of items) {
@@ -803,10 +858,16 @@
       const sentences = [];
 
       // --- 1. Subject Resolution (Zero Stuttering & Single Anchor Selection) ---
-      // If multiple subjects exist, prioritize the most descriptive one (e.g. bunny suit, lingerie model)
+      const validSubjectTokens = groups.subject_count.filter(s => {
+        const sLower = s.toLowerCase();
+        // Ensure clothing or body parts aren't mistakenly chosen as subject
+        if (/(?:garter|straps?|boots|shorts|tank_top|tank top|thong|stockings|thighhighs|thigh highs|cleavage|breasts|hips)/i.test(sLower)) return false;
+        return true;
+      });
+
       let chosenSubject = "an alluring adult woman";
-      if (groups.subject_count.length > 0) {
-        const sorted = [...groups.subject_count].sort((a, b) => b.length - a.length);
+      if (validSubjectTokens.length > 0) {
+        const sorted = [...validSubjectTokens].sort((a, b) => b.length - a.length);
         chosenSubject = sorted[0];
       }
       chosenSubject = chosenSubject.replace(/\s+/g, " ").trim();
@@ -843,15 +904,20 @@
 
       sentences.push(`An alluring adult pinup illustration of ${chosenSubject}${physPhrase}, ${styleSentencePart}.`);
 
-      // --- 4. Pose & Expression Phrasing (Prevent "with posing with") ---
-      let rawPose = groups.expression_pose.length > 0 
-        ? groups.expression_pose.join(", ") 
-        : "an alluring arched back pose emphasizing feminine curves";
+      // --- 4. Pose & Expression Phrasing (Prevent "with posing with", join multiple poses smoothly) ---
+      let cleanPoses = groups.expression_pose
+        .map(p => p.replace(/^(?:strikes? a seductive pose with|strikes? an alluring pose with|strikes? a pose with|striking a pose with|posing with|posing in|striking|with)\s+/i, "").trim())
+        .filter(p => p.length > 0);
       
-      let cleanPose = rawPose
-        .replace(/^(?:strikes? a seductive pose with|strikes? a pose with|striking a pose with|posing with|posing in|striking|with)\s+/i, "")
-        .replace(/\s+/g, " ")
-        .trim();
+      cleanPoses = cleanPoses.filter((item, idx) => cleanPoses.indexOf(item) === idx);
+      let cleanPose = "an alluring arched back pose emphasizing feminine curves";
+      if (cleanPoses.length === 1) {
+        cleanPose = cleanPoses[0];
+      } else if (cleanPoses.length === 2) {
+        cleanPose = `${cleanPoses[0]} and ${cleanPoses[1]}`;
+      } else if (cleanPoses.length > 2) {
+        cleanPose = `${cleanPoses.slice(0, -1).join(", ")}, and ${cleanPoses[cleanPoses.length - 1]}`;
+      }
 
       // --- 5. Attire Integration (Prevent "dressed in legs" or repeating subject costume) ---
       let cleanAttireList = groups.clothing
@@ -866,7 +932,14 @@
         });
       cleanAttireList = cleanAttireList.filter((item, idx) => cleanAttireList.indexOf(item) === idx);
 
-      let attirePhrase = cleanAttireList.length > 0 ? cleanAttireList.join(", ") : null;
+      let attirePhrase = null;
+      if (cleanAttireList.length === 1) {
+        attirePhrase = cleanAttireList[0];
+      } else if (cleanAttireList.length === 2) {
+        attirePhrase = `${cleanAttireList[0]} and ${cleanAttireList[1]}`;
+      } else if (cleanAttireList.length > 2) {
+        attirePhrase = `${cleanAttireList.slice(0, -1).join(", ")}, and ${cleanAttireList[cleanAttireList.length - 1]}`;
+      }
 
       if (attirePhrase) {
         sentences.push(`She strikes an alluring pose with ${cleanPose}, dressed in ${attirePhrase} that accentuates her feminine silhouette.`);
@@ -883,7 +956,11 @@
       light = light.replace(/^(?:illuminated by|bathed in|lit by)\s+/i, "").trim();
 
       if (env) {
-        sentences.push(`The scene is set in ${env}, warmly illuminated by ${light}.`);
+        if (env.toLowerCase().startsWith("against ") || env.toLowerCase().startsWith("in ")) {
+          sentences.push(`The scene is set ${env}, warmly illuminated by ${light}.`);
+        } else {
+          sentences.push(`The scene is set against ${env}, warmly illuminated by ${light}.`);
+        }
       } else {
         sentences.push(`Illuminated by ${light}.`);
       }

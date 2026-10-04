@@ -111,9 +111,24 @@ export class PromptParser {
     else if (/^(1girl|1woman|1boy|1man|girl|woman|female|mature_female|adult|pinup|solo|model|couple|group|2girls|multiple_girls)$/i.test(booruNormalized)) {
       category = "subject_count";
     }
-    // C. Match against Lexicon
+    // C. Check Poses & Expressions (Evaluated before environment to prevent bedroom_eyes matching room)
+    else if (/(pose|smile|smirk|arched_back|arms_behind_head|relaxed|looking_|bedroom_eyes|reclining|biting_lip|sitting|standing)/i.test(booruNormalized)) {
+      category = "expression_pose";
+    }
+    // D. Check Physical Traits
+    else if (/(eyes|hair|skin|face|body|freckles|breasts|cleavage|thighs|legs|curves|hourglass|waist|hips|eyeliner)/i.test(booruNormalized)) {
+      category = "physical_traits";
+    }
+    // E. Check Clothing Heuristic (Prevent accessories/garments from being classed as subjects)
+    else if (/(bunny_suit|lingerie|bikini|dress|gown|stockings|thighhighs|thigh_highs|heels|fishnets|garter|straps?|robe|corset|shorts|booty_shorts|top|tank_top|boots|heel_boots|thong|suit|gloves|skirt|shirt)/i.test(booruNormalized)) {
+      category = "clothing";
+    }
+    // F. Check Environment / Background
+    else if (/(background|backdrop|indoors|outdoors|city|street|forest|sunset|poolside|boudoir|white_background|simple_background|(?:^|_)(?:bedroom|room|living_room)(?:_|$))/i.test(booruNormalized)) {
+      category = "environment";
+    }
+    // G. Match against Lexicon
     else {
-      // Search in Lexicon
       for (const [catKey, items] of Object.entries(LEXICON)) {
         for (const item of items) {
           const itemTags = (item.danbooru || "").toLowerCase().split(/,\s*/);
@@ -131,7 +146,7 @@ export class PromptParser {
       }
     }
 
-    // D. Fallback Heuristics for Unmatched Tokens
+    // H. Fallback Heuristics for Unmatched Tokens
     if (category === "general") {
       category = this._heuristicCategory(booruNormalized);
     }
