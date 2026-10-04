@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sHelp - Zero-AI Prompt Optimizer & Lexicon Engine</title>
+  <meta name="description" content="Deterministic, 100% Zero-AI prompt optimizer and word database for Flux, PonyXL, SDXL, Midjourney, and Perchance.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22 0%22 100%22 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="logo-area">
+        <span class="logo-icon">⚡</span>
+        <h1 class="logo-title">sHelp</h1>
+        <span class="zero-ai-badge">100% Zero-AI • Pure Deterministic Lexicon</span>
+      </div>
+      <div class="header-links">
+        <a href="https://github.com/greenmachine25/shelp" target="_blank" rel="noopener noreferrer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          GitHub Repository
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-container">
+
+    <!-- Model Selector Navigation -->
+    <div class="model-selector-bar">
+      <span class="selector-label">Target Engine:</span>
+      <div class="model-pills">
+        <button type="button" class="model-pill active" data-model="flux">⚡ Flux.1 (Prose / Story)</button>
+        <button type="button" class="model-pill" data-model="pony">🦄 Pony Diffusion / PonyXL (Danbooru)</button>
+        <button type="button" class="model-pill" data-model="sdxl">🎨 SDXL (Weighted Tags)</button>
+        <button type="button" class="model-pill" data-model="sd15">⏱ SD 1.5 (77-Tokens)</button>
+        <button type="button" class="model-pill" data-model="perchance">🎲 Perchance (Flux Engine)</button>
+        <button type="button" class="model-pill" data-model="midjourney">🚀 Midjourney v6</button>
+      </div>
+    </div>
+
+    <!-- Active Model Info Banner -->
+    <div class="model-info-banner">
+      <span class="model-desc-text" id="modelDescription">
+        T5-XXL natural language text encoder. Excels with rich descriptive sentences and storytelling. DO NOT use tag soup, score tags, or generic buzzwords (e.g., 'masterpiece', '8k', 'trending on artstation') as they degrade Flux output.
+      </span>
+      <span class="engine-tag" id="modelEngineBadge">T5-XXL + CLIP-L</span>
+    </div>
+
+    <!-- Workspace Grid -->
+    <div class="workspace-grid">
+      
+      <!-- Left Column: Input & Controls -->
+      <section class="panel-card">
+        <div class="panel-header">
+          <h2 class="panel-title">
+            <span>📝</span> Raw Artist Prompt
+          </h2>
+          <button type="button" class="btn btn-sm btn-secondary" id="clearPromptBtn">Clear</button>
+        </div>
+
+        <!-- Sample Prompts -->
+        <div class="sample-bar">
+          <span style="color:var(--text-muted); font-size:0.8rem;">Try Samples:</span>
+          <button type="button" class="sample-chip" data-sample="1girl, looking at viewer, blue hair, in the rain, nice lighting, realistic">Anime in Rain</button>
+          <button type="button" class="sample-chip" data-sample="cyberpunk street, neon signs, cool lighting, wet asphalt, masterpiece, 8k">Cyberpunk Street</button>
+          <button type="button" class="sample-chip" data-sample="young noble knight, ornate armor, pretty face, dramatic background, 4k">Knight Portrait</button>
+          <button type="button" class="sample-chip" data-sample="wizard casting spell, magic glowing runes, ancient ruins, dark fantasy">Dark Fantasy Mage</button>
+        </div>
+
+        <!-- Prompt Textarea -->
+        <textarea 
+          id="promptInput" 
+          class="prompt-textarea" 
+          placeholder="Paste or type your prompt here (e.g. '1girl, blue hair, looking at viewer, in the rain, nice lighting, masterpiece')...&#10;Watch it automatically transform for your selected model!"
+        >1girl, solo, blue hair, looking at viewer, school uniform, in the rain, nice lighting, masterpiece, 8k</textarea>
+
+        <!-- Intent Preset Dropdown -->
+        <div class="form-group">
+          <label for="intentSelect" class="form-label">Artist Intent & Aesthetic Style:</label>
+          <select id="intentSelect" class="select-control">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <!-- Custom Swaps / Local Expansion -->
+        <div class="custom-swaps-box">
+          <label class="form-label">Custom Word Replacements (Saved Locally):</label>
+          <div class="custom-inputs-row">
+            <input type="text" id="customWordInput" class="select-control" placeholder="Word to find (e.g. myoc)" style="font-size:0.85rem;">
+            <input type="text" id="customReplacementInput" class="select-control" placeholder="Replacement descriptors" style="font-size:0.85rem;">
+            <button type="button" class="btn btn-sm" id="addSwapBtn">Add Swap</button>
+          </div>
+          <div id="customSwapsList"></div>
+        </div>
+
+      </section>
+
+      <!-- Right Column: Model-Optimized Result -->
+      <section class="panel-card">
+        <div class="panel-header">
+          <h2 class="panel-title">
+            <span>✨</span> Model-Optimized Prompt
+          </h2>
+          <button type="button" class="btn btn-sm" id="copyPromptBtn">
+            <span>📋</span> Copy Prompt
+          </button>
+        </div>
+
+        <!-- Token Meter -->
+        <div class="token-container">
+          <div class="token-header">
+            <span>Estimated Token Load:</span>
+            <span id="tokenCountText">0 / 256 tokens</span>
+          </div>
+          <div class="token-bar">
+            <div class="token-fill" id="tokenFill"></div>
+          </div>
+        </div>
+
+        <!-- Optimized Output -->
+        <textarea 
+          id="optimizedOutput" 
+          class="prompt-textarea output-textarea" 
+          readonly 
+          placeholder="Optimized prompt will appear here automatically..."
+        ></textarea>
+
+        <!-- Negative Prompt Output (For Pony, SDXL, SD 1.5, Perchance) -->
+        <div id="negativeContainer" class="form-group">
+          <div class="panel-header" style="margin-bottom:0.25rem;">
+            <label class="form-label">Tuned Negative Prompt:</label>
+            <button type="button" class="btn btn-sm btn-secondary" id="copyNegBtn">
+              <span>📋</span> Copy Negative
+            </button>
+          </div>
+          <textarea 
+            id="negativeOutput" 
+            class="prompt-textarea output-textarea" 
+            style="min-height: 70px;" 
+            readonly
+          ></textarea>
+        </div>
+
+        <!-- Applied Swaps & Optimizations Card -->
+        <div class="swaps-card" id="swapsCard" style="display:none;">
+          <div class="swaps-title">⚡ Applied Word Swaps & Lexicon Optimizations:</div>
+          <div class="swaps-list" id="swapsList"></div>
+        </div>
+
+        <!-- Comparison Toggle Button -->
+        <button type="button" class="btn btn-secondary" id="toggleCompareBtn" style="margin-top:0.5rem;">
+          Compare All Models Side-by-Side
+        </button>
+
+      </section>
+
+    </div>
+
+    <!-- Side-by-Side Comparison Section -->
+    <section class="compare-section" id="compareSection">
+      <div class="panel-header">
+        <h3 class="panel-title">🔄 Side-by-Side Model Comparison</h3>
+        <span class="text-muted" style="font-size:0.85rem;">See how the exact same prompt converts across distinct architectures</span>
+      </div>
+      <div class="compare-grid" id="compareGrid"></div>
+    </section>
+
+    <!-- Lexicon & Descriptor Database Explorer -->
+    <section class="lexicon-section">
+      <div class="lexicon-header">
+        <div>
+          <h3 class="panel-title" style="font-size:1.2rem;">📚 Descriptor Lexicon & Tag Database</h3>
+          <p class="text-muted" style="font-size:0.85rem;">Click any keyword to insert it directly into your prompt formatted for your active engine.</p>
+        </div>
+        <input type="text" id="lexiconSearch" class="search-input" placeholder="🔍 Search descriptors, styles, lenses...">
+      </div>
+
+      <div class="lexicon-grid" id="lexiconContainer">
+        <!-- Generated dynamically from LEXICON -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div>
+        <strong>sHelp Prompt Optimizer</strong> — 100% Client-Side, Deterministic, Zero-AI.
+      </div>
+      <div>
+        Designed for Local ComfyUI, Automatic1111, Forge, Perchance, & Midjourney workflows.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Scripts (Unified Zero-AI Script compatible with local file:// and web) -->
+  <script src="js/shelp.js"></script>
+</body>
+</html>
