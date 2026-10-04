@@ -15,6 +15,7 @@ export class UIController {
     this.currentModel = cachedPrefs.model;
     this.currentIntent = cachedPrefs.intent;
     this.customSwaps = this.loadCustomSwaps();
+    this.activeLexiconCategory = "all";
 
     this.cacheElements();
     this.applyInitialModel();
@@ -61,20 +62,30 @@ export class UIController {
     this.tokenMeter = document.getElementById("tokenMeter");
     this.tokenFill = document.getElementById("tokenFill");
     this.tokenCountText = document.getElementById("tokenCountText");
+    this.tokenStatusPill = document.getElementById("tokenStatusPill");
+    this.inputStats = document.getElementById("inputStats");
+    this.outputStats = document.getElementById("outputStats");
     this.modelSelectPills = document.querySelectorAll(".model-pill");
     this.intentSelect = document.getElementById("intentSelect");
+    this.activePresetTag = document.getElementById("activePresetTag");
     this.presetStyleInfo = document.getElementById("presetStyleInfo");
     this.presetInfoTitle = document.getElementById("presetInfoTitle");
     this.presetInfoDesc = document.getElementById("presetInfoDesc");
     this.modelDescription = document.getElementById("modelDescription");
     this.modelEngineBadge = document.getElementById("modelEngineBadge");
+    this.swapsDrawer = document.getElementById("swapsDrawer");
+    this.swapsCountBadge = document.getElementById("swapsCountBadge");
     this.swapsList = document.getElementById("swapsList");
-    this.swapsCard = document.getElementById("swapsCard");
+    this.customSwapsDrawer = document.getElementById("customSwapsDrawer");
+    this.customSwapBadge = document.getElementById("customSwapBadge");
     this.lexiconContainer = document.getElementById("lexiconContainer");
     this.lexiconSearch = document.getElementById("lexiconSearch");
+    this.lexiconFilterBar = document.getElementById("lexiconFilterBar");
     this.compareGrid = document.getElementById("compareGrid");
     this.compareSection = document.getElementById("compareSection");
     this.toggleCompareBtn = document.getElementById("toggleCompareBtn");
+    this.closeCompareBtn = document.getElementById("closeCompareBtn");
+    this.pastePromptBtn = document.getElementById("pastePromptBtn");
   }
 
   applyInitialModel() {
@@ -96,7 +107,7 @@ export class UIController {
 
     // Model selection pills
     this.modelSelectPills.forEach(pill => {
-      pill.addEventListener("click", (e) => {
+      pill.addEventListener("click", () => {
         this.modelSelectPills.forEach(p => p.classList.remove("active"));
         pill.classList.add("active");
         this.currentModel = pill.dataset.model;
@@ -126,7 +137,24 @@ export class UIController {
     document.getElementById("clearPromptBtn").addEventListener("click", () => {
       this.promptInput.value = "";
       this.triggerOptimization();
+      this.promptInput.focus();
     });
+
+    // Paste button
+    if (this.pastePromptBtn) {
+      this.pastePromptBtn.addEventListener("click", async () => {
+        try {
+          const text = await navigator.clipboard.readText();
+          if (text) {
+            this.promptInput.value = text;
+            this.triggerOptimization();
+          }
+        } catch (err) {
+          // Clipboard read denied, focus textarea so user can Ctrl+V
+          this.promptInput.focus();
+        }
+      });
+    }
 
     // Sample prompt pills
     document.querySelectorAll(".sample-chip").forEach(chip => {
@@ -137,14 +165,33 @@ export class UIController {
     });
 
     // Lexicon search
-    this.lexiconSearch.addEventListener("input", (e) => {
-      this.filterLexicon(e.target.value.toLowerCase());
+    this.lexiconSearch.addEventListener("input", () => {
+      this.filterLexicon();
     });
+
+    // Lexicon category filter tabs
+    if (this.lexiconFilterBar) {
+      this.lexiconFilterBar.querySelectorAll(".lexicon-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          this.lexiconFilterBar.querySelectorAll(".lexicon-tab").forEach(t => t.classList.remove("active"));
+          tab.classList.add("active");
+          this.activeLexiconCategory = tab.dataset.category;
+          this.filterLexicon();
+        });
+      });
+    }
 
     // Toggle Side-by-Side Comparison
     this.toggleCompareBtn.addEventListener("click", () => {
       this.toggleComparison();
     });
+
+    if (this.closeCompareBtn) {
+      this.closeCompareBtn.addEventListener("click", () => {
+        this.compareSection.style.display = "none";
+        this.toggleCompareBtn.innerHTML = `<span>🔄</span> Compare`;
+      });
+    }
 
     // Custom Swaps form
     const addSwapBtn = document.getElementById("addSwapBtn");
@@ -180,6 +227,19 @@ export class UIController {
     this.optimizedOutput.value = result.prompt;
     this.negativeOutput.value = result.negativePrompt;
 
+    // Word & Character count stats
+    const inWords = rawText.trim() ? rawText.trim().split(/\s+/).length : 0;
+    const inChars = rawText.length;
+    if (this.inputStats) {
+      this.inputStats.textContent = `${inWords} words • ${inChars} chars`;
+    }
+
+    const outWords = result.prompt.trim() ? result.prompt.trim().split(/\s+/).length : 0;
+    const outChars = result.prompt.length;
+    if (this.outputStats) {
+      this.outputStats.textContent = `${outWords} words • ${outChars} chars`;
+    }
+
     // Update Token meter
     const percent = Math.min(100, Math.round((result.tokenEstimate / result.maxTokens) * 100));
     this.tokenCountText.textContent = `${result.tokenEstimate} / ${result.maxTokens} tokens`;
@@ -187,13 +247,31 @@ export class UIController {
 
     if (percent > 90) {
       this.tokenFill.style.background = "var(--accent-danger)";
+      if (this.tokenStatusPill) {
+        this.tokenStatusPill.textContent = "Near Limit";
+        this.tokenStatusPill.style.background = "rgba(255, 42, 133, 0.15)";
+        this.tokenStatusPill.style.color = "var(--accent-pink)";
+        this.tokenStatusPill.style.borderColor = "rgba(255, 42, 133, 0.4)";
+      }
     } else if (percent > 70) {
       this.tokenFill.style.background = "var(--accent-warning)";
+      if (this.tokenStatusPill) {
+        this.tokenStatusPill.textContent = "Moderate Load";
+        this.tokenStatusPill.style.background = "rgba(251, 191, 36, 0.15)";
+        this.tokenStatusPill.style.color = "var(--accent-warning)";
+        this.tokenStatusPill.style.borderColor = "rgba(251, 191, 36, 0.4)";
+      }
     } else {
       this.tokenFill.style.background = "var(--gradient-accent-h)";
+      if (this.tokenStatusPill) {
+        this.tokenStatusPill.textContent = "Within Limit";
+        this.tokenStatusPill.style.background = "rgba(0, 255, 135, 0.1)";
+        this.tokenStatusPill.style.color = "var(--accent-green)";
+        this.tokenStatusPill.style.borderColor = "rgba(0, 255, 135, 0.3)";
+      }
     }
 
-    // Update Swaps Card
+    // Update Swaps Card / Drawer
     this.renderSwapsList(result.swapsApplied);
 
     // If comparison is open, re-render comparison
@@ -204,11 +282,18 @@ export class UIController {
 
   renderSwapsList(swaps) {
     if (!swaps || swaps.length === 0) {
-      this.swapsCard.style.display = "none";
+      if (this.swapsDrawer) this.swapsDrawer.style.display = "none";
+      if (this.swapsCountBadge) this.swapsCountBadge.textContent = "0";
       return;
     }
 
-    this.swapsCard.style.display = "block";
+    if (this.swapsDrawer) {
+      this.swapsDrawer.style.display = "block";
+    }
+    if (this.swapsCountBadge) {
+      this.swapsCountBadge.textContent = swaps.length;
+    }
+
     this.swapsList.innerHTML = swaps.map(swap => `
       <div class="swap-item">
         <span class="swap-original">${this.escapeHtml(swap.original)}</span>
@@ -253,7 +338,7 @@ export class UIController {
         chip.textContent = item.label;
         chip.title = `Flux: ${item.flux}\nPony: ${item.danbooru}\nSDXL: ${item.sdxl}`;
         chip.addEventListener("click", () => {
-          this.insertIntoPrompt(item);
+          this.insertIntoPrompt(item, chip);
         });
         chipContainer.appendChild(chip);
       });
@@ -263,7 +348,18 @@ export class UIController {
     });
   }
 
-  insertIntoPrompt(lexiconItem) {
+  insertIntoPrompt(lexiconItem, chipElement) {
+    // Visual click confirmation feedback
+    if (chipElement) {
+      const origText = chipElement.textContent;
+      chipElement.classList.add("chip-added");
+      chipElement.textContent = "✓ Added!";
+      setTimeout(() => {
+        chipElement.classList.remove("chip-added");
+        chipElement.textContent = origText;
+      }, 650);
+    }
+
     // Determine appropriate representation based on current model
     let insertion = "";
     if (this.currentModel === "pony") {
@@ -285,16 +381,28 @@ export class UIController {
     this.promptInput.focus();
   }
 
-  filterLexicon(query) {
+  filterLexicon() {
+    const query = this.lexiconSearch ? this.lexiconSearch.value.toLowerCase().trim() : "";
+    const activeCategory = this.activeLexiconCategory || "all";
     const groups = document.querySelectorAll(".lexicon-category-group");
+
     groups.forEach(group => {
+      const groupCat = group.dataset.cat;
+      const isCatMatch = (activeCategory === "all" || groupCat === activeCategory);
+
+      if (!isCatMatch) {
+        group.style.display = "none";
+        return;
+      }
+
       let hasVisibleChild = false;
       const chips = group.querySelectorAll(".lexicon-chip");
       chips.forEach(chip => {
-        const match = chip.textContent.toLowerCase().includes(query) || chip.title.toLowerCase().includes(query);
-        chip.style.display = match ? "inline-flex" : "none";
-        if (match) hasVisibleChild = true;
+        const textMatch = !query || chip.textContent.toLowerCase().includes(query) || chip.title.toLowerCase().includes(query);
+        chip.style.display = textMatch ? "inline-flex" : "none";
+        if (textMatch) hasVisibleChild = true;
       });
+
       group.style.display = hasVisibleChild ? "block" : "none";
     });
   }
@@ -317,30 +425,42 @@ export class UIController {
       } else {
         this.currentIntent = "";
         this.saveCachedIntent("");
+        this.updatePresetInfo("");
       }
+    } else {
+      this.updatePresetInfo("");
     }
   }
 
   updatePresetInfo(presetId) {
-    if (!this.presetStyleInfo) return;
     if (!presetId) {
-      this.presetStyleInfo.style.display = "none";
+      if (this.presetStyleInfo) this.presetStyleInfo.style.display = "none";
+      if (this.activePresetTag) this.activePresetTag.textContent = "Default";
       return;
     }
     const preset = INTENT_PRESETS.find(p => p.id === presetId);
     if (!preset) {
-      this.presetStyleInfo.style.display = "none";
+      if (this.presetStyleInfo) this.presetStyleInfo.style.display = "none";
+      if (this.activePresetTag) this.activePresetTag.textContent = "Default";
       return;
     }
-    this.presetStyleInfo.style.display = "block";
-    this.presetInfoTitle.textContent = `🎨 Decomposed Style Translation: ${preset.name}`;
-    this.presetInfoDesc.textContent = preset.description;
+    if (this.activePresetTag) {
+      this.activePresetTag.textContent = preset.name;
+    }
+    if (this.presetStyleInfo) {
+      this.presetStyleInfo.style.display = "block";
+      this.presetInfoTitle.textContent = `🎨 Decomposed Style DNA: ${preset.name}`;
+      this.presetInfoDesc.textContent = preset.description;
+    }
   }
 
   toggleComparison() {
     const isShowing = this.compareSection.style.display === "block";
     this.compareSection.style.display = isShowing ? "none" : "block";
-    this.toggleCompareBtn.textContent = isShowing ? "Compare All Models Side-by-Side" : "Hide Comparison View";
+    this.toggleCompareBtn.innerHTML = isShowing 
+      ? `<span>🔄</span> Compare` 
+      : `<span>✕</span> Close Compare`;
+
     if (!isShowing) {
       this.renderComparison();
       this.compareSection.scrollIntoView({ behavior: "smooth" });
@@ -370,7 +490,7 @@ export class UIController {
               </div>
             ` : ""}
           </div>
-          <button class="btn btn-sm btn-secondary copy-sub-btn" data-text="${this.escapeAttr(res.prompt)}">Copy</button>
+          <button type="button" class="btn btn-xs btn-secondary copy-sub-btn" data-text="${this.escapeAttr(res.prompt)}">📋 Copy</button>
         </div>
       `;
     }).join("");
@@ -378,9 +498,13 @@ export class UIController {
     this.compareGrid.querySelectorAll(".copy-sub-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         navigator.clipboard.writeText(btn.dataset.text);
-        const orig = btn.textContent;
-        btn.textContent = "Copied!";
-        setTimeout(() => btn.textContent = orig, 1500);
+        const orig = btn.innerHTML;
+        btn.innerHTML = "✓ Copied!";
+        btn.classList.add("btn-success");
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.classList.remove("btn-success");
+        }, 1500);
       });
     });
   }
@@ -436,15 +560,19 @@ export class UIController {
     const container = document.getElementById("customSwapsList");
     if (!container) return;
 
+    if (this.customSwapBadge) {
+      this.customSwapBadge.textContent = this.customSwaps.length;
+    }
+
     if (this.customSwaps.length === 0) {
-      container.innerHTML = `<p class="text-muted" style="font-size:0.85rem;">No custom word replacements configured yet.</p>`;
+      container.innerHTML = `<p class="text-muted" style="font-size:0.82rem; margin-top:0.35rem;">No custom word replacements configured yet.</p>`;
       return;
     }
 
     container.innerHTML = this.customSwaps.map(item => `
       <div class="custom-swap-pill">
         <span><strong>${this.escapeHtml(item.word)}</strong> ➔ ${this.escapeHtml(item.replacement)}</span>
-        <button class="delete-swap-btn" data-id="${item.id}" title="Remove">✕</button>
+        <button type="button" class="delete-swap-btn" data-id="${item.id}" title="Remove">✕</button>
       </div>
     `).join("");
 

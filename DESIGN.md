@@ -125,6 +125,22 @@ All components must strictly utilize the CSS variables defined in `:root`:
 ### G. Lexicon Chips (`.lexicon-chip`)
 * Compact interactive pills.
 * Hover effect: Glows with soft pink border and green accent text.
+* Active/Added Feedback (`.chip-added`): Flashes with emerald green background (`rgba(0, 255, 135, 0.25)`), green border, slight 1.05 scale lift, and text changes briefly to "✓ Added!".
+
+### H. Collapsible Drawers (`.custom-swaps-drawer`, `.swaps-drawer`)
+* Built with semantic `<details>` and `<summary>` for maximum zero-AI performance.
+* Inactive State: Clean, recessed bar (`#101117`) with badge count and smooth rotating chevron (`transform: rotate(180deg)` when opened).
+* Content: Contained scrollable drawer with dark background (`#0b0c10`), eliminating vertical clutter from the main view.
+
+### I. Lexicon Category Filter Tabs (`.lexicon-tab`)
+* Filter bar allowing instant switching between descriptor categories (Archetypes, Curves, Attire, Poses, Settings, Lighting, Styles).
+* Inactive: Charcoal surface `--bg-card` with subtle border.
+* Active: `--gradient-glow` with vibrant emerald border and neon shadow.
+
+### J. Textarea Footers & Live Stats (`.textarea-footer`, `.text-stats`)
+* Attached directly to the bottom of input and output textareas with `#08090d` background.
+* Displays live real-time `X words • Y chars` counter.
+* Displays `.token-status-pill` reflecting token headroom (Green: "Within Limit", Amber: "Moderate Load", Pink: "Near Limit").
 
 ---
 
