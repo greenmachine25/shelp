@@ -53,8 +53,14 @@ In stylized anime and cartoon pinup models, realism tokens (`photorealistic`, `8
     - **Seductive Poses & Bedroom Eyes** (classic arched back, reclining on velvet couch, over-the-shoulder glance, biting lip, kneeling arch)
     - **Boudoir, Penthouse & Resort Settings** (luxury satin boudoir bedroom, twilight poolside, neon high-rise penthouse, 1950s velvet lounge, steamy onsen)
     - **Intimate Candlelight & Sensual Lighting** (amber candlelight rim, sultry neon backlight magenta & cyan, golden dusk glow, soft romantic diffusion)
-    - **Pinup Angles & Glamour Framing** (full-body pinup frame, 3/4 cowboy shot, reclined view from above, intimate glamour portrait)
-    - **Pinup & Adult Illustrative Styles** (1950s Gil Elvgren Cheesecake, Modern High-End Anime Pinup, Hajime Sorayama Chrome, 1940s Retro Pulp Noir, Stylized Cartoon Pinup)
+    - **Pinup & Adult Illustrative Styles** (Style of XPI Sigma Art, Style of xaxaxa, AWD Art / AWD!, Ravenous Russ, Digital Art Anime, Western Anime Inspired, 1950s Gil Elvgren Cheesecake, Hajime Sorayama Chrome, 1940s Retro Pulp Noir)
+- **Dedicated Artist Style Presets**:
+  - **Style of XPI Sigma Art**: Signature stylized curves, sleek dynamic linework, and vibrant digital mastery.
+  - **Style of xaxaxa**: Expressive fluid linework, bold color highlights, and luscious stylized curves.
+  - **AWD Art (AWD!)**: Bold clean outlines, thick thighs, hourglass curves, and smooth cel shading.
+  - **Ravenous Russ**: Voluptuous curvy character art, wide hips, and expressive energetic pinup lines.
+  - **Digital Art Anime**: High-end Japanese anime key visual with clean vector linework and multi-layer cel gradients.
+  - **Western Anime Inspired**: Dynamic fusion of Western cartoon energy and Japanese anime pinup aesthetics.
 - **Side-by-Side Model Comparison**:
   - Compare how your prompt transforms across Flux, PonyXL, SDXL, and Midjourney Niji 6 at the same time.
 - **Custom Local Swaps (`localStorage`)**:

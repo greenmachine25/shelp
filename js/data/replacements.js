@@ -159,8 +159,62 @@ export const BOORU_TO_PROSE = {
   "femme_fatale": "exuding dangerous noir femme fatale magnetism"
 };
 
-// 100% Dedicated Adult Pinup & Glamour Intent Presets
+// 100% Dedicated Artist Styles & Adult Pinup Presets
 export const INTENT_PRESETS = [
+  {
+    id: "style_xpi_sigma",
+    name: "Style of XPI Sigma Art",
+    description: "Signature stylized adult pinup aesthetic with sleek dynamic linework, sensual curves, and vibrant digital mastery.",
+    fluxAdditions: "in the signature artistic style of XPI Sigma Art, expressive stylized curves, sleek dynamic linework, vibrant sensual digital illustration, voluptuous adult woman, masterwork composition",
+    ponyAdditions: "by_xpi_sigma, xpi_sigma_art, 1woman, mature_female, adult, pinup, voluptuous, clean_lineart, stylized, score_9",
+    sdxlAdditions: "style of xpi sigma art, xpi_sigma, stylized adult pinup, sleek linework, vibrant digital art, voluptuous curves, masterpiece",
+    mjAdditions: "--ar 16:9 --niji 6 --style expressive"
+  },
+  {
+    id: "style_xaxaxa",
+    name: "Style of xaxaxa",
+    description: "Lively expressive anime pinup style with bold line weight, vibrant highlights, and luscious stylized curves.",
+    fluxAdditions: "in the distinctive artistic style of xaxaxa, dynamic stylized anime pinup, expressive fluid linework, bold colorful lighting, voluptuous feminine curves, charismatic charm",
+    ponyAdditions: "xaxaxa, 1woman, mature_female, adult, pinup, dynamic_pose, colorful, stylized, score_9",
+    sdxlAdditions: "style of xaxaxa, xaxaxa anime pinup, dynamic expressive linework, colorful digital illustration, voluptuous, masterpiece",
+    mjAdditions: "--ar 16:9 --niji 6 --style expressive"
+  },
+  {
+    id: "style_awd_art",
+    name: "AWD Art (AWD!)",
+    description: "Luscious voluptuous cartoon/anime pinup style with bold clean outlines, thick thighs, and smooth cel shading.",
+    fluxAdditions: "in the signature artistic style of AWD art, lush voluptuous curves, bold smooth cartoon-anime outlines, clean cel shading, playful seductive pinup charm, thick thighs, hourglass figure",
+    ponyAdditions: "awd!, awd, 1woman, mature_female, adult, pinup, voluptuous, thick_thighs, hourglass_figure, bold_outline, score_9",
+    sdxlAdditions: "style of awd art, awd! artist, voluptuous cartoon pinup, bold clean linework, smooth cel shading, hourglass curves, masterpiece",
+    mjAdditions: "--ar 16:9 --niji 6 --style expressive"
+  },
+  {
+    id: "style_ravenous_russ",
+    name: "Ravenous Russ",
+    description: "Exaggerated curvy cartoon & anime pinup style with expressive poses, wide hips, and bold sensual lines.",
+    fluxAdditions: "in the distinct artistic style of ravenous russ, voluptuous curvy pinup illustration, expressive energetic character art, bold stylized linework, seductive charm, wide hips",
+    ponyAdditions: "ravenous_russ, 1woman, mature_female, adult, pinup, voluptuous, wide_hips, expressive, stylized, score_9",
+    sdxlAdditions: "style of ravenous russ, ravenous_russ artist, voluptuous stylized pinup, expressive curves, bold digital art, masterpiece",
+    mjAdditions: "--ar 16:9 --niji 6 --style expressive"
+  },
+  {
+    id: "style_digital_art_anime",
+    name: "Digital Art Anime (Collector Visual)",
+    description: "Modern high-end Japanese anime digital illustration with crisp vector linework and multi-layer cel shading.",
+    fluxAdditions: "a breathtaking high-end digital anime art illustration, ultra-clean vector linework, multi-layer gradient cel shading, glowing highlights, mature adult woman, collector key visual finish",
+    ponyAdditions: "source_anime, anime_coloring, clean_lineart, digital_media, pinup, mature_female, adult, detailed_eyes, masterpiece, score_9",
+    sdxlAdditions: "digital art anime, clean lineart, anime coloring, key visual, studio anime visual, mature female pinup, masterpiece",
+    mjAdditions: "--ar 16:9 --niji 6 --style expressive"
+  },
+  {
+    id: "style_western_anime_inspired",
+    name: "Western Anime Inspired",
+    description: "Dynamic fusion of Western animation energy, bold graphic outlines, and Japanese anime pinup curves.",
+    fluxAdditions: "a dynamic western anime-inspired illustration blending bold expressive western cartoon linework with sleek Japanese anime aesthetics, punchy cel colors, voluptuous curves, and animated flair",
+    ponyAdditions: "western_anime, stylized, bold_outline, source_anime, source_cartoon, pinup, mature_female, adult, dynamic_pose, score_9",
+    sdxlAdditions: "western anime inspired, fusion anime style, bold outlines, dynamic stylized curves, graphic illustration, masterpiece",
+    mjAdditions: "--ar 16:9 --niji 6 --style expressive"
+  },
   {
     id: "elvgren_cheesecake",
     name: "1950s Gil Elvgren Cheesecake Pinup",
@@ -169,15 +223,6 @@ export const INTENT_PRESETS = [
     ponyAdditions: "cheesecake_(art), 1950s_pinup, retro_artstyle, traditional_media, mature_female, adult, pinup, score_9",
     sdxlAdditions: "gil elvgren pinup style, 1950s cheesecake art, alberto vargas, painted retro pinup, vintage glamour, masterpiece",
     mjAdditions: "--ar 4:5 --niji 6 --style original"
-  },
-  {
-    id: "modern_anime_pinup",
-    name: "Modern Anime Pinup (High-End Visual)",
-    description: "Sleek contemporary anime pinup with silky linework, subtle skin blush, and collector visual polish.",
-    fluxAdditions: "an exquisite modern Japanese anime pinup illustration, silky clean linework, subtle skin gradient shading, voluptuous adult woman, bedroom eyes, high-end collector visual finish",
-    ponyAdditions: "source_anime, anime_coloring, clean_lineart, pinup, mature_female, adult, bedroom_eyes, masterpiece",
-    sdxlAdditions: "anime pinup illustration, clean lineart, vibrant anime coloring, mature female, adult, key visual",
-    mjAdditions: "--ar 16:9 --niji 6 --style expressive"
   },
   {
     id: "bunny_girl_glamour",
@@ -214,23 +259,5 @@ export const INTENT_PRESETS = [
     ponyAdditions: "pulp_art, retro, vintage, dramatic_lighting, 1940s, femme_fatale, 1woman, mature_female, adult",
     sdxlAdditions: "pulp fiction cover art, retro 1940s pinup, vintage gouache painting, dramatic chiaroscuro, femme fatale",
     mjAdditions: "--ar 2:3 --niji 6 --style raw"
-  },
-  {
-    id: "resort_poolside_glamour",
-    name: "Resort Poolside Swimsuit Pinup",
-    description: "Sun-drenched tropical villa poolside with a designer string bikini and twilight resort lanterns.",
-    fluxAdditions: "a voluptuous adult pinup model in a designer string bikini posing poolside at a private luxury tropical villa at dusk, glowing turquoise water, golden twilight rim light",
-    ponyAdditions: "bikini, string_bikini, swimsuit, poolside, resort, sunset, 1woman, mature_female, adult, pinup",
-    sdxlAdditions: "designer string bikini, poolside pinup, luxury resort villa, golden hour glow, voluptuous curves",
-    mjAdditions: "--ar 16:9 --niji 6 --style expressive"
-  },
-  {
-    id: "dark_fantasy_succubus",
-    name: "Fantasy Succubus Pinup",
-    description: "Seductive demon queen with curving horns, velvet bat wings, and glowing arcane embers.",
-    fluxAdditions: "a captivating adult demon succubus pinup with curving horns, velvet bat wings, spade tail, glowing violet eyes, seductive arched back pose, floating magical embers",
-    ponyAdditions: "succubus, horns, bat_wings, demon_tail, seductive, 1woman, mature_female, adult, fantasy_pinup",
-    sdxlAdditions: "succubus pinup, demon horns, bat wings, seductive pose, adult fantasy art, glowing embers",
-    mjAdditions: "--ar 16:9 --niji 6 --stylize 250"
   }
 ];
