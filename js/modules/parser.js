@@ -44,21 +44,17 @@ export class PromptParser {
     const commaCount = (text.match(/,/g) || []).length;
     const periodCount = (text.match(/\./g) || []).length;
     const wordCount = text.split(/\s+/).length;
-    const isProse = commaCount < 3 && periodCount >= 1 && wordCount > 8;
+    const isProse = periodCount >= 1 && (
+      /\.\s+[A-Z]/.test(text) || 
+      (wordCount > 15 && (commaCount === 0 || wordCount / (commaCount + 1) >= 3.5)) ||
+      (commaCount < 3 && wordCount > 8)
+    );
 
-    // 3. Split into units: If comma-separated, split by comma; else split by sentence/clause
-    let rawUnits = [];
-    if (isProse) {
-      rawUnits = text
-        .split(/(?<=[.!?])\s+/)
-        .map(u => u.trim())
-        .filter(u => u.length > 0);
-    } else {
-      rawUnits = text
-        .split(",")
-        .map(u => u.trim())
-        .filter(u => u.length > 0);
-    }
+    // 3. Split into units: Split by commas, sentence boundaries, or semicolons
+    const rawUnits = text
+      .split(/(?:[.!?;]+\s*|\s*,\s*)/)
+      .map(u => u.trim())
+      .filter(u => u.length > 0);
 
     // 4. Tokenize, filter, and categorize each unit
     const tokens = rawUnits

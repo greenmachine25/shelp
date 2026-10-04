@@ -24,42 +24,43 @@ export const WORD_SWAPS = [
 
   // 2. Adult Pinup & Glamour Word Swaps
   {
-    pattern: /\b(bunny girl|playboy bunny|bunny suit)\b/gi,
+    pattern: /^(?:bunny girl|playboy bunny|bunny suit|black bunny suit)$/i,
     flux: "an adult woman in a glossy satin black bunny suit with rabbit ears, bow tie, and fishnet stockings",
     pony: "1woman, bunny_suit, playboy_bunny, fishnets, collar, cuffs, rabbit_ears",
     sdxl: "1woman, adult playboy bunny suit, fishnet stockings, rabbit ears, high heels",
     midjourney: "glamorous adult bunny girl in glossy satin bunny suit and fishnets"
   },
   {
-    pattern: /\b(1girl|girl)\b/gi,
+    pattern: /^(?:1girl|girl|solo girl)$/i,
     flux: "an alluring adult woman",
     pony: "1woman, mature_female, adult",
     sdxl: "1woman, adult, mature female",
     midjourney: "an alluring adult woman"
   },
   {
-    pattern: /\b(sexy|hot|gorgeous|stunning|babe)\b/gi,
+    pattern: /^(?:sexy|hot|gorgeous|stunning|babe)$/i,
     flux: "a glamorous adult pinup model with alluring hourglass curves and magnetic presence",
     pony: "mature_female, adult, pinup, hourglass_figure, voluptuous",
     sdxl: "adult pinup, mature female, voluptuous hourglass figure, glamorous",
     midjourney: "glamorous adult pinup model with alluring hourglass curves"
   },
   {
-    pattern: /\b(lingerie|underwear|negligee)\b/gi,
+    pattern: /^(?:lingerie|underwear|negligee|sexy lingerie)$/i,
     flux: "dressed in sheer black lace boudoir lingerie with matching garter straps and silk stockings",
     pony: "lingerie, lace, negligee, garter_straps, stockings, sheer",
     sdxl: "sheer lace lingerie, garter belt, silk stockings, boudoir pinup",
     midjourney: "luxurious sheer black lace lingerie and garter stockings"
   },
   {
-    pattern: /\b(bikini|swimsuit|bathing suit)\b/gi,
+    pattern: /^(?:bikini|swimsuit|bathing suit|string bikini)$/i,
     flux: "wearing a stylish designer string bikini accentuating a voluptuous feminine silhouette",
     pony: "bikini, string_bikini, swimsuit, cleavage, hourglass_figure",
     sdxl: "designer string bikini, swimsuit pinup, hourglass curves, poolside",
     midjourney: "stylish designer bikini accentuating hourglass curves"
   },
   {
-    pattern: /\b(curves|curvy|hourglass)\b/gi,
+    // Match only standalone body curve tokens, never hair curves or existing detailed phrases
+    pattern: /^(?:(?:voluptuous|sensual|hourglass|feminine|alluring)\s+)?(?:curves|curvy|hourglass|hourglass figure)$/i,
     flux: "a voluptuous hourglass silhouette with generous cleavage, a shapely waist, thick thighs, and wide rounded hips",
     pony: "voluptuous, hourglass_figure, wide_hips, thick_thighs, cleavage",
     sdxl: "voluptuous hourglass figure, wide hips, thick thighs, feminine curves, cleavage",
@@ -73,21 +74,22 @@ export const WORD_SWAPS = [
     midjourney: "massive shapely natural breasts with heavy teardrop weight and deep cleavage"
   },
   {
-    pattern: /\b(cleavage|boobs|busty|breasts)\b/gi,
+    pattern: /^(?:cleavage|boobs|busty|breasts|large bust)$/i,
     flux: "prominent alluring cleavage and elegant bare décolletage",
     pony: "cleavage, bare_shoulders, large_breasts",
     sdxl: "alluring cleavage, bare décolletage, feminine curves",
     midjourney: "alluring cleavage and bare décolletage"
   },
   {
-    pattern: /\b(legs|thighs)\b/i,
+    pattern: /^(?:legs|thighs|long legs|toned legs)$/i,
     flux: "long shapely toned legs",
     pony: "long_legs, toned_thighs",
     sdxl: "long shapely legs, toned thighs",
     midjourney: "long shapely toned legs"
   },
   {
-    pattern: /\b(stockings|thighhighs|heels|high heels|stilettos)\b/i,
+    // Match only generic footwear/stockings if no color, material, or boot is specified
+    pattern: /^(?:stockings|thighhighs|thigh highs|heels|high heels|stilettos)$/i,
     flux: "sheer silk thighhigh stockings and tall pointed stiletto high heels",
     pony: "thighhighs, high_heels, stockings",
     sdxl: "silk thighhigh stockings, high stiletto heels",
@@ -110,7 +112,7 @@ export const WORD_SWAPS = [
     midjourney: "direct seductive eye contact with viewer"
   },
   {
-    pattern: /\b(seductive|flirty|alluring|bedroom eyes)\b/gi,
+    pattern: /^(?:bedroom eyes|seductive eyes|flirty eyes|alluring eyes|sultry eyes|seductive gaze)$/i,
     flux: "heavy-lidded sultry bedroom eyes with a knowing coy half-smile",
     pony: "bedroom_eyes, seductive_smile, blush",
     sdxl: "bedroom eyes, sultry gaze, flirty smile, mature expression",
@@ -127,17 +129,17 @@ export const WORD_SWAPS = [
   // 4. Quality & Lighting Swaps
   {
     pattern: /\b(nice|good|cool|awesome|great)\s+lighting\b/i,
-    flux: "intimate warm amber candlelight and subtle sensual rim highlights tracing feminine curves",
-    pony: "candlelight, warm_lighting, rim_light, soft_shadows",
-    sdxl: "warm boudoir lighting, intimate candlelight, golden rim light, soft shadows",
-    midjourney: "intimate warm boudoir lighting with soft golden rim highlights"
+    flux: "flattering clean studio lighting with subtle soft rim highlights accentuating curves",
+    pony: "soft_lighting, rim_light, studio_lighting",
+    sdxl: "clean studio lighting, soft rim light, balanced illumination",
+    midjourney: "clean flattering studio lighting with soft rim highlights"
   },
   {
     pattern: /\b(nice|pretty|beautiful|good)\s+background\b/i,
-    flux: "an opulent satin-draped luxury boudoir bedroom with romantic canopied bed and soft candlelight",
-    pony: "boudoir, bedroom, bed, silk_sheets, pillows, indoor",
-    sdxl: "luxury boudoir, silk sheets, soft canopy bed, romantic indoor ambiance",
-    midjourney: "luxurious satin-draped boudoir bedroom background"
+    flux: "a clean minimalist studio backdrop with soft subtle floor contact shadow",
+    pony: "simple_background, clean_backdrop, contact_shadow",
+    sdxl: "clean studio backdrop, soft contact shadow, minimalist background",
+    midjourney: "clean minimalist studio backdrop with soft contact shadows"
   },
   {
     pattern: /\bwhite\s+background\b/gi,
@@ -156,10 +158,10 @@ export const WORD_SWAPS = [
 
   {
     pattern: /\b(?:style of\s+)?(?:xpi[\s_-]?sigma(?:[\s_-]?art)?|xpisigma)\b/i,
-    flux: "rendered in an expressive 2D anime pinup illustration art style with subtle 2D animation flair, featuring bold clean dark contour outlines, vibrant saturated colors, smooth clean digital cel-shading with glossy specular skin sheen and prominent rosy cheek-and-nose blush, showcasing an extremely voluptuous adult woman with exaggerated feminine proportions, massive heavy natural teardrop breasts with deep cleavage, very wide rounded curvy hips, thick heavy thighs, a compact shapely waist, voluminous stylized sweeping hair with sharp angular locks, and large captivating expressive anime eyes with bold winged black eyeliner and detailed glossy irises, finished with crisp clean vector anime lineart and polished cel-shading",
-    pony: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, specular_highlight, blush, nose_blush, large_eyes, expressive_eyes, detailed_eyes, eyeliner, winged_eyeliner, huge_breasts, large_breasts, natural_breasts, heavy_breasts, cleavage, deep_cleavage, voluptuous, curvy, wide_hips, very_wide_hips, thick_thighs, hourglass_figure, source_anime, anime_coloring, 1woman, mature_female, adult, pinup, contact_shadow, white_background",
-    sdxl: "(expressive 2d anime pinup illustration:1.2), (bold clean black outlines, crisp vector lineart:1.15), (smooth cel shading, glossy specular skin sheen, cheek and nose blush:1.15), (extremely voluptuous curvy proportions, massive heavy natural breasts, deep cleavage:1.2), (very wide rounded hips, thick heavy thighs, compact shapely waist:1.2), (voluminous swept hair with sharp angular locks, large expressive anime eyes, bold winged eyeliner:1.15), vibrant saturated colors, 2d anime key visual, soft contact shadow, clean white background",
-    midjourney: "expressive 2D anime pinup illustration, bold clean black outlines, smooth cel shading, glossy specular skin highlights, rosy cheek and nose blush, extremely voluptuous curvy silhouette, massive heavy natural breasts, deep cleavage, very wide rounded hips, thick heavy thighs, compact shapely waist, voluminous swept hair with sharp angular locks, large captivating expressive anime eyes, bold winged eyeliner, clean white background --ar 16:9 --niji 6 --style expressive",
+    flux: "rendered in an expressive 2D anime pinup illustration art style with subtle 2D animation flair, featuring bold clean dark contour outlines, vibrant saturated colors, smooth clean digital cel-shading with glossy specular skin sheen and prominent rosy cheek-and-nose blush, showcasing an extremely voluptuous adult woman with exaggerated feminine proportions, massive heavy natural teardrop breasts with deep cleavage, very wide rounded curvy hips, thick heavy thighs, a compact shapely waist, hair stylized with sharp angular locks and sleek curved tufts, and large captivating expressive anime eyes rendered with bold winged black eyeliner and detailed glossy irises, finished with crisp clean vector anime lineart and polished cel-shading",
+    pony: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, specular_highlight, blush, nose_blush, large_eyes, expressive_eyes, detailed_eyes, eyeliner, winged_eyeliner, huge_breasts, large_breasts, natural_breasts, heavy_breasts, cleavage, deep_cleavage, voluptuous, curvy, wide_hips, very_wide_hips, thick_thighs, hourglass_figure, source_anime, anime_coloring, 1woman, mature_female, adult, pinup, contact_shadow",
+    sdxl: "(expressive 2d anime pinup illustration:1.2), (bold clean black outlines, crisp vector lineart:1.15), (smooth cel shading, glossy specular skin sheen, cheek and nose blush:1.15), (extremely voluptuous curvy proportions, massive heavy natural breasts, deep cleavage:1.2), (very wide rounded hips, thick heavy thighs, compact shapely waist:1.2), (sharp angular hair locks, crisp stylized curves:1.15), (large expressive anime eyes, bold winged eyeliner:1.15), vibrant saturated colors, 2d anime key visual, soft contact shadow",
+    midjourney: "expressive 2D anime pinup illustration, bold clean black outlines, smooth cel shading, glossy specular skin highlights, rosy cheek and nose blush, extremely voluptuous curvy silhouette, massive heavy natural breasts, deep cleavage, very wide rounded hips, thick heavy thighs, compact shapely waist, sharp angular hair locks, large captivating expressive anime eyes, bold winged eyeliner --ar 16:9 --niji 6 --style expressive",
     reason: "Decomposed 'XPI Sigma Art' into expressive 2D anime pinup style, massive heavy natural breasts, very wide rounded hips, thick heavy thighs, large anime eyes with bold winged eyeliner, rosy cheek and nose blush, sharp sweeping locks, and clean black outlines"
   },
   {
@@ -228,9 +230,16 @@ export const BOORU_TO_PROSE = {
   "very_wide_hips": "very wide rounded curvy hips and thick heavy thighs",
   "large_natural_breasts": "massive shapely natural breasts with heavy teardrop weight and deep cleavage",
   "green_eyes": "large captivating vibrant green anime eyes with detailed glossy highlights",
+  "blue_eyes": "large captivating vibrant blue anime eyes with detailed glossy highlights",
+  "brown_eyes": "large captivating warm brown anime eyes with detailed glossy highlights",
   "short_blonde_wavy_hair": "short wavy blonde hair sculpted into sharp angular locks with pointed tufts",
   "blonde_to_pink_gradient_hair": "blonde-to-pink gradient hair with vibrant colorful tips",
   "gradient_hair": "dynamic two-tone gradient hair with vibrant colorful tips",
+  "two_tone_hair": "dynamic two-tone hair with vibrant colorful tips",
+  "blonde_hair": "radiant blonde hair with stylized locks",
+  "short_hair": "short stylized hair with curved tips",
+  "wavy_hair": "wavy hair with sculpted angular locks",
+  "short_blonde_hair": "short blonde hair sculpted into sharp angular locks",
   "eyeliner": "bold winged black eyeliner with prominent rosy cheek-and-nose blush",
   "booty_shorts": "black form-fitting booty shorts",
   "black_booty_shorts": "black form-fitting booty shorts",
@@ -270,11 +279,11 @@ export const INTENT_PRESETS = [
     id: "style_xpi_sigma",
     name: "Style of XPI Sigma Art",
     shortDesc: "Expressive 2D anime pinup, massive heavy breasts, very wide hips & thick thighs, large eyes with winged eyeliner, cheek & nose blush, sharp hair locks",
-    description: "Recreates XPI Sigma's signature visual style: expressive 2D anime pinup with exaggerated feminine proportions (massive heavy natural teardrop breasts with deep cleavage, very wide rounded curvy hips, thick heavy thighs, compact shapely waist), large captivating anime eyes with bold winged black eyeliner, prominent rosy cheek-and-nose blush, voluminous sweeping hair with sharp angular locks, bold clean black contour outlines, and smooth digital cel-shading with glossy specular skin sheen.",
-    fluxAdditions: "rendered in an expressive 2D anime pinup illustration art style with subtle 2D animation flair, featuring bold clean dark contour outlines, vibrant saturated colors, smooth clean digital cel-shading with glossy specular skin sheen and prominent rosy cheek-and-nose blush, showcasing an extremely voluptuous adult woman with exaggerated feminine proportions, massive heavy natural teardrop breasts with deep cleavage, very wide rounded curvy hips, thick heavy thighs, a compact shapely waist, voluminous stylized sweeping hair with sharp angular locks, and large captivating expressive anime eyes with bold winged black eyeliner and detailed glossy irises, finished with crisp clean vector anime lineart and polished cel-shading",
-    ponyAdditions: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, specular_highlight, blush, nose_blush, large_eyes, expressive_eyes, detailed_eyes, eyeliner, winged_eyeliner, huge_breasts, large_breasts, natural_breasts, heavy_breasts, cleavage, deep_cleavage, voluptuous, curvy, wide_hips, very_wide_hips, thick_thighs, hourglass_figure, source_anime, anime_coloring, 1woman, mature_female, adult, pinup, contact_shadow, white_background",
-    sdxlAdditions: "(expressive 2d anime pinup illustration:1.2), (bold clean black outlines, crisp vector lineart:1.15), (smooth cel shading, glossy specular skin sheen, cheek and nose blush:1.15), (extremely voluptuous curvy proportions, massive heavy natural breasts, deep cleavage:1.2), (very wide rounded hips, thick heavy thighs, compact shapely waist:1.2), (voluminous swept hair with sharp angular locks, large expressive anime eyes, bold winged eyeliner:1.15), vibrant saturated colors, 2d anime key visual, soft contact shadow, clean white background",
-    mjAdditions: "expressive 2D anime pinup illustration, bold clean black outlines, smooth cel shading, glossy specular skin highlights, rosy cheek and nose blush, extremely voluptuous curvy silhouette, massive heavy natural breasts, deep cleavage, very wide rounded hips, thick heavy thighs, compact shapely waist, voluminous swept hair with sharp angular locks, large captivating expressive anime eyes, bold winged eyeliner, clean white background --ar 16:9 --niji 6 --style expressive"
+    description: "Recreates XPI Sigma's signature visual style: expressive 2D anime pinup with exaggerated feminine proportions (massive heavy natural teardrop breasts with deep cleavage, very wide rounded curvy hips, thick heavy thighs, compact shapely waist), large captivating anime eyes with bold winged black eyeliner, prominent rosy cheek-and-nose blush, hair stylized with sharp angular locks, bold clean black contour outlines, and smooth digital cel-shading with glossy specular skin sheen.",
+    fluxAdditions: "rendered in an expressive 2D anime pinup illustration art style with subtle 2D animation flair, featuring bold clean dark contour outlines, vibrant saturated colors, smooth clean digital cel-shading with glossy specular skin sheen and prominent rosy cheek-and-nose blush, showcasing an extremely voluptuous adult woman with exaggerated feminine proportions, massive heavy natural teardrop breasts with deep cleavage, very wide rounded curvy hips, thick heavy thighs, a compact shapely waist, hair stylized with sharp angular locks and sleek curved tufts, and large captivating expressive anime eyes rendered with bold winged black eyeliner and detailed glossy irises, finished with crisp clean vector anime lineart and polished cel-shading",
+    ponyAdditions: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, specular_highlight, blush, nose_blush, large_eyes, expressive_eyes, detailed_eyes, eyeliner, winged_eyeliner, huge_breasts, large_breasts, natural_breasts, heavy_breasts, cleavage, deep_cleavage, voluptuous, curvy, wide_hips, very_wide_hips, thick_thighs, hourglass_figure, source_anime, anime_coloring, 1woman, mature_female, adult, pinup, contact_shadow",
+    sdxlAdditions: "(expressive 2d anime pinup illustration:1.2), (bold clean black outlines, crisp vector lineart:1.15), (smooth cel shading, glossy specular skin sheen, cheek and nose blush:1.15), (extremely voluptuous curvy proportions, massive heavy natural breasts, deep cleavage:1.2), (very wide rounded hips, thick heavy thighs, compact shapely waist:1.2), (sharp angular hair locks, crisp stylized curves:1.15), (large expressive anime eyes, bold winged eyeliner:1.15), vibrant saturated colors, 2d anime key visual, soft contact shadow",
+    mjAdditions: "expressive 2D anime pinup illustration, bold clean black outlines, smooth cel shading, glossy specular skin highlights, rosy cheek and nose blush, extremely voluptuous curvy silhouette, massive heavy natural breasts, deep cleavage, very wide rounded hips, thick heavy thighs, compact shapely waist, sharp angular hair locks, large captivating expressive anime eyes, bold winged eyeliner --ar 16:9 --niji 6 --style expressive"
   },
   {
     id: "style_ravenous_russ",

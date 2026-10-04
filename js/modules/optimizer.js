@@ -140,8 +140,8 @@ export class PromptOptimizer {
    * Format for Flux (Coherent, Impactful Natural Language Story Prose)
    */
   static _formatFluxProse(tokens, wasOriginalProse, rawText, options, selectedPreset) {
-    // If input was already long prose, clean buzzwords and inject preset if chosen
-    if (wasOriginalProse && tokens.length <= 4) {
+    // If input was already natural prose, clean buzzwords and inject preset if chosen
+    if (wasOriginalProse) {
       let prose = rawText;
       MODEL_PROFILES.flux.stripWords.forEach(w => {
         const re = new RegExp(`\\b${w}\\b,?\\s*`, "gi");
@@ -285,20 +285,24 @@ export class PromptOptimizer {
 
     // --- 6. Setting & Atmospheric Lighting ---
     let env = groups.environment.length > 0 ? groups.environment.join(", ") : null;
+    let fallbackLight = "flattering soft studio lighting with gentle rim highlights";
+    if (env && /white|simple|clean|studio/i.test(env)) {
+      fallbackLight = "clean diffused studio lighting with subtle soft contact shadows";
+    }
     let light = groups.lighting_camera.length > 0 
       ? groups.lighting_camera.join(", ") 
-      : "intimate warm amber candlelight and subtle sensual rim highlights tracing feminine curves";
+      : fallbackLight;
     
-    light = light.replace(/^(?:illuminated by|bathed in|lit by)\s+/i, "").trim();
+    light = light.replace(/^(?:illuminated by|bathed in|lit by|warmly illuminated by)\s+/i, "").trim();
 
     if (env) {
       if (env.toLowerCase().startsWith("against ") || env.toLowerCase().startsWith("in ")) {
-        sentences.push(`The scene is set ${env}, warmly illuminated by ${light}.`);
+        sentences.push(`The scene is set ${env}, with ${light}.`);
       } else {
-        sentences.push(`The scene is set against ${env}, warmly illuminated by ${light}.`);
+        sentences.push(`The scene is set against ${env}, with ${light}.`);
       }
     } else {
-      sentences.push(`Illuminated by ${light}.`);
+      sentences.push(`Illuminated with ${light}.`);
     }
 
     // --- 7. General Details / Rendering Finish ---
