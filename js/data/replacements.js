@@ -24,6 +24,13 @@ export const WORD_SWAPS = [
 
   // 2. Adult Pinup & Glamour Word Swaps
   {
+    pattern: /\b(bunny girl|playboy bunny|bunny suit)\b/gi,
+    flux: "an adult woman in a glossy satin black bunny suit with rabbit ears, bow tie, and fishnet stockings",
+    pony: "1woman, bunny_suit, playboy_bunny, fishnets, collar, cuffs, rabbit_ears",
+    sdxl: "1woman, adult playboy bunny suit, fishnet stockings, rabbit ears, high heels",
+    midjourney: "glamorous adult bunny girl in glossy satin bunny suit and fishnets"
+  },
+  {
     pattern: /\b(1girl|girl)\b/gi,
     flux: "an alluring adult woman",
     pony: "1woman, mature_female, adult",
@@ -36,13 +43,6 @@ export const WORD_SWAPS = [
     pony: "mature_female, adult, pinup, hourglass_figure, voluptuous",
     sdxl: "adult pinup, mature female, voluptuous hourglass figure, glamorous",
     midjourney: "glamorous adult pinup model with alluring hourglass curves"
-  },
-  {
-    pattern: /\b(bunny girl|playboy bunny|bunny suit)\b/gi,
-    flux: "an adult woman in a glossy satin black bunny suit with rabbit ears, bow tie, and fishnet stockings",
-    pony: "1woman, bunny_suit, playboy_bunny, fishnets, collar, cuffs, rabbit_ears",
-    sdxl: "1woman, adult playboy bunny suit, fishnet stockings, rabbit ears, high heels",
-    midjourney: "glamorous adult bunny girl in glossy satin bunny suit and fishnets"
   },
   {
     pattern: /\b(lingerie|underwear|negligee)\b/gi,
@@ -73,11 +73,18 @@ export const WORD_SWAPS = [
     midjourney: "alluring cleavage and bare décolletage"
   },
   {
-    pattern: /\b(legs|thighs|stockings|heels)\b/gi,
-    flux: "long shapely legs clad in sheer silk thighhigh stockings and pointed stiletto heels",
-    pony: "thighhighs, garter_straps, high_heels, long_legs",
-    sdxl: "silk thighhigh stockings, garter straps, high stiletto heels, long legs",
-    midjourney: "long shapely legs in sheer thighhigh stockings and stiletto heels"
+    pattern: /\b(legs|thighs)\b/i,
+    flux: "long shapely toned legs",
+    pony: "long_legs, toned_thighs",
+    sdxl: "long shapely legs, toned thighs",
+    midjourney: "long shapely toned legs"
+  },
+  {
+    pattern: /\b(stockings|thighhighs|heels|high heels|stilettos)\b/i,
+    flux: "sheer silk thighhigh stockings and tall pointed stiletto high heels",
+    pony: "thighhighs, high_heels, stockings",
+    sdxl: "silk thighhigh stockings, high stiletto heels",
+    midjourney: "sheer thighhigh stockings and pointed stiletto heels"
   },
 
   // 3. Seductive Gaze & Expressions
@@ -128,11 +135,11 @@ export const WORD_SWAPS = [
 
   {
     pattern: /\b(?:style of\s+)?(?:xpi[\s_-]?sigma(?:[\s_-]?art)?|xpisigma)\b/i,
-    flux: "an expressive anime and Disney-inspired 2D animation art style, bold thick black outlines, clean simple cel lighting, vibrant saturated colors, voluptuous curvy adult woman, shapely hourglass figure, and large captivating expressive anime-Disney eyes",
+    flux: "rendered in an expressive anime and Disney-inspired 2D animation art style, featuring bold thick black outlines, vibrant saturated colors, clean simple cel shading with subtle soft highlights, showcasing a voluptuous curvy adult woman with an appealing hourglass figure and large captivating expressive anime-Disney eyes, finished with crisp clean stylized vector linework and rich animation cel-shading",
     pony: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, simple_shading, large_eyes, expressive_eyes, detailed_eyes, voluptuous, curvy, hourglass_figure, wide_hips, western_anime, source_anime, 1woman, mature_female, adult, pinup",
     sdxl: "(anime-disney hybrid style:1.2), (bold thick outlines, clean inking:1.15), (vibrant saturated colors, simple cel shading:1.15), (voluptuous curvy adult female, hourglass figure:1.15), (large expressive eyes:1.1), animated 2d pinup",
     midjourney: "expressive anime and Disney inspired 2D animation pinup, bold thick clean outlines, vibrant saturated colors, simple clean cel shading, voluptuous curvy silhouette, large expressive eyes",
-    reason: "Decomposed 'XPI Sigma Art' into anime-Disney hybrid style, bold thick outlines, simple lighting, vibrant colors, curvy female, and large expressive eyes"
+    reason: "Decomposed 'XPI Sigma Art' into anime-Disney hybrid style, bold thick outlines, simple cel lighting, vibrant colors, curvy female, large expressive eyes, and crisp vector linework"
   },
   {
     pattern: /\b(?:style of\s+)?(?:ravenous[\s_-]?russ|russ frey)\b/i,
@@ -216,7 +223,7 @@ export const INTENT_PRESETS = [
     name: "Style of XPI Sigma Art",
     shortDesc: "Anime-Disney hybrid, bold thick outlines, simple cel lighting, vibrant colors, curvy females, large expressive eyes",
     description: "Recreates XPI Sigma's signature aesthetic: anime-inspired with a flair of Disney animation charm, bold thick dark outlines, vibrant saturated colors, simple clean cel shading, curvy voluptuous adult females, and large expressive eyes.",
-    fluxAdditions: "rendered in an expressive anime and Disney-inspired 2D animation art style, featuring bold thick black outlines, vibrant saturated colors, clean simple cel shading with subtle soft highlights, showcasing a voluptuous curvy adult woman with an appealing hourglass figure and large captivating expressive anime-Disney eyes",
+    fluxAdditions: "rendered in an expressive anime and Disney-inspired 2D animation art style, featuring bold thick black outlines, vibrant saturated colors, clean simple cel shading with subtle soft highlights, showcasing a voluptuous curvy adult woman with an appealing hourglass figure and large captivating expressive anime-Disney eyes, finished with crisp clean stylized vector linework and rich animation cel-shading",
     ponyAdditions: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, simple_shading, large_eyes, expressive_eyes, detailed_eyes, voluptuous, curvy, hourglass_figure, wide_hips, western_anime, source_anime, 1woman, mature_female, adult, pinup",
     sdxlAdditions: "(anime-disney hybrid style:1.2), (bold thick outlines, clean inking:1.15), (vibrant saturated colors, simple cel shading:1.15), (voluptuous curvy adult female, hourglass figure:1.15), (large expressive eyes:1.1), animated 2d pinup",
     mjAdditions: "expressive anime and Disney inspired 2D animation pinup, bold thick clean outlines, vibrant saturated colors, simple clean cel shading, voluptuous curvy silhouette, large expressive eyes --ar 16:9 --niji 6 --style expressive"

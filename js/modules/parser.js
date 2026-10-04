@@ -19,6 +19,17 @@ export class PromptParser {
 
     let text = rawText.trim();
 
+    // 0. Strip Unicode emoji codes (e.g., U1F51E, U+1F51E), hex entities, emoji glyphs, and safety tags
+    text = text
+      .replace(/\bU\+?[0-9A-Fa-f]{4,6}\b/gi, "")
+      .replace(/\\u\{?[0-9a-fA-F]{4,6}\}?/gi, "")
+      .replace(/&#x?[0-9a-zA-Z]+;/gi, "")
+      .replace(/\p{Extended_Pictographic}/gu, "")
+      .replace(/[:[\]{}|\\^~]/g, " ")
+      .replace(/,\s*,+/g, ", ")
+      .replace(/\s+/g, " ")
+      .trim();
+
     // 1. Extract parameter flags (e.g., --ar 16:9, --v 6.1, --no text)
     const parameters = {};
     const paramRegex = /--([a-zA-Z0-9_-]+)(?:\s+([^\s-]+))?/g;
@@ -49,10 +60,10 @@ export class PromptParser {
         .filter(u => u.length > 0);
     }
 
-    // 4. Tokenize and categorize each unit
-    const tokens = rawUnits.map((unit, index) => {
-      return this._classifyToken(unit, index);
-    });
+    // 4. Tokenize, filter, and categorize each unit
+    const tokens = rawUnits
+      .map((unit, index) => this._classifyToken(unit, index))
+      .filter(t => t.clean && t.clean.length > 0 && !/^u\+?[0-9a-f]{4,6}$/i.test(t.clean));
 
     return {
       tokens,
@@ -97,7 +108,7 @@ export class PromptParser {
       category = "score_tags";
     }
     // B. Check Subject Counts / Entities
-    else if (/^(1girl|1boy|2girls|2boys|multiple_girls|multiple_boys|solo|couple|group)$/i.test(booruNormalized)) {
+    else if (/^(1girl|1woman|1boy|1man|girl|woman|female|mature_female|adult|pinup|solo|model|couple|group|2girls|multiple_girls)$/i.test(booruNormalized)) {
       category = "subject_count";
     }
     // C. Match against Lexicon
@@ -158,7 +169,7 @@ export class PromptParser {
    * Keyword heuristics for categorizing standard Danbooru & English tags
    */
   static _heuristicCategory(tag) {
-    if (/(eyes|hair|skin|face|body|freckles|ears|wings|tail|horns|breasts|thighs)/i.test(tag)) {
+    if (/(eyes|hair|skin|face|body|freckles|ears|wings|tail|horns|breasts|thighs|legs|curves|hourglass|waist|hips)/i.test(tag)) {
       return "physical_traits";
     }
     if (/(shirt|dress|skirt|pants|jacket|hoodie|uniform|hat|gloves|shoes|boots|costume|suit|armor|ribbon|collar)/i.test(tag)) {

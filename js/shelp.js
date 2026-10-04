@@ -73,7 +73,7 @@
     ],
 
     styles_mediums: [
-      { id: "style_xpi_sigma", label: "Style of XPI Sigma Art", danbooru: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, simple_shading, large_eyes, expressive_eyes, detailed_eyes, voluptuous, curvy, hourglass_figure, wide_hips, western_anime, source_anime, 1woman, mature_female, adult, pinup", flux: "rendered in an expressive anime and Disney-inspired 2D animation art style, featuring bold thick black outlines, vibrant saturated colors, clean simple cel shading with subtle soft highlights, showcasing a voluptuous curvy adult woman with an appealing hourglass figure and large captivating expressive anime-Disney eyes", sdxl: "(anime-disney hybrid style:1.2), (bold thick outlines, clean inking:1.15), (vibrant saturated colors, simple cel shading:1.15), (voluptuous curvy adult female, hourglass figure:1.15), (large expressive eyes:1.1), animated 2d pinup", category: "style" },
+      { id: "style_xpi_sigma", label: "Style of XPI Sigma Art", danbooru: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, simple_shading, large_eyes, expressive_eyes, detailed_eyes, voluptuous, curvy, hourglass_figure, wide_hips, western_anime, source_anime, 1woman, mature_female, adult, pinup", flux: "rendered in an expressive anime and Disney-inspired 2D animation art style, featuring bold thick black outlines, vibrant saturated colors, clean simple cel shading with subtle soft highlights, showcasing a voluptuous curvy adult woman with an appealing hourglass figure and large captivating expressive anime-Disney eyes, finished with crisp clean stylized vector linework and rich animation cel-shading", sdxl: "(anime-disney hybrid style:1.2), (bold thick outlines, clean inking:1.15), (vibrant saturated colors, simple cel shading:1.15), (voluptuous curvy adult female, hourglass figure:1.15), (large expressive eyes:1.1), animated 2d pinup", category: "style" },
       { id: "style_xaxaxa", label: "Style of xaxaxa", danbooru: "delicate_lineart, soft_shading, luminous_skin, glowing_light, detailed_eyes, bedroom_eyes, glossy_lips, blush, translucent_skin, painterly_anime, voluptuous, graceful_curves", flux: "rendered in a delicate Japanese digital anime pinup aesthetic, featuring soft refined colored linework, luminous porcelain skin with a warm translucent subsurface glow, intricate shimmering anime eyes with detailed highlights, soft glossy lips, subtle rosy blush across cheeks, and gentle painterly shading with ethereal glowing rim lighting", sdxl: "(delicate digital anime art:1.15), (luminous skin, glowing rim light:1.15), (intricate sparkling eyes, soft painterly shading:1.1), subtle blush, (voluptuous graceful pinup, glossy lips:1.1), dreamy atmosphere", category: "style" },
       { id: "style_awd_art", label: "AWD Art (AWD!)", danbooru: "thick_outlines, stylized_anime, cartoon_style, cel_shading, clean_coloring, voluptuous, thick_thighs, wide_hips, curvy, big_eyes, animated_look", flux: "rendered in a high-energy stylized 2D cartoon-anime pinup aesthetic, with thick rounded black contour lineart, vibrant clean animation cel shading, bouncy specular highlights, plush curvaceous proportions, thick rounded thighs, shapely hips, and expressive lively anime eyes", sdxl: "(stylized cartoon anime pinup:1.2), (thick rounded outlines, clean animation cel shading:1.15), (vibrant colors:1.1), (voluptuous curvy proportions, thick thighs:1.15), lively expressive eyes", category: "style" },
       { id: "style_ravenous_russ", label: "Ravenous Russ", danbooru: "bold_outline, thick_lineart, comic_style, cel_shading, high_contrast, saturated, voluptuous, wide_hips, thick_thighs, hourglass_figure, arched_back, seductive_smirk, digital_media", flux: "rendered in an energetic stylized comic pinup art style with confident heavy black ink outlines, dynamic line weight, punchy saturated pop colors, crisp two-tone comic cel shading with glossy specular sheen, exaggerated feminine curves, thick thighs, wide shapely hips", sdxl: "(bold comic pinup illustration:1.2), (heavy black outlines, expressive comic inking:1.15), (dynamic cel shading, saturated pop colors:1.1), (exaggerated voluptuous curves, wide hips, thick thighs:1.15)", category: "style" },
@@ -190,6 +190,13 @@
       midjourney: "pinup art visual, painted illustration"
     },
     {
+      pattern: /\b(bunny girl|playboy bunny|bunny suit)\b/gi,
+      flux: "an adult woman in a glossy satin black bunny suit with rabbit ears, bow tie, and fishnet stockings",
+      pony: "1woman, bunny_suit, playboy_bunny, fishnets, collar, cuffs, rabbit_ears",
+      sdxl: "1woman, adult playboy bunny suit, fishnet stockings, rabbit ears, high heels",
+      midjourney: "glamorous adult bunny girl in glossy satin bunny suit and fishnets"
+    },
+    {
       pattern: /\b(1girl|girl)\b/gi,
       flux: "an alluring adult woman",
       pony: "1woman, mature_female, adult",
@@ -202,13 +209,6 @@
       pony: "mature_female, adult, pinup, hourglass_figure, voluptuous",
       sdxl: "adult pinup, mature female, voluptuous hourglass figure, glamorous",
       midjourney: "glamorous adult pinup model with alluring hourglass curves"
-    },
-    {
-      pattern: /\b(bunny girl|playboy bunny|bunny suit)\b/gi,
-      flux: "an adult woman in a glossy satin black bunny suit with rabbit ears, bow tie, and fishnet stockings",
-      pony: "1woman, bunny_suit, playboy_bunny, fishnets, collar, cuffs, rabbit_ears",
-      sdxl: "1woman, adult playboy bunny suit, fishnet stockings, rabbit ears, high heels",
-      midjourney: "glamorous adult bunny girl in glossy satin bunny suit and fishnets"
     },
     {
       pattern: /\b(lingerie|underwear|negligee)\b/gi,
@@ -239,11 +239,18 @@
       midjourney: "alluring cleavage and bare décolletage"
     },
     {
-      pattern: /\b(legs|thighs|stockings|heels)\b/gi,
-      flux: "long shapely legs clad in sheer silk thighhigh stockings and pointed stiletto heels",
-      pony: "thighhighs, garter_straps, high_heels, long_legs",
-      sdxl: "silk thighhigh stockings, garter straps, high stiletto heels, long legs",
-      midjourney: "long shapely legs in sheer thighhigh stockings and stiletto heels"
+      pattern: /\b(legs|thighs)\b/i,
+      flux: "long shapely toned legs",
+      pony: "long_legs, toned_thighs",
+      sdxl: "long shapely legs, toned thighs",
+      midjourney: "long shapely toned legs"
+    },
+    {
+      pattern: /\b(stockings|thighhighs|heels|high heels|stilettos)\b/i,
+      flux: "sheer silk thighhigh stockings and tall pointed stiletto high heels",
+      pony: "thighhighs, high_heels, stockings",
+      sdxl: "silk thighhigh stockings, high stiletto heels",
+      midjourney: "sheer thighhigh stockings and pointed stiletto heels"
     },
     {
       pattern: /\b(looking at (?:camera|me|viewer)|eye contact)\b/gi,
@@ -291,11 +298,11 @@
     // 5. Artist Name to Descriptive Style Swaps (For models not trained on these artists)
     {
       pattern: /\b(?:style of\s+)?(?:xpi[\s_-]?sigma(?:[\s_-]?art)?|xpisigma)\b/i,
-      flux: "an expressive anime and Disney-inspired 2D animation art style, bold thick black outlines, clean simple cel lighting, vibrant saturated colors, voluptuous curvy adult woman, shapely hourglass figure, and large captivating expressive anime-Disney eyes",
+      flux: "rendered in an expressive anime and Disney-inspired 2D animation art style, featuring bold thick black outlines, vibrant saturated colors, clean simple cel shading with subtle soft highlights, showcasing a voluptuous curvy adult woman with an appealing hourglass figure and large captivating expressive anime-Disney eyes, finished with crisp clean stylized vector linework and rich animation cel-shading",
       pony: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, simple_shading, large_eyes, expressive_eyes, detailed_eyes, voluptuous, curvy, hourglass_figure, wide_hips, western_anime, source_anime, 1woman, mature_female, adult, pinup",
       sdxl: "(anime-disney hybrid style:1.2), (bold thick outlines, clean inking:1.15), (vibrant saturated colors, simple cel shading:1.15), (voluptuous curvy adult female, hourglass figure:1.15), (large expressive eyes:1.1), animated 2d pinup",
       midjourney: "expressive anime and Disney inspired 2D animation pinup, bold thick clean outlines, vibrant saturated colors, simple clean cel shading, voluptuous curvy silhouette, large expressive eyes",
-      reason: "Decomposed 'XPI Sigma Art' into anime-Disney hybrid style, bold thick outlines, simple lighting, vibrant colors, curvy female, and large expressive eyes"
+      reason: "Decomposed 'XPI Sigma Art' into anime-Disney hybrid style, bold thick outlines, simple cel lighting, vibrant colors, curvy female, large expressive eyes, and crisp vector linework"
     },
     {
       pattern: /\b(?:style of\s+)?(?:ravenous[\s_-]?russ|russ frey)\b/i,
@@ -376,7 +383,7 @@
       name: "Style of XPI Sigma Art",
       shortDesc: "Anime-Disney hybrid, bold thick outlines, simple cel lighting, vibrant colors, curvy females, large expressive eyes",
       description: "Recreates XPI Sigma's signature aesthetic: anime-inspired with a flair of Disney animation charm, bold thick dark outlines, vibrant saturated colors, simple clean cel shading, curvy voluptuous adult females, and large expressive eyes.",
-      fluxAdditions: "rendered in an expressive anime and Disney-inspired 2D animation art style, featuring bold thick black outlines, vibrant saturated colors, clean simple cel shading with subtle soft highlights, showcasing a voluptuous curvy adult woman with an appealing hourglass figure and large captivating expressive anime-Disney eyes",
+      fluxAdditions: "rendered in an expressive anime and Disney-inspired 2D animation art style, featuring bold thick black outlines, vibrant saturated colors, clean simple cel shading with subtle soft highlights, showcasing a voluptuous curvy adult woman with an appealing hourglass figure and large captivating expressive anime-Disney eyes, finished with crisp clean stylized vector linework and rich animation cel-shading",
       ponyAdditions: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, simple_shading, large_eyes, expressive_eyes, detailed_eyes, voluptuous, curvy, hourglass_figure, wide_hips, western_anime, source_anime, 1woman, mature_female, adult, pinup",
       sdxlAdditions: "(anime-disney hybrid style:1.2), (bold thick outlines, clean inking:1.15), (vibrant saturated colors, simple cel shading:1.15), (voluptuous curvy adult female, hourglass figure:1.15), (large expressive eyes:1.1), animated 2d pinup",
       mjAdditions: "expressive anime and Disney inspired 2D animation pinup, bold thick clean outlines, vibrant saturated colors, simple clean cel shading, voluptuous curvy silhouette, large expressive eyes --ar 16:9 --niji 6 --style expressive"
@@ -493,6 +500,18 @@
       }
 
       let text = rawText.trim();
+
+      // 0. Strip Unicode emoji codes (e.g., U1F51E, U+1F51E), hex entities, emoji glyphs, and safety tags
+      text = text
+        .replace(/\bU\+?[0-9A-Fa-f]{4,6}\b/gi, "")
+        .replace(/\\u\{?[0-9a-fA-F]{4,6}\}?/gi, "")
+        .replace(/&#x?[0-9a-zA-Z]+;/gi, "")
+        .replace(/\p{Extended_Pictographic}/gu, "")
+        .replace(/[:[\]{}|\\^~]/g, " ")
+        .replace(/,\s*,+/g, ", ")
+        .replace(/\s+/g, " ")
+        .trim();
+
       const parameters = {};
       const paramRegex = /--([a-zA-Z0-9_-]+)(?:\s+([^\s-]+))?/g;
       let match;
@@ -513,7 +532,10 @@
         rawUnits = text.split(",").map(u => u.trim()).filter(u => u.length > 0);
       }
 
-      const tokens = rawUnits.map((unit, index) => this._classifyToken(unit, index));
+      // 4. Tokenize, filter, and categorize each unit
+      const tokens = rawUnits
+        .map((unit, index) => this._classifyToken(unit, index))
+        .filter(t => t.clean && t.clean.length > 0 && !/^u\+?[0-9a-f]{4,6}$/i.test(t.clean));
 
       return { tokens, parameters, isProse, raw: rawText };
     }
@@ -545,7 +567,7 @@
 
       if (/^score_\d+(_up)?$/i.test(booruNormalized) || /^rating(:|_)/i.test(booruNormalized) || /source_/i.test(booruNormalized)) {
         category = "score_tags";
-      } else if (/^(1woman|1man|mature_female|adult|pinup|couple|group)$/i.test(booruNormalized)) {
+      } else if (/^(1girl|1woman|1boy|1man|girl|woman|female|mature_female|adult|pinup|solo|model|couple|group|2girls|multiple_girls)$/i.test(booruNormalized)) {
         category = "subject_count";
       } else {
         for (const [catKey, items] of Object.entries(LEXICON)) {
@@ -727,13 +749,19 @@
      * Format for Flux (Coherent, Impactful Natural Language Story Prose)
      */
     static _formatFluxProse(tokens, wasOriginalProse, rawText, options, selectedPreset) {
+      // If input was already long prose, clean buzzwords and inject preset if chosen
       if (wasOriginalProse && tokens.length <= 4) {
         let prose = rawText;
         MODEL_PROFILES.flux.stripWords.forEach(w => {
           const re = new RegExp(`\\b${w}\\b,?\\s*`, "gi");
           prose = prose.replace(re, "");
         });
-        prose = prose.replace(/_([a-z0-9])/gi, " $1");
+        // Strip unicode/hex noise
+        prose = prose
+          .replace(/\bU\+?[0-9A-Fa-f]{4,6}\b/gi, "")
+          .replace(/\\u\{?[0-9a-fA-F]{4,6}\}?/gi, "")
+          .replace(/\p{Extended_Pictographic}/gu, "")
+          .replace(/_([a-z0-9])/gi, " $1");
         if (selectedPreset) {
           prose = `${selectedPreset.fluxAdditions}. ${prose}`;
         }
@@ -754,55 +782,133 @@
       tokens.forEach(t => {
         let tagVal = t.value.toLowerCase().replace(/\s+/g, "_");
         let readable = BOORU_TO_PROSE[tagVal] || t.value.replace(/_/g, " ");
+        readable = readable.trim();
+        if (!readable) return;
+        // Strip stray unicode codes
+        readable = readable.replace(/\bU\+?[0-9A-Fa-f]{4,6}\b/gi, "").trim();
+        if (!readable) return;
+
         const cat = groups[t.category] ? t.category : "general";
-        groups[cat].push(readable);
+
+        // Deduplicate within the group
+        const isDup = groups[cat].some(existing => 
+          existing.toLowerCase() === readable.toLowerCase() ||
+          (existing.length > 20 && readable.length > 20 && (existing.includes(readable) || readable.includes(existing)))
+        );
+        if (!isDup) {
+          groups[cat].push(readable);
+        }
       });
 
       const sentences = [];
 
-      // 1. Opening Art Direction & Subject Anchor
-      let subj = groups.subject_count.join(" and ") || "an alluring adult woman";
-      let phys = groups.physical_traits.length > 0 ? `with ${groups.physical_traits.join(", ")}` : "with a voluptuous hourglass figure";
-      
+      // --- 1. Subject Resolution (Zero Stuttering & Single Anchor Selection) ---
+      // If multiple subjects exist, prioritize the most descriptive one (e.g. bunny suit, lingerie model)
+      let chosenSubject = "an alluring adult woman";
+      if (groups.subject_count.length > 0) {
+        const sorted = [...groups.subject_count].sort((a, b) => b.length - a.length);
+        chosenSubject = sorted[0];
+      }
+      chosenSubject = chosenSubject.replace(/\s+/g, " ").trim();
+
+      // --- 2. Physical Traits Resolution ---
+      // Strip leading prepositions, remove traits already present in chosenSubject or preset style
+      let cleanPhys = groups.physical_traits
+        .map(p => p.replace(/^(?:with|featuring|having|possessing)\s+/i, "").trim())
+        .filter(p => {
+          const pLower = p.toLowerCase();
+          if (chosenSubject.toLowerCase().includes(pLower)) return false;
+          if (selectedPreset && (pLower.includes("hourglass") || pLower.includes("curvy")) && selectedPreset.fluxAdditions.toLowerCase().includes("hourglass")) {
+            return false;
+          }
+          return p.length > 0;
+        });
+      cleanPhys = cleanPhys.filter((item, idx) => cleanPhys.indexOf(item) === idx);
+
+      let physPhrase = cleanPhys.length > 0 ? `, with ${cleanPhys.join(", ")}` : "";
+
+      // --- 3. Style / Art Direction Phrase ---
       let stylePhrase = selectedPreset 
         ? selectedPreset.fluxAdditions 
         : (groups.style_medium.length > 0
-            ? (groups.style_medium.join(", ").startsWith("rendered") ? groups.style_medium.join(", ") : `rendered in ${groups.style_medium.join(", ")}`)
+            ? groups.style_medium.join(", ")
             : "rendered in an exquisite stylized adult pinup illustration aesthetic with crisp vector linework and clean cel shading");
 
-      if (stylePhrase.startsWith("rendered in ") || stylePhrase.startsWith("rendered as ") || stylePhrase.startsWith("in ") || stylePhrase.startsWith("featuring ")) {
-        sentences.push(`An alluring adult pinup illustration of ${subj} ${phys}, ${stylePhrase}.`);
+      let styleSentencePart = "";
+      if (stylePhrase.match(/^(?:rendered in|rendered as|featuring|in an?)\b/i)) {
+        styleSentencePart = stylePhrase;
       } else {
-        sentences.push(`An alluring adult pinup illustration of ${subj} ${phys}, rendered in ${stylePhrase}.`);
+        styleSentencePart = `rendered in ${stylePhrase}`;
       }
 
-      // 2. Pose, Gaze & Attire Integration
-      let pose = groups.expression_pose.length > 0 ? groups.expression_pose.join(", ") : "an alluring arched back pose";
-      let attire = groups.clothing.length > 0 ? groups.clothing.join(", ") : null;
-      if (attire) {
-        sentences.push(`She strikes a seductive pose with ${pose}, dressed in ${attire} that accentuates her feminine silhouette.`);
+      sentences.push(`An alluring adult pinup illustration of ${chosenSubject}${physPhrase}, ${styleSentencePart}.`);
+
+      // --- 4. Pose & Expression Phrasing (Prevent "with posing with") ---
+      let rawPose = groups.expression_pose.length > 0 
+        ? groups.expression_pose.join(", ") 
+        : "an alluring arched back pose emphasizing feminine curves";
+      
+      let cleanPose = rawPose
+        .replace(/^(?:strikes? a seductive pose with|strikes? a pose with|striking a pose with|posing with|posing in|striking|with)\s+/i, "")
+        .replace(/\s+/g, " ")
+        .trim();
+
+      // --- 5. Attire Integration (Prevent "dressed in legs" or repeating subject costume) ---
+      let cleanAttireList = groups.clothing
+        .map(c => c.replace(/^(?:dressed in|wearing|clad in|in)\s+/i, "").trim())
+        .filter(c => {
+          const cLower = c.toLowerCase();
+          // Never include legs/thighs in attire
+          if (/\b(legs|thighs)\b/i.test(cLower)) return false;
+          // Don't repeat if already explicitly described in chosenSubject
+          if (chosenSubject.toLowerCase().includes(cLower)) return false;
+          return c.length > 0;
+        });
+      cleanAttireList = cleanAttireList.filter((item, idx) => cleanAttireList.indexOf(item) === idx);
+
+      let attirePhrase = cleanAttireList.length > 0 ? cleanAttireList.join(", ") : null;
+
+      if (attirePhrase) {
+        sentences.push(`She strikes an alluring pose with ${cleanPose}, dressed in ${attirePhrase} that accentuates her feminine silhouette.`);
       } else {
-        sentences.push(`She strikes a confident, seductive pinup pose with ${pose}.`);
+        sentences.push(`She strikes an alluring pose with ${cleanPose}.`);
       }
 
-      // 3. Spatial Setting & Atmospheric Lighting Physics
+      // --- 6. Setting & Atmospheric Lighting ---
       let env = groups.environment.length > 0 ? groups.environment.join(", ") : null;
       let light = groups.lighting_camera.length > 0 
         ? groups.lighting_camera.join(", ") 
-        : "warm amber candlelight with soft sensual rim highlights tracing her contours";
+        : "intimate warm amber candlelight and subtle sensual rim highlights tracing feminine curves";
       
+      light = light.replace(/^(?:illuminated by|bathed in|lit by)\s+/i, "").trim();
+
       if (env) {
         sentences.push(`The scene is set in ${env}, warmly illuminated by ${light}.`);
       } else {
         sentences.push(`Illuminated by ${light}.`);
       }
 
-      // 4. Any general details
-      if (groups.general.length > 0) {
-        sentences.push(`Detailed with ${groups.general.join(", ")}.`);
+      // --- 7. General Details / Rendering Finish ---
+      let cleanGeneral = groups.general.filter(g => {
+        const gLower = g.toLowerCase();
+        if (stylePhrase.toLowerCase().includes(gLower)) return false;
+        if (light.toLowerCase().includes(gLower)) return false;
+        if (chosenSubject.toLowerCase().includes(gLower)) return false;
+        if (/\b(woman|female|model|girl|lady|pinup|adult|solo)\b/i.test(gLower)) return false;
+        return g.length > 0;
+      });
+
+      if (cleanGeneral.length > 0) {
+        sentences.push(`Detailed with ${cleanGeneral.join(", ")}.`);
       }
 
-      return sentences.join(" ").replace(/\s\./g, ".").replace(/\s+/g, " ").trim();
+      return sentences.join(" ")
+        .replace(/\s+([.,;:])/g, "$1")
+        .replace(/\bU\+?[0-9A-Fa-f]{4,6}\b/gi, "")
+        .replace(/,\s*,/g, ",")
+        .replace(/\.\s*\./g, ".")
+        .replace(/\s+/g, " ")
+        .trim();
     }
 
     /**
@@ -895,7 +1001,7 @@
     }
 
     /**
-     * Format for SDXL / SD 1.5 (Weighted Tag Chunks)
+     * Format for SDXL / SD 1.5 (Weighted Tag Chunks with Deduplication)
      */
     static _formatSdxlWeighted(tokens, modelId, options, selectedPreset) {
       const profile = MODEL_PROFILES[modelId];
@@ -915,29 +1021,60 @@
 
       priorityOrder.forEach(category => {
         const match = tokens.filter(t => t.category === category);
-        if (match.length > 0) {
-          const str = match.map(t => {
-            let cleanVal = t.value.replace(/_/g, " ");
-            if (t.weight && t.weight !== 1.0) {
-              return `(${cleanVal}:${t.weight})`;
-            }
-            return cleanVal;
-          }).join(", ");
-          chunks.push(str);
-        }
+        match.forEach(t => {
+          let cleanVal = t.value.replace(/_/g, " ").trim();
+          if (!cleanVal) return;
+          if (t.weight && t.weight !== 1.0) {
+            cleanVal = `(${cleanVal}:${t.weight})`;
+          }
+          if (!chunks.some(c => c.toLowerCase() === cleanVal.toLowerCase())) {
+            chunks.push(cleanVal);
+          }
+        });
       });
 
       return chunks.join(", ");
     }
 
     /**
-     * Format for Midjourney Niji 6
+     * Format for Midjourney Niji 6 (Clean Tag Flow & Deduplicated Parameter Flags)
      */
     static _formatMidjourney(tokens, options, selectedPreset) {
-      const cleanTokens = tokens.map(t => t.value.replace(/_/g, " ")).join(", ");
-      const presetAdditions = selectedPreset ? (selectedPreset.mjAdditions || "") : "";
-      const params = options.mjParams || MODEL_PROFILES.midjourney.defaultParams;
-      return `${cleanTokens} ${presetAdditions} ${params}`.replace(/\s+/g, " ").trim();
+      const tagList = [];
+      tokens.forEach(t => {
+        const val = t.value.replace(/_/g, " ").trim();
+        if (val && !tagList.some(item => item.toLowerCase() === val.toLowerCase())) {
+          tagList.push(val);
+        }
+      });
+
+      let mainPrompt = tagList.join(", ");
+      let presetAdditions = selectedPreset ? (selectedPreset.mjAdditions || "") : "";
+      
+      // Extract and deduplicate parameter flags (--ar, --niji, etc.)
+      const paramRegex = /--([a-zA-Z0-9_-]+)(?:\s+([^\s-]+))?/g;
+      const flags = new Map();
+      
+      const defaultParams = options.mjParams || MODEL_PROFILES.midjourney.defaultParams || "";
+      let m;
+      while ((m = paramRegex.exec(defaultParams)) !== null) {
+        flags.set(m[1], m[2] || "");
+      }
+      
+      let presetCleanText = presetAdditions.replace(paramRegex, (match, p1, p2) => {
+        flags.set(p1, p2 || "");
+        return "";
+      }).trim();
+
+      if (presetCleanText) {
+        mainPrompt = `${mainPrompt}, ${presetCleanText}`;
+      }
+
+      const flagStr = Array.from(flags.entries())
+        .map(([k, v]) => v ? `--${k} ${v}` : `--${k}`)
+        .join(" ");
+
+      return `${mainPrompt} ${flagStr}`.replace(/\s+/g, " ").replace(/,\s*,/g, ",").trim();
     }
 
     static _applyPreset(prompt, preset, targetModelId) {
@@ -1356,6 +1493,16 @@
       return str.replace(/"/g, "&quot;");
     }
   }
+
+  // Expose engine globally
+  window.sHelpEngine = {
+    PromptOptimizer,
+    PromptParser,
+    MODEL_PROFILES,
+    WORD_SWAPS,
+    INTENT_PRESETS,
+    LEXICON
+  };
 
   // Auto-initialize on DOM ready
   document.addEventListener("DOMContentLoaded", () => {
