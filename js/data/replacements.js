@@ -126,14 +126,13 @@ export const WORD_SWAPS = [
     midjourney: ""
   },
 
-  // 5. Artist Name to Descriptive Style Swaps (For models not trained on these artists)
   {
     pattern: /\b(?:style of\s+)?(?:xpi[\s_-]?sigma(?:[\s_-]?art)?|xpisigma)\b/i,
-    flux: "vibrant stylized digital pinup aesthetic with clean flowing vector inking and tapered contours, rich saturated color palette, smooth multi-tone cel shading blended with soft airbrush gradients, luminous warm skin with delicate rosy blush, glossy highlights on full pouty lips and hair, voluptuous hourglass silhouette",
-    pony: "clean_lineart, smooth_lineart, vibrant_colors, cel_shading, soft_shading, airbrushed_blush, glossy_lips, detailed_eyes, voluptuous, hourglass_figure, wide_hips, narrow_waist, digital_illustration",
-    sdxl: "(stylized digital pinup:1.15), (clean vector lineart, tapered inking:1.1), (vibrant saturated colors:1.1), (smooth cel shading, soft airbrush blush:1.1), voluptuous hourglass figure, wide hips, glossy highlights, detailed anime eyes",
-    midjourney: "vibrant stylized digital pinup, clean tapered vector outlines, saturated colors, smooth cel shading, voluptuous hourglass curves, glossy highlights",
-    reason: "Decomposed 'XPI Sigma Art' into visual linework, shading, and curve descriptors"
+    flux: "an expressive anime and Disney-inspired 2D animation art style, bold thick black outlines, clean simple cel lighting, vibrant saturated colors, voluptuous curvy adult woman, shapely hourglass figure, and large captivating expressive anime-Disney eyes",
+    pony: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, simple_shading, large_eyes, expressive_eyes, detailed_eyes, voluptuous, curvy, hourglass_figure, wide_hips, western_anime, source_anime, 1woman, mature_female, adult, pinup",
+    sdxl: "(anime-disney hybrid style:1.2), (bold thick outlines, clean inking:1.15), (vibrant saturated colors, simple cel shading:1.15), (voluptuous curvy adult female, hourglass figure:1.15), (large expressive eyes:1.1), animated 2d pinup",
+    midjourney: "expressive anime and Disney inspired 2D animation pinup, bold thick clean outlines, vibrant saturated colors, simple clean cel shading, voluptuous curvy silhouette, large expressive eyes",
+    reason: "Decomposed 'XPI Sigma Art' into anime-Disney hybrid style, bold thick outlines, simple lighting, vibrant colors, curvy female, and large expressive eyes"
   },
   {
     pattern: /\b(?:style of\s+)?(?:ravenous[\s_-]?russ|russ frey)\b/i,
@@ -215,12 +214,12 @@ export const INTENT_PRESETS = [
   {
     id: "style_xpi_sigma",
     name: "Style of XPI Sigma Art",
-    shortDesc: "Vector linework, vibrant cel shading, airbrushed blush, hourglass curves",
-    description: "Recreates the signature XPI Sigma aesthetic by decomposing it into concrete model descriptors: crisp flowing vector lineart, saturated colors, smooth multi-tone cel shading, airbrush gradients, and voluptuous hourglass curves.",
-    fluxAdditions: "rendered in a vibrant stylized digital pinup aesthetic with clean flowing vector inking and tapered contours, rich saturated color palette, smooth multi-tone cel shading blended with soft airbrush gradients, luminous warm skin with delicate rosy blush, glossy highlights on full pouty lips and hair, emphasizing an alluring voluptuous hourglass silhouette with narrow waist and shapely curves",
-    ponyAdditions: "clean_lineart, smooth_lineart, vibrant_colors, cel_shading, soft_shading, airbrushed_blush, glossy_lips, detailed_eyes, voluptuous, hourglass_figure, wide_hips, narrow_waist, seductive_smile, digital_illustration, high_contrast",
-    sdxlAdditions: "(stylized digital pinup:1.15), (clean vector lineart, tapered inking:1.1), (vibrant saturated colors:1.1), (smooth cel shading, soft airbrush blush:1.1), voluptuous hourglass figure, wide hips, narrow waist, glossy highlights, detailed anime eyes, polished digital illustration",
-    mjAdditions: "vibrant stylized digital pinup illustration, clean tapered vector outlines, saturated color palette, smooth cel shading with soft airbrush blush, voluptuous hourglass curves, glossy highlights, expressive eyes --ar 16:9 --niji 6 --style expressive"
+    shortDesc: "Anime-Disney hybrid, bold thick outlines, simple cel lighting, vibrant colors, curvy females, large expressive eyes",
+    description: "Recreates XPI Sigma's signature aesthetic: anime-inspired with a flair of Disney animation charm, bold thick dark outlines, vibrant saturated colors, simple clean cel shading, curvy voluptuous adult females, and large expressive eyes.",
+    fluxAdditions: "rendered in an expressive anime and Disney-inspired 2D animation art style, featuring bold thick black outlines, vibrant saturated colors, clean simple cel shading with subtle soft highlights, showcasing a voluptuous curvy adult woman with an appealing hourglass figure and large captivating expressive anime-Disney eyes",
+    ponyAdditions: "thick_outlines, bold_outline, clean_lineart, vibrant_colors, cel_shading, simple_shading, large_eyes, expressive_eyes, detailed_eyes, voluptuous, curvy, hourglass_figure, wide_hips, western_anime, source_anime, 1woman, mature_female, adult, pinup",
+    sdxlAdditions: "(anime-disney hybrid style:1.2), (bold thick outlines, clean inking:1.15), (vibrant saturated colors, simple cel shading:1.15), (voluptuous curvy adult female, hourglass figure:1.15), (large expressive eyes:1.1), animated 2d pinup",
+    mjAdditions: "expressive anime and Disney inspired 2D animation pinup, bold thick clean outlines, vibrant saturated colors, simple clean cel shading, voluptuous curvy silhouette, large expressive eyes --ar 16:9 --niji 6 --style expressive"
   },
   {
     id: "style_ravenous_russ",
